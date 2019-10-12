@@ -1,0 +1,25 @@
+.btn-group-justified {
+  display: flex;
+}
+
+.btn-group-justified .btn:first-child {
+  flex: 1;
+  text-align: left;
+}
+
+.btn-group-justified .dropdown-menu {
+  width: 100%;
+}
+.btn-group-justified .dropdown-item{
+  cursor: pointer;
+}
+.btn-group-justified .dropdown-item.active{
+  cursor: default;
+}
+.btn-group-justified .dropdown-item:active {
+  background: transparent;
+  color: inherit;
+}
+.btn-group-justified .dropdown-item:focus{
+  outline:none !important;
+}

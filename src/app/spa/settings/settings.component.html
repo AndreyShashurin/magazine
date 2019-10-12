@@ -1,0 +1,101 @@
+<script src="../../../../../likecenter/src/app/app.component.ts"></script>
+<div class="index_top index_notindex row" [formGroup]="settingsForm" >
+    <div class="content-header clearfix">
+        <div class="pull-left">
+            <h3>Настройки компании</h3>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="company_name" class="col-sm-3 col-form-label">Название компании</label>
+        <div class="col-sm-9">
+            <input type="text" id="company_name" formControlName="company" class="form-control">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="notification_email" class="col-sm-3 col-form-label">E-mail для оповещений</label>
+        <div class="col-sm-9">
+            <input class="form-control" id="notification_email" formControlName="email" type="text">
+        </div>
+    </div>
+    <div class="content-header clearfix">
+        <div class="pull-left">
+            <h3 class="ib">Общие настройки</h3>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="currency" class="col-sm-3 col-form-label">Тип заведения</label>
+        <div class="col-sm-6">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                 <label class="btn btn-primary {{settings.type == 1 ? 'active' : ''}}">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Фастфуд
+                </label>
+                <label class="btn btn-primary {{settings.type == 2 ? 'active' : ''}}">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Кафе с кухней
+                </label>
+                <label class="btn btn-primary {{settings.type == 3 ? 'active' : ''}}">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Интернет-магазин
+               </label>
+            </div>
+            <input type="hidden" name="typeSettings" id="typeSettings" value="">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="currency" class="col-sm-3 col-form-label">Валюта операций</label>
+        <div class="col-sm-9">
+            <select class="form-control" id="currency">
+                <option value="rub">Рубль, ₽</option>
+                <option value="dollar">Доллар, $</option>
+                <option value="euro">Евро, €</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="beznalSale" class="col-sm-3 col-form-label">Скидка при оплате картой</label>
+        <div class="col-sm-9">
+            <input id="beznalSale" formControlName="beznalSale" class="form-control" type="text">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="counting_orders" class="col-sm-3 col-form-label">Указывать возможное колличество для заказа</label>
+        <div class="col-sm-9">
+            <input type="checkbox" id="counting_orders" formControlName="countingOrders">
+        </div>
+    </div>
+    <div class="content-header clearfix">
+        <div class="pull-left">
+            <h3 class="ib">Рассылка <span class="plus" (click)="addService()">+</span></h3>
+        </div>
+    </div>
+    <div class="form-group row mb-3" formGroupName="smsService">
+      <div class="form-group row" *ngFor="let control of settingsForm.get('smsService').controls; let i = index">
+        <div [formGroupName]="i" class="row">
+            <div class="form-group row">
+              <label for="setting_service_sms" class="col-sm-3 control-label">Сервис расылки</label>
+              <div class="col-sm-9">
+                <select id="setting_service_sms" class="form-control" formControlName="serviceName" *ngFor="let name of serviceName">
+                  <option [value]="name"> {{name}}</option>
+                </select>
+              </div>
+            </div>
+          <div class="form-group row">
+            <label for="login_sms" class="col-sm-3">Логин</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="login_sms" formControlName="serviceLogin" type="text">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="password_sms" class="col-sm-3">Пароль</label>
+            <div class="col-sm-9">
+              <input class="form-control" id="password_sms" formControlName="servicePassword" type="password">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="control-group the-submit">
+        <div class="max-width-wrapper">
+            <button type="submit" class="btn btn-success btn-sm" (click)="saveSettings()">Сохранить</button>
+        </div>
+    </div>
+</div>

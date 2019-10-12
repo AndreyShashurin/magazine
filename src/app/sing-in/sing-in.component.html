@@ -1,0 +1,59 @@
+<div class="login">
+    <div id="login_form" *ngIf="!activeForm">
+    {{canActivateMessages}}
+        <h1>Войти в личный кабинет</h1>
+        <form [formGroup]="loginForm" class="form-horizontal">
+            <div class="alert-block">
+                <p class="help-block" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>
+                <p class="help-block" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
+            </div>
+            <div class="form-group">
+                <div class="flex">
+                    <i class="fa fa-user"></i>
+                     <input class="form-control" type="text" formControlName="login" placeholder="Логин">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="flex">
+                    <i class="fa fa-lock"></i>
+                     <input class="form-control" type="password" formControlName="password" placeholder="Пароль" autocomplete="off">
+                </div>
+            </div>
+            <!--
+            <div class="flex alignCenter">
+                <input id="remember-login" type="checkbox">
+                <label for="remember-login">Запомнить меня</label>
+            </div>
+            -->
+            <div class="form-group">
+                <div class="flex">
+                    <span id="remember_password" (click)='checkForm()'>Напомнить пароль</span>
+                    <input type="submit" value="Войти" class="submit" (click)='singIn()' [disabled]="!loginForm.valid">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="remember_password_form" *ngIf="activeForm">
+        <h1>Напомнить пароль</h1>
+        <form [formGroup]="remindForm" class="form-horizontal">
+            <p class="alert-block"></p>
+            <div class="form-group">
+                <div class="flex">
+                    <i class="fa fa-code"></i>
+                    <input class="form-control" type="text" formControlName="token" placeholder="Токен">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="flex">
+                    <i class="fa fa-key"></i>
+                    <input class="form-control" type="password" formControlName="newPassword" placeholder="Новый пароль">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" value="Напомнить пароль" class="submit" (click)='remindButton()'>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

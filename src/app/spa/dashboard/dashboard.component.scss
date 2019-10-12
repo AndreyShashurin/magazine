@@ -1,0 +1,116 @@
+.stats-container {
+    flex-grow: 0.9;
+    .br-lg-r {
+        border: 1px solid #E6E8EB !important;
+        padding-bottom: 3px !important;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-right: 5px;
+        background: white;
+        display: flex;
+        padding: 10px;
+        padding-left: 0px !important;
+        height: 61px;
+        border-radius: 4px;
+        width: 96% !important;
+        margin-top: 5px;
+        border-color: #E6E8EB;
+        &:first-child{
+            margin-top: 0px
+        }
+    }
+    #br-active {
+        border-left: solid 5px #f71e3d !important;
+    }
+}
+.index-bottom {
+    display: flex;
+}
+.wrap-container {
+    flex-grow: 0.5;
+    margin-left:15px;
+    margin-top: 31px;
+    margin-right: 0px;
+    border: 1px solid #E6E8EB;
+    background: white;
+    padding: 5px;
+    border-radius: 4px;
+    &:last-child {
+        margin-right: 15px;
+    }
+    h2 {
+        font-size: 15px;
+        padding-left: 1%;
+        margin-top: 10px;
+        margin-bottom: 20px !important;
+    }
+}
+.chart-wrapper {
+    clear: both;
+    margin-top: 15px;
+    .wrap-container {   
+        flex-grow: 1;
+        border: 1px solid #E6E8EB;
+        margin-left: 13px;
+        min-height: 260px;
+        margin-top: 0;
+        background: white;
+        height: auto;
+        padding: 5px;
+        border-radius: 4px; 
+    }
+    .wrap-stat {
+        border: 1px solid #E6E8EB;
+        margin-left: 13px;
+        margin-right: 13px;
+        margin-bottom: 15px;
+        margin-top: 15px;
+        background: white;
+        padding: 5px;
+        border-radius: 4px;
+    }
+}
+.flexItem {
+    display: flex;
+    height: 268px;
+    overflow: auto;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    thead > tr > th {
+        cursor: pointer;
+        padding-left: 10px;
+        font-size: 11px;
+        padding-bottom: 6px;
+        text-align: left;
+    }
+    tbody > tr > td {
+        border-top: 1px solid #eee;
+        padding: 10px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: none;
+        font-size: 11px;
+    }
+}
+.wrap-popular {
+    .popular-chart {
+        overflow: hidden;
+        height: 200px;
+        width: 40%;
+    }
+    .popular-table {
+        width: 60%;
+        height: inherit;
+        overflow: auto;
+    }
+}
+.chart-wrapper .active, .btn-stat:hover {
+    border: solid 2px #7eb6ec !important;
+    color: black !important;
+    background: white !important;
+}

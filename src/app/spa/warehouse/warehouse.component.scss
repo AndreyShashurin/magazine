@@ -1,0 +1,15 @@
+.table-viewport {
+    border: none;
+    .cdk-virtual-scroll-content-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    .item {
+        height: 19px;
+        border-bottom: 1px dashed #aaa;
+    }
+}
+.delivery-area-chart {
+    color: #f34230 !important;
+    cursor: pointer;
+}

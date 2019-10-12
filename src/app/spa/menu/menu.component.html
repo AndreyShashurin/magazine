@@ -1,0 +1,233 @@
+<div class="button_form content-header">
+  <button (click)="newForm()" class="btn btn-sm btn-add" id="add_recept">Добавить технологическую карту</button>
+
+</div>
+<div *ngIf='menuForm' class="stats-wrapper">
+    <form class="filter_form">
+        <div class="btn-group">
+            <input class="form-control search_name_warehouse" id="search_name_warehouse" name="search_name_warehouse" type="text">
+        </div>
+        <div class="btn-group">
+
+        </div>
+    </form>
+
+ <cdk-virtual-scroll-viewport [itemSize]="19">
+    <table class="table table-centered">
+    <thead>
+        <tr>
+            <th [style.top]="inverseOfTranslation"></th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 200px;" name="name">Название</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 120px;" name="categories">Категория</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="size">Обьем</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="cost">Себестоимость</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="price">Цена</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="margin">Наценка</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="output">Выход</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;;" name="nodiscount">Участие в скидках</th>
+            <th [style.top]="inverseOfTranslation" style="border-top: 0;"></th>
+        </tr>
+    </thead>
+      <tr *cdkVirtualFor="let item of menu" class="item" cdkFixedHeader>
+        <td class="detail_menu"><i class="fa fa-bars detail_menu" (click)='openDetail(item.name,item.structure,item.price,item.output)'></i></td>
+        <td class="left-cell index"><a class="show-ing-uses-table pseudo-link">{{item.name}}</a></td>
+        <td>{{item.categories_name}}</td>
+        <td>{{item.size}}</td>
+        <td>?</td>
+        <td>{{item.price}}</td>
+        <td>?</td>
+        <td>{{item.output}}</td>
+        <td>{{item.nodiscountText}}</td>
+        <td>
+          <div (click)="update(item)">Изменить</div>
+            <div (click)="openModal(item.id, item.name, 'menus')">Удалить</div>
+          </td>
+      </tr>
+    </table>
+  </cdk-virtual-scroll-viewport>
+</div>
+<div *ngIf='!menuForm' [formGroup]="form">
+    <div class="stats-wrapper">
+        <div class="form-horizontal recept">
+            <div class="form-group row">
+                <label for="item-name" class="col-sm-2 col-form-label">Название</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" formControlName="name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="item-name" class="col-sm-2 col-form-label">Объем</label>
+                <div class="col-sm-10">
+                    <input class="form-control letters" type="text" formControlName="output">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="item-name" class="col-sm-2 col-form-label">Категория</label>
+                <div class="col-sm-9">
+                    <select name="categories" class="form-control" formControlName="categories">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="weight_flag" class="col-sm-2 col-form-label">Весовой товар</label>
+                <div class="col-sm-9">
+                    <input type="checkbox" id="weight_flag">
+                    <input name='weight_flag' type='hidden' value="" formControlName="weight">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="sale_flag" class="col-sm-2 col-form-label">Запрет на участие в скидках</label>
+                <div class="col-sm-9">
+                    <input type="checkbox" id="sale_flag" [(ngModel)] = "checked" formControlName="sale">
+                </div>
+            </div>
+            <form id="process">
+                <div class="form-group row">
+                    <label for="item-process" class="col-sm-2 col-form-label">Процесс приготовления:</label>
+                    <div class="col-sm-9">
+                        <div *ngIf='dataArray'>
+                            <div *ngFor="let process of data.process">
+                                <input class="form-control item-process-number" name="item-process-number" value="{{process ? process[0].split('=')[1]: '1'}}.">
+                                <input class="form-control item-process" name="item-process" id="{{process ? process[0].split('=')[1]: '1'}}" value="{{process ? process[1].split('=')[1]: '1'}}">
+                            </div>
+                        </div>
+                        <div *ngIf="!dataArray">
+                            <div *ngFor="let control of form.get('process').controls; let i = index">
+                                <div [formGroupName]="i" >
+                                    <input class="form-control item-process-number" name="item-process-number" [value]="i+1" formControlName="id" hidden>
+                                    <input class="form-control item-process" name="item-process" [id]="i+1" value="" formControlName="value">
+                                </div>
+                            </div>
+                            <a class="btn-link add-process" (click)="addBlock()">Добавить</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group row">
+                <label for="nalog" class="col-sm-2  col-form-label">Налог:</label>
+                <div class="col-sm-9">
+                <select name="nalog" class="form-control" formControlName="nalog">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="filial_name" class="col-sm-2  col-form-label">Заведение для привязки</label>
+                <div class="col-sm-9 tax-type-change">
+                    <select class="form-control" name="filial" id="filial" formControlName="filial">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="flexBox" >
+            <div class="blue-wrapper ingredients">
+            <form id="ingredienty">
+            <table class="table sortable structure-table">
+                <thead>
+                    <th style="width:300px">Ингредиент</th>
+                    <th>Вес</th>
+                    <th class="text-center">Себестоимость</th>
+                    <th>Цена</th>
+                    <th></th>
+                </thead>
+                <tbody *ngIf='!dataArray' >
+                    <tr *ngFor="let tovar of ingredient.controls; let i = index">
+                        <td>
+                          <!--  <select name="ingredient">
+                                <option *ngFor="let form of contactTypes">{{form.title}}</option>
+                            </select>-->
+                            <custom-select [options]="contactTypes" [formControl]="tovar.controls['title']"></custom-select>
+                        </td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" (keyup)="onKeyUp($event)">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">{{tovar.controls.ed}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="price">
+                            <input type="text" class="form-control" [formControl]="tovar.controls.price">
+                        </td>
+                        <td class="price2">
+                            <span class="price-amount2"></span>
+                            <span class="price-currency">
+                            <i class="fa fa-"></i></span>
+                        </td>
+                        <td class="noprint"><a class="delete-red-ingredient" (click)="removeContact(i)">×</a></td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf='dataArray' novalidate [formGroup]="ingredientForm">
+                    <tr *ngFor ="let structure of data.structure">
+                            <td>
+                                <input class="input-group-addon"  value="" name="ingredient" type="hidden">
+                                {{structure[0].split('=')[1]}}
+                            </td>
+                            <td class="price">
+                                <span class="price-amount">{{structure[2].split('=')[1]}}</span><span class="price-currency"> <i class="fa fa-"></i></span>
+                                <input class="form-control price-amount letters" name="price-amount" value="{{structure[2].split('=')[1]}}" type="hidden">
+                            </td>
+                            <td class="output">
+                                <div class="input-group mb-3">
+                                    <input  class="form-control" value="{{structure[1].split('=')[1]}}" name="netto" type="text">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">{{structure[4].split('=')[1]}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="price2">
+                                <span class="price-amount2">{{structure[3].split('=')[1]}}</span>
+                                <span class="price-currency">
+                                <i class="fa fa-<?=$settings['currency']?>"></i></span>
+                                <input class="form-control price-amount2 letters" name="price-amount2" value="{{structure[3].split('=')[1]}}" type="hidden">
+                                <input class="unit_title"  value="{{structure[4].split('=')[1]}}" name="unit_title" type="hidden">
+                            </td>
+                            <td class="noprint"><a class="delete-red-ingredient" (click)="deleteIngredient()">×</a></td>
+
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="noprint">
+                        <td class="noprint" colspan="7">
+                            <a class="btn-link add-ingredient" (click)="addIngredient()">Добавить ингредиент</a>
+                        </td>
+                    </tr>
+                    <tr class="noprint">
+                        <td class="output-weight" colspan="3"><b>Выход: <span>{{data ? data.output: ''}}</span></b></td>
+                    </tr>
+                </tfoot>
+            </table>
+            </form>
+            </div>
+            <div class="operation-total">
+            <fieldset class="cost-cell calc-value">
+                <legend>Себестоимость</legend>
+                <div class="text-center">
+                <span class="cost">{{data ? data.cost: ''}}</span> <span class="price-currency-ingredient"></span>
+                                </div>
+            </fieldset>
+            <div class="plus math-operation text-center">+</div>
+            <fieldset>
+                <legend>Цена</legend>
+                <div class="input-group mb-3">
+                    <input type="text" value="{{data ? data.price: ''}}" class="form-control letters" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"><i class="fa fa-rub"></i></span>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="math-operation equal text-center">=</div>
+            <fieldset>
+                <legend>Процент наценки</legend>
+                <div id="calc-extra" class="text-center">{{data ? data.margin: ''}}</div>
+                <div id="calc-profit" class="text-center" style="display:none">{{data ? data.profit: ''}}</div>
+            </fieldset>
+            </div>
+        </div>
+    <div class="controls">
+        <button type="submit" class="btn btn-success btn-sm" (click)="save()">Сохранить</button>
+    </div>
+</div>
+</div>
