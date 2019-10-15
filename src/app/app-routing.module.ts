@@ -15,10 +15,11 @@ import { NewsfeedComponent } from './spa/reports/newsfeed/newsfeed.component';
 import { SettingsComponent } from './spa/settings/settings.component';
 import { WarehouseComponent } from './spa/warehouse/warehouse.component';
 import { MenuComponent } from './spa/menu/menu.component';
+import { PersonalComponent } from './spa/personal/personal.component';
+import { newPersonalComponent } from './spa/personal/new-personal.component';
 
 const routes: Routes = [
-  {path: 'sign-in', component: SingInComponent},    
-  {path: '', redirectTo: '/sign-in', pathMatch: 'full'},
+  {path: '', component: SingInComponent},
   {
       path: "dashboard",
       component: HomeComponent,
@@ -40,6 +41,8 @@ const routes: Routes = [
               { path: "taxes", component: DashboardComponent},          
               { path: "category", component: DashboardComponent},
               { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
+              { path: "personal", component: PersonalComponent},
+              { path: "newpersonal", component: newPersonalComponent},
               { path: "warehouse", component: WarehouseComponent},
               { path: "menu", component: MenuComponent},
           ]

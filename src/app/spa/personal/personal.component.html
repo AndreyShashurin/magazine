@@ -1,0 +1,28 @@
+<div class="button_form content-header">
+  <a [routerLink]="['/dashboard', 'newpersonal']"  class="btn btn-sm btn-add" id="add_tovar">Добавить сотрудника</a>
+</div>
+<div class="listing">
+  <div class="content-header clearfix manage-page-header">
+    <div class="pull-left"><h2 class="ib">Персонал</h2></div>
+  </div>
+  <div class="table-container table-list">
+    <table class="table">
+      <thead class="false">
+        <tr>
+          <th style="">Сотрудник</th>
+          <th style="">Права</th>
+          <th style="">Филиал</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let person of persons">
+          <td>{{person.name}}</td>
+          <td width="120px">
+              <span class="label" [ngClass]="{'label-danger': person.access == 1, 'label-primary':person.access != 1}">{{person.accessName}}</span>
+          </td>
+          <td width="120px">{{person.filial_name}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

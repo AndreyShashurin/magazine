@@ -1,15 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, Subject, throwError} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 import { tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { DbService } from '../db.service';
+import { User } from './interface.service';
 
 @Injectable()
 export class AuthService {
-
-  public error$: Subject<string> = new Subject<string>()
   public userId: number;
 
   constructor(
@@ -22,8 +21,7 @@ export class AuthService {
     return localStorage.getItem('SJToken')
   }
 
-  login(user): Observable<any> {
-    console.log(user);
+  login(user: User): Observable<any> {
     return this.http.put(this.db.apiURL + 'users', user)
       .pipe(
         tap(this.setToken)
@@ -32,7 +30,7 @@ export class AuthService {
 
   logout() {
     this.setToken(null)
-    this.router.navigate(['/sing-in']);
+    this.router.navigate(['/'])
   }
 
   isAuthenticated(): boolean {
@@ -46,7 +44,6 @@ export class AuthService {
       localStorage.setItem('SJid', response.SJid)
     } else {
       localStorage.clear()
-      return
     }
   }
 }

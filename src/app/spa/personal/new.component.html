@@ -1,0 +1,86 @@
+<form class="row" [formGroup]="form" (ngSubmit)="save()">
+    <div class="form-group row">
+        <label for="name" class="col-sm-3 col-form-label">Имя сотрудника</label>
+        <div class="col-sm-9">
+            <input class="form-control" id="name" type="text" formControlName="name">  
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="access" class="col-sm-3 control-label">Уровень доступа</label>
+        <div class="col-sm-9">
+            <select class="form-control" id="access" formControlName="access">
+                <option></option>
+                <option *ngFor="let access of accesses; trackBy: trackByFn">{{access.value}}</option>
+            </select>      
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 control-label">Права доступа</label>
+        <div class="col-sm-9 tax-type-change">
+            <div class="checkbox">
+                <label><input data-name="stat" class="access_mask" name="stat" value="" type="checkbox" (change)="onCheckChange($event)">Статистика</label>
+            </div>
+            <div class="checkbox">
+                <label><input data-name="finance" class="access_mask" name="finance" value="" type="checkbox" (change)="onCheckChange($event)">Финансы</label>
+            </div>
+                            <div class="checkbox">
+                              <label><input data-name="menu" class="access_mask" name="menu" value="" type="checkbox">Меню
+                              </label>
+                            </div>
+                            <div class="checkbox">
+                              <label><input data-name="sklad" class="access_mask" name="sklad" value="" type="checkbox">Склад
+                              </label>
+                            </div>
+                            <div class="checkbox">
+                              <label><input data-name="personal" class="access_mask" name="personal" value="" type="checkbox">Управление персоналом
+                              </label>
+                            </div>
+                            <div class="checkbox">
+                              <label><input data-name="settings" class="access_mask" name="settings" value="" type="checkbox">Настройка доступа
+                              </label>
+                            </div>   
+                            <div class="checkbox">
+                              <label><input data-name="promo" class="access_mask" name="promo" value="" type="checkbox">Маркетинг
+                              </label>
+                            </div>         
+                            <div class="checkbox">
+                              <label><input data-name="filial" class="access_mask" name="filial" value="" type="checkbox">Предприятия
+                              </label>
+                            </div>    
+                            <div class="checkbox">
+                              <label><input data-name="terminal" class="access_mask" name="terminal" value="" type="checkbox">Терминал
+                              </label>
+                            </div>   
+                            <div class="checkbox">
+                                <label><input data-name="kitchen" class="access_mask" name="kitchen" value="" type="checkbox">Кухня
+                                </label>
+                            </div>  
+            </div>
+    </div>
+    <div class="form-group row">
+        <label for="filial" class="col-sm-3 control-label">Заведение для привязки</label>
+        <div class="col-sm-9">
+            <select  class="form-control" id="filial" formControlName="filial">
+                <option></option>
+                <option *ngFor="let filial of filials; trackBy: trackByFn">{{filial.name}}</option>
+            </select>   
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="pass" class="col-sm-3 control-label">Пароль для входа в админ панель</label>
+        <div class="col-sm-9">
+            <input class="form-control" id="pass" name="pass" value="" type="password" formControlName="password">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="pin" class="col-sm-3 control-label">PIN для входа в терминал</label>
+        <div class="col-sm-9">
+            <input class="form-control" id="pin" type="password" formControlName="pin">
+        </div>
+    </div>  
+    <div class="control-group the-submit">
+        <div class="max-width-wrapper">
+            <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">Сохранить</button>
+        </div>
+    </div>
+</form> 

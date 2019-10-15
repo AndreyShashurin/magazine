@@ -1,7 +1,9 @@
 <div class="login">
     <div id="login_form" *ngIf="!activeForm">
-    {{canActivateMessages}}
         <h1>Войти в личный кабинет</h1>
+        <div class="alert alert-danger" *ngIf="error || message">
+            {{ error || message }}
+        </div>
         <form [formGroup]="loginForm" class="form-horizontal">
             <div class="alert-block">
                 <p class="help-block" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>

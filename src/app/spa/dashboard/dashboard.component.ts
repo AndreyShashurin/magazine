@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { DbService } from 'src/app/db.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PersonesModel, TovarModel } from 'src/app/services/interface.service';
 import * as Highcharts from 'highcharts';
 import { SubscriptionLike } from 'rxjs';
+
+import { DbService } from 'src/app/db.service';
+import { personsInterface, tovarInterface } from 'src/app/services/interface.service';
 import { HomeComponent } from '../home.component';
 
 @Component({
@@ -12,14 +13,14 @@ import { HomeComponent } from '../home.component';
 })
 
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   appPageHeaderDivStyle: {};
   errorMessage: string;
   loggedInEmail: string = "";
   isLoggedIn: boolean;
-  persons: any;
+  persons: personsInterface[] =[];
   data = '1';
-  tovars: any;
+  tovars: tovarInterface[] =[];
   subscription: SubscriptionLike;
   
   public options: any = {
@@ -178,22 +179,24 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {  
-      
-    console.log('getSetting ',this.homeComponent.getSetting());
     this.subscription = this.db.getUsers().subscribe(
-        (response: Response) => { 
-            this.persons = response;
+        (response) => { 
+            this.persons = response
         },
-        (error) => {console.log(error);}
+        (error) => {
+            console.log(error)
+        }
     )
 
     this.subscription = this.db.getTovars().subscribe(
-        (response: Response) => { 
-            this.tovars = response;
+        (response) => { 
+            this.tovars = response
         },
-        (error) => {console.log(error);}
+        (error) => {
+            console.log(error)
+        }
     )  
-    this.toggleChart(this.data);
+    this.toggleChart(this.data)
   }
 
   ngOnDestroy() {

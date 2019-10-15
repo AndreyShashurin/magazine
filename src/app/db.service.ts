@@ -4,12 +4,12 @@ import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { map } from 'rxjs/operators';
-import { settingsIntarface, menuIntarface, skladIntarface } from './services/interface.service';
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface } from './services/interface.service';
 
 
 @Injectable()
 export class DbService implements OnDestroy  {
-  apiURL = "http://shashurin.beget.tech/dashboard/api/";
+  apiURL = `http://shashurin.beget.tech/dashboard/api/`;
   canActivateMessage = '';
   bsModalRef: BsModalRef;
   singInValue:  Subscription;
@@ -29,7 +29,7 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'service');
   }
 
-  saveUsers(users: any[]) {
+  saveUser(users: any[]) {
     this.http.post(this.apiURL, users)
       .subscribe(
         (val) => {
@@ -44,20 +44,15 @@ export class DbService implements OnDestroy  {
         });
   }
 
-  getUsers() {
-    const headers = new HttpHeaders();
-    headers.append("Cache-Control", "no-cache");
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST');
-    headers.append('Access-Control-Max-Age', '1728000');
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.get(this.apiURL)
+  getUsers() {
+
+    return this.http.get<personsInterface[]>(this.apiURL + 'users')
   }
 
   getTovars() {
 
-    return this.http.get(this.apiURL + 'tovars', {
+    return this.http.get<tovarInterface[]>(this.apiURL + 'tovars', {
       params: new HttpParams().set('limit', '6')
     });
   }
@@ -192,6 +187,14 @@ export class DbService implements OnDestroy  {
     );
   }
 
+  getAccess() {
+    return this.http.get(this.apiURL + 'access');
+  }
+
+  getFilial() {
+    return this.http.get(this.apiURL + 'filial');
+  }
+  
   ngOnDestroy() {
     if (this.singInValue) {
         this.singInValue.unsubscribe();

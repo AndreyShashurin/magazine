@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 
-export interface PersonesModel {
+export interface User {
+  login: string,
+  password: string
+}
+
+export interface personsInterface {
   access: number, 
   email: string, 
   filial: number,
+  filial_name: string,
   id: number,  
   login: string,  
   name: string, 
@@ -20,7 +26,7 @@ export interface SkladModel {
   remember_token: string, 
   terminal_pass: string
 }
-export interface TovarModel {
+export interface tovarInterface {
   id: number, 
   name: string, 
   sold: number

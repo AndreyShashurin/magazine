@@ -40,6 +40,8 @@ import { FinanсeComponent } from './spa/finance/finanсe.component';
 import { ParamsModel } from './services/params.model';
 import { CustomSelectComponent } from './shared/custom-select/custom-select.component';
 import { ReceptComponent } from './spa/recept/recept.component';
+import { PersonalComponent } from './spa/personal/personal.component';
+import { newPersonalComponent } from './spa/personal/new-personal.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { ReceptComponent } from './spa/recept/recept.component';
     FinanсeComponent,
     TransactionsComponent,
     CustomSelectComponent,
-    ReceptComponent
+    ReceptComponent,
+    PersonalComponent,
+    newPersonalComponent
   ],
   imports: [
     BrowserModule,
