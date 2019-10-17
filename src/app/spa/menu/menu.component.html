@@ -11,40 +11,41 @@
 
         </div>
     </form>
-
- <cdk-virtual-scroll-viewport [itemSize]="19">
-    <table class="table table-centered">
-    <thead>
-        <tr>
-            <th [style.top]="inverseOfTranslation"></th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 200px;" name="name">Название</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 120px;" name="categories">Категория</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="size">Обьем</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="cost">Себестоимость</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="price">Цена</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="margin">Наценка</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="output">Выход</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;;" name="nodiscount">Участие в скидках</th>
-            <th [style.top]="inverseOfTranslation" style="border-top: 0;"></th>
-        </tr>
-    </thead>
-      <tr *cdkVirtualFor="let item of menu" class="item" cdkFixedHeader>
-        <td class="detail_menu"><i class="fa fa-bars detail_menu" (click)='openDetail(item.name,item.structure,item.price,item.output)'></i></td>
-        <td class="left-cell index"><a class="show-ing-uses-table pseudo-link">{{item.name}}</a></td>
-        <td>{{item.categories_name}}</td>
-        <td>{{item.size}}</td>
-        <td>?</td>
-        <td>{{item.price}}</td>
-        <td>?</td>
-        <td>{{item.output}}</td>
-        <td>{{item.nodiscountText}}</td>
-        <td>
-          <div (click)="update(item)">Изменить</div>
-            <div (click)="openModal(item.id, item.name, 'menus')">Удалить</div>
-          </td>
-      </tr>
-    </table>
-  </cdk-virtual-scroll-viewport>
+    <cdk-virtual-scroll-viewport [itemSize]="19">
+        <table class="table table-centered">
+            <thead>
+                <tr>
+                    <th [style.top]="inverseOfTranslation"></th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 300px; max-width: 300px;" name="name">Название</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 120px;" name="categories">Категория</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="size">Обьем</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="cost">Себестоимость</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="price">Цена</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="margin">Наценка</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="output">Выход</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;;" name="nodiscount">Участие в скидках</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *cdkVirtualFor="let item of menu" class="item" cdkFixedHeader>
+                    <td class="detail_menu"><i class="fa fa-bars detail_menu" (click)='openDetail(item)'></i></td>
+                    <td class="left-cell index"><a class="show-ing-uses-table pseudo-link">{{item.name}}</a></td>
+                    <td>{{item.categories_name}}</td>
+                    <td>{{item.size}}</td>
+                    <td>?</td>
+                    <td>{{item.price}}</td>
+                    <td>?</td>
+                    <td>{{item.output}}</td>
+                    <td>{{item.nodiscountText}}</td>
+                    <td>
+                        <div (click)="update(item)">Изменить</div>
+                        <div (click)="openModal(item.id, item.name, 'menus')">Удалить</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </cdk-virtual-scroll-viewport>
 </div>
 <div *ngIf='!menuForm' [formGroup]="form">
     <div class="stats-wrapper">

@@ -5,10 +5,18 @@ export interface User {
   password: string
 }
 
+export interface categoryInterface {
+  id?: number,
+  value: string,
+  name: string,
+  checked: number | boolean
+}
+
 export interface personsInterface {
   access: number, 
   email: string, 
   filial: number,
+  level?: any,
   filial_name: string,
   id: number,  
   login: string,  
@@ -54,6 +62,14 @@ export interface MenuItem {
   role: string;
   authF: string;
   submenu: Array<MenuItem>;
+}
+
+export interface newUser {
+  name: string, 
+  pass: string, 
+  terminal_pass: string, 
+  access: number, 
+  filial: number
 }
 
 export interface menuIntarface {

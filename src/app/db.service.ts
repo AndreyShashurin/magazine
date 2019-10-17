@@ -1,10 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { map } from 'rxjs/operators';
-import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface } from './services/interface.service';
+import { map, tap, switchMap } from 'rxjs/operators';
+
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser } from './services/interface.service';
 
 
 @Injectable()
@@ -12,13 +13,13 @@ export class DbService implements OnDestroy  {
   apiURL = `http://shashurin.beget.tech/dashboard/api/`;
   canActivateMessage = '';
   bsModalRef: BsModalRef;
-  singInValue:  Subscription;
+  subscription:  Subscription;
   hightcharsResponse: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private modalService: BsModalService
+    private modalService: BsModalService,
 ){}
 
   getSettings() {
@@ -27,27 +28,6 @@ export class DbService implements OnDestroy  {
 
   getSmsService() {
     return this.http.get(this.apiURL + 'service');
-  }
-
-  saveUser(users: any[]) {
-    this.http.post(this.apiURL, users)
-      .subscribe(
-        (val) => {
-            console.log("POST call successful value returned in body",
-                        val);
-        },
-        response => {
-            console.log("POST call in error", response);
-        },
-        () => {
-            console.log("The POST observable is now completed.");
-        });
-  }
-
-
-  getUsers() {
-
-    return this.http.get<personsInterface[]>(this.apiURL + 'users')
   }
 
   getTovars() {
@@ -62,26 +42,45 @@ export class DbService implements OnDestroy  {
     return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
   }
 
+  // Users
+  saveUser(users: newUser) {
 
-  updateUser(user)
-  {
-
-    return this.http.put(this.apiURL, user).subscribe(
-        (val) => {
-            console.log("UPDATE call successful value returned in body",
-                        val);
-        },
-        response => {
-            console.log("UPDATE call in error", response);
-        },
-        () => {
-            console.log("The UPDATE observable is now completed.");
-        });
+    return this.http.post(this.apiURL + 'users', users)
   }
 
-  singIn(data)
-  {
-    this.singInValue = this.http.put(this.apiURL + 'users', data).pipe(
+  getUsers() {
+
+    return this.http.get<personsInterface[]>(this.apiURL + 'users')
+  }  
+  
+  getUser(data) {
+    return forkJoin(
+      this.http.get(this.apiURL + 'users', {
+        params: new HttpParams().set('id', data)
+      }).pipe(
+          tap(
+            response => response
+          )
+      ),
+      this.http.get(this.apiURL + 'users', {
+        params: new HttpParams().set('user', data)
+      }).pipe(
+          tap(
+            response => response
+            )
+      )  
+   );    
+  }
+
+  updateUser(user: personsInterface) {
+
+    return this.http.put<personsInterface[]>(this.apiURL + 'users', user, {
+      params: new HttpParams().set('update', 'update')
+    })
+  }
+
+  singIn(data) {
+    this.subscription = this.http.put(this.apiURL + 'users', data).pipe(
       map(response => {
         if(response){
           localStorage.setItem("sessionId", response['sessionId']);
@@ -104,7 +103,7 @@ export class DbService implements OnDestroy  {
       }
     );
 
-    return this.singInValue
+    return this.subscription
   }
 
   getDeleteTovar(data){
@@ -173,7 +172,8 @@ export class DbService implements OnDestroy  {
 
   }
 
-  getDeleteBill(data) {
+  // Счета
+  deleteBill(data) {
     let options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -181,9 +181,14 @@ export class DbService implements OnDestroy  {
       body: data
     };
     this.http.delete(this.apiURL + 'bill', options).subscribe(
-        (val) => {
-          this.modalService.hide(1);
-        }
+      (val) => {
+    /*     
+      this.billComponent.getBill().filter(function(e) {
+
+        return e.id !== data.id;
+      });*/
+        this.modalService.hide(1);
+      }
     );
   }
 
@@ -191,13 +196,19 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'access');
   }
 
+  getUserAccess(data: string) {
+    return this.http.get(this.apiURL + 'users', {
+      params: new HttpParams().set('user', data)
+    })
+  }
+
   getFilial() {
     return this.http.get(this.apiURL + 'filial');
   }
   
   ngOnDestroy() {
-    if (this.singInValue) {
-        this.singInValue.unsubscribe();
+    if (this.subscription) {
+        this.subscription.unsubscribe();
     }
   }
 

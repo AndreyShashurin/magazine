@@ -1,29 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { DbService } from 'src/app/db.service';
-import { personsInterface } from 'src/app/services/interface.service';
 
 @Component({
   selector: 'app-personal',
   templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.sass']
+  styleUrls: ['./personal.component.scss']
 })
 export class PersonalComponent implements OnInit {
 
   subscription: Subscription;
-  persons: personsInterface[] = [];
+  persons: Observable<Object>;
   constructor(
     private db: DbService
   ) { }
 
   ngOnInit() {
-      this.subscription = this.db.getUsers().subscribe(
-        (response) => { 
-          console.log(response)
-            this.persons = response;
-        },
-        (error) => {console.log(error);}
-    )
+    this.persons = this.db.getUsers();
   }
 
   ngOnDestroy() {

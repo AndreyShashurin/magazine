@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { DbService } from 'src/app/db.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { FormGroup, FormBuilder, FormArray, ValidatorFn, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { SubscriptionLike, Subject } from 'rxjs';
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
+
+import { DbService } from 'src/app/db.service';
 import { ModalDetailComponent } from 'src/app/modal-detail/modal-detail.component';
 import { ModalContentComponent } from 'src/app/modal-content/modal-content.component';
 import { menuIntarface, skladIntarface } from 'src/app/services/interface.service';
-
-import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 
 @Component({
   selector: 'app-menu',
@@ -41,6 +41,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.ingredientForm = this.fb.group({
       ingredient: fb.array([])
     });
+  }
+
+  public get inverseOfTranslation(): string {
+    if (!this.viewPort || !this.viewPort["_renderedContentOffset"]) {
+      return "-0px";
+    }
+    let offset = this.viewPort["_renderedContentOffset"];
+    return `-${offset}px`;
   }
 
   public get ingredient(): FormArray {
@@ -118,22 +126,34 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.bsModalRef.content.confirmDeleteGet = link;
   }
 
-  openDetail(tovar,structure,price,output){
+  openDetail(data){
+    console.log(data)
     let structureArray = [];
+    let processArray = [];
     let sum = 0;
-    structure.forEach(function(value, key) {
-      sum = sum +	parseFloat(value[3].split('=')[1]);
-      console.log(sum);
-      structureArray.push({"name": value[0].split('=')[1],"size": value[2].split('=')[1], "price": value[3].split('=')[1]});
+    data.structure.forEach(function(value, key) {
+      sum = sum + parseFloat(value[3].split('=')[1]);
+      structureArray.push({
+        "name": value[0].split('=')[1],
+        "size": value[2].split('=')[1],
+        "price": value[3].split('=')[1]});
     });
+    if(data.process) {
+      data.process.forEach(function (value) {
+        processArray.push({
+          "number": value[0].split('=')[1],
+          "process": value[1].split('=')[1]});
+      });
+    }
     const initialState = {
       structureArray,
+      processArray,
       sum:sum,
-      output:output
+      output:data.output
     };
     this.bsModalRef = this.modalService.show(ModalDetailComponent, {initialState});
     this.bsModalRef.content.ModalBody = {initialState};
-    this.bsModalRef.content.ModalTitle = tovar;
+    this.bsModalRef.content.ModalTitle = data.name;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
   

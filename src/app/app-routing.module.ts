@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { HomeComponent } from './spa/home.component';
 import { SingInComponent } from './sing-in/sing-in.component';
 import { AuthGuard } from './services/auth-guard.service';
@@ -17,6 +18,8 @@ import { WarehouseComponent } from './spa/warehouse/warehouse.component';
 import { MenuComponent } from './spa/menu/menu.component';
 import { PersonalComponent } from './spa/personal/personal.component';
 import { newPersonalComponent } from './spa/personal/new-personal.component';
+import { DeactivateGuard } from './services/deactivate-guard.service';
+import { updatePersonalComponent } from './spa/personal/update-personal.component';
 
 const routes: Routes = [
   {path: '', component: SingInComponent},
@@ -42,7 +45,8 @@ const routes: Routes = [
               { path: "category", component: DashboardComponent},
               { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
               { path: "personal", component: PersonalComponent},
-              { path: "newpersonal", component: newPersonalComponent},
+              { path: "newpersonal", component: newPersonalComponent, canDeactivate: [DeactivateGuard]},
+              { path: "updatepersonal/:id", component: updatePersonalComponent},
               { path: "warehouse", component: WarehouseComponent},
               { path: "menu", component: MenuComponent},
           ]

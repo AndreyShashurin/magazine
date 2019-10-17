@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { DbService } from 'src/app/db.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { SubscriptionLike, of } from 'rxjs';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+
+import { DbService } from 'src/app/db.service';
 import { ModalContentComponent } from 'src/app/modal-content/modal-content.component';
 import { ModalDetailComponent } from 'src/app/modal-detail/modal-detail.component';
-import { SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-bill',
@@ -11,6 +13,10 @@ import { SubscriptionLike } from 'rxjs';
   styleUrls: ['./bill.component.scss']
 })
 export class BillComponent implements OnInit {
+  @ViewChild(CdkVirtualScrollViewport)
+
+  public viewPort: CdkVirtualScrollViewport;
+
   bill: any;
   bsModalRef: BsModalRef;
   subscription: SubscriptionLike;
@@ -19,7 +25,19 @@ export class BillComponent implements OnInit {
     private modalService: BsModalService
   ) { }
 
+  public get inverseOfTranslation(): string {
+    if (!this.viewPort || !this.viewPort["_renderedContentOffset"]) {
+      return "-0px";
+    }
+    let offset = this.viewPort["_renderedContentOffset"];
+    return `-${offset}px`;
+  }
+
   ngOnInit() {
+    this.getBill()
+  }
+
+  getBill() {
     this.subscription = this.db.getBill().subscribe(
       (response: Response) => { 
           this.bill = response;
@@ -48,7 +66,7 @@ export class BillComponent implements OnInit {
   }
 
   openDetail(item){
-    console.log(item.tovar[0]);
+    console.log(item);
     let structureArray = [];
     let sum = 0;
     item.tovar[0].forEach(function(value, key) {
@@ -67,19 +85,25 @@ export class BillComponent implements OnInit {
       sale_price: sum - item.sale_price,
       comment: item.comment
     };
-    console.log(structureArray)
     this.bsModalRef = this.modalService.show(ModalDetailComponent, {initialState});
     this.bsModalRef.content.ModalBody = {initialState};
-    this.bsModalRef.content.ModalTitle = item.tovar;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
 
+
+  ngDoCheck() {  
+/*
+      this.bill.filter(function(e) {
+
+        return e.id !== data.id;
+      });*/
+  }
+ 
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
       this.subscription = null;
-    }
-      
+    }   
   }
 }

@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
-import { DbService } from '../db.service';
 
 @Component({
   selector: 'app-sing-in',
@@ -17,7 +15,7 @@ export class SingInComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   remindForm: FormGroup;
   login: Subscription;
-  submitted = false;
+  submitted: boolean = false;
   error: string;
   message: string;
 

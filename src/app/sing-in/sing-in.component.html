@@ -5,9 +5,9 @@
             {{ error || message }}
         </div>
         <form [formGroup]="loginForm" class="form-horizontal">
-            <div class="alert-block">
-                <p class="help-block" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>
-                <p class="help-block" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
+            <div class="alert-danger">
+                <p class="alert" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>
+                <p class="alert" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
             </div>
             <div class="form-group">
                 <div class="flex">

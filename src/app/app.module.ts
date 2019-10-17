@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentComponent } from './spa/content/content.component';
@@ -42,6 +42,8 @@ import { CustomSelectComponent } from './shared/custom-select/custom-select.comp
 import { ReceptComponent } from './spa/recept/recept.component';
 import { PersonalComponent } from './spa/personal/personal.component';
 import { newPersonalComponent } from './spa/personal/new-personal.component';
+import { DeactivateGuard } from './services/deactivate-guard.service';
+import { updatePersonalComponent } from './spa/personal/update-personal.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { newPersonalComponent } from './spa/personal/new-personal.component';
     CustomSelectComponent,
     ReceptComponent,
     PersonalComponent,
-    newPersonalComponent
+    newPersonalComponent,
+    updatePersonalComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,9 @@ import { newPersonalComponent } from './spa/personal/new-personal.component';
     ScrollDispatchModule,
     MatTableModule,
     AppRoutingModule,
+    MatCheckboxModule,
+    MatSelectModule,    
+    MatInputModule,
     ModalModule.forRoot()
   ],
   providers: [
@@ -90,6 +96,7 @@ import { newPersonalComponent } from './spa/personal/new-personal.component';
     DbService,
     HttpClient,
     AuthGuard,
+    DeactivateGuard,
     ParamsModel,
     InterfaceService,
     AuthService

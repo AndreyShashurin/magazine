@@ -1,58 +1,42 @@
 <div class="table-viewport">
-  <table class="full-list table table-centered searchable">
-    <thead>
-      <tr>
-        <th></th>
-        <th name="d">№</th>
-        <th name="smena_id">Смена</th>
-        <th class="" style="text-align: left;" name="d">Дата</th>
-        <th class="" style="text-align: left;" name="type_biill">Тип оплаты</th>
-        <th class="" style="text-align: left;" name="user">Сотрудник</th>
-        <th class="" style="text-align: left;" name="user">Скидка</th>
-        <th class="" style="text-align: left;" name="price">Сумма</th>
-        <th class="" style="text-align: left;" name="profit">Прибыль</th>
-        <th class="" style="text-align: left;" name="payment">Оплата</th>
-        <th *ngIf="" class="" style="text-align: left;" name="status">Статус</th>
-      </tr>
-  </thead>
-</table>
-      <cdk-virtual-scroll-viewport class="table-viewport" [itemSize]="19"> 
-         <table class="full-list table">
-          <thead>
-            <tr>
-              <th></th>
-              <th name="d"></th>
-              <th name="smena_id"></th>
-              <th class="" style="text-align: left;" name="d"></th>
-              <th class="" style="text-align: left;" name="type_biill"></th>
-              <th class="" style="text-align: left;" name="user"></th>
-              <th class="" style="text-align: left;" name="user"></th>
-              <th class="" style="text-align: left;" name="price"></th>
-              <th class="" style="text-align: left;" name="profit"></th>
-              <th class="" style="text-align: left;" name="payment"></th>
-              <th *ngIf="" class="" style="text-align: left;" name="status"></th>
-            </tr>
-        </thead>
-        <tbody>
-    <tr *cdkVirtualFor="let item of bill" class="bill">
-      <td><i class="fa fa-bars detail_bill" (click)='openDetail(item)'></i></td>
-      <td><b>{{item.id}}</b></td>
-      <td class="smena">{{item.smena_id}}</td>
-      <td class="" style="text-align: left;">{{item.date}}</td>
-      <td class="" style="text-align: left;">{{item.name}}</td>
-      <td class="">{{item.user}}</td>
-      <td class="">{{item.sale}}</td>
-      <td class=""  style="text-align: left; font-weight: bold;">{{item.price}} <i class="fa fa-"></i></td>
-      <td class="" style="text-align: left; font-weight: bold;">{{item.sale_price_margin}} <i class="fa fa-"></i></td>
-      <td class="pay" style="text-align: left; font-weight: bold;">
-        <span *ngIf="item.payment" class="billAcceptPay">Оплачен</span>
-        <span *ngIf="!item.payment"  class="billNotPay">Не оплачен</span>
-      </td>
-      <td *ngIf="item.type == 3" class="status" style="text-align: left; font-weight: bold;"><span style="background: {{item.statusColor}}">{{item.statusName}}</span></td>
-      <td><div>Изменить</div></td> 
-      <td><div (click)="openModal(item, 'bill')">Удалить</div></td>  
-    </tr> 
-  </tbody>
-</table>
+  <cdk-virtual-scroll-viewport [itemSize]="19"> 
+    <table class="full-list table">
+      <thead>
+        <tr>
+          <th [style.top]="inverseOfTranslation"></th>
+          <th [style.top]="inverseOfTranslation" name="d">№</th>
+          <th [style.top]="inverseOfTranslation" name="smena_id">Смена</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="d">Дата</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="type_biill">Тип оплаты</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="user">Сотрудник</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="user">Скидка</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="price">Сумма</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="profit">Прибыль</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="payment">Оплата</th>
+          <th [style.top]="inverseOfTranslation" class="" style="text-align: left;" name="status">Статус</th>
+          <th [style.top]="inverseOfTranslation" name=""></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *cdkVirtualFor="let item of bill" class="bill">
+          <td><i class="fa fa-bars detail_bill" (click)='openDetail(item)'></i></td>
+          <td><b>{{item.id}}</b></td>
+          <td class="smena">{{item.smena_id}}</td>
+          <td class="" style="text-align: left;">{{item.date}}</td>
+          <td class="" style="text-align: left;">{{item.name}}</td>
+          <td class="">{{item.user}}</td>
+          <td class="">{{item.sale}}</td>
+          <td class=""  style="text-align: left; font-weight: bold;">{{item.price}} <i class="fa fa-"></i></td>
+          <td class="" style="text-align: left; font-weight: bold;">{{item.sale_price_margin}} <i class="fa fa-"></i></td>
+          <td class="pay" style="text-align: left; font-weight: bold;">
+            <span *ngIf="item.payment" class="billAcceptPay">Оплачен</span>
+            <span *ngIf="!item.payment"  class="billNotPay">Не оплачен</span>
+          </td>
+          <td *ngIf="item.type == 3" class="status" style="text-align: left; font-weight: bold;"><span style="background: {{item.statusColor}}">{{item.statusName}}</span></td>
+          <td><div>Изменить</div></td> 
+          <td><div (click)="openModal(item, 'bill')">Удалить</div></td>  
+        </tr> 
+      </tbody>
+    </table>
   </cdk-virtual-scroll-viewport>  
 </div>

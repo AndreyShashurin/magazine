@@ -9,18 +9,20 @@
     <table class="table">
       <thead class="false">
         <tr>
-          <th style="">Сотрудник</th>
-          <th style="">Права</th>
-          <th style="">Филиал</th>
+          <th>Сотрудник</th>
+          <th>Права</th>
+          <th>Филиал</th>
+          <th style="width: 50px;"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let person of persons">
+        <tr *ngFor="let person of persons | async">
           <td>{{person.name}}</td>
           <td width="120px">
               <span class="label" [ngClass]="{'label-danger': person.access == 1, 'label-primary':person.access != 1}">{{person.accessName}}</span>
           </td>
           <td width="120px">{{person.filial_name}}</td>
+          <td><div [routerLink]="['/dashboard', 'updatepersonal', person.id]">Редактировать</div></td>
         </tr>
       </tbody>
     </table>
