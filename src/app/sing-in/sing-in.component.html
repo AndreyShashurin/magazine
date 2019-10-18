@@ -1,42 +1,50 @@
-<div class="login">
-    <div id="login_form" *ngIf="!activeForm">
-        <h1>Войти в личный кабинет</h1>
+<div class="auth-page">
+    <div class="px-3" *ngIf="!activeForm">
+        <div class="text-center auth-logo-text mb-5 mt-5">
+            <h4 class="mt-0">Войти в личный кабинет</h4>
+        </div>
         <div class="alert alert-danger" *ngIf="error || message">
             {{ error || message }}
         </div>
-        <form [formGroup]="loginForm" class="form-horizontal">
+        <form [formGroup]="loginForm" class="form-horizontal auth-form my-4" (submit)="singIn()">
             <div class="alert-danger">
                 <p class="alert" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>
                 <p class="alert" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
             </div>
             <div class="form-group">
-                <div class="flex">
+                <div class="input-group mb-3">
+                    <input class="form-control" type="text" formControlName="login" placeholder="Логин">
                     <i class="fa fa-user"></i>
-                     <input class="form-control" type="text" formControlName="login" placeholder="Логин">
                 </div>
             </div>
             <div class="form-group">
-                <div class="flex">
+                <div class="input-group mb-3">
+                    <input class="form-control" type="password" formControlName="password" placeholder="Пароль" autocomplete="off">
                     <i class="fa fa-lock"></i>
-                     <input class="form-control" type="password" formControlName="password" placeholder="Пароль" autocomplete="off">
                 </div>
             </div>
-            <!--
-            <div class="flex alignCenter">
-                <input id="remember-login" type="checkbox">
-                <label for="remember-login">Запомнить меня</label>
-            </div>
-            -->
-            <div class="form-group">
-                <div class="flex">
-                    <span id="remember_password" (click)='checkForm()'>Напомнить пароль</span>
-                    <input type="submit" value="Войти" class="submit" (click)='singIn()' [disabled]="!loginForm.valid">
+            <div class="form-group auth-row mb-5 mt-4">
+                <div class="col-sm-6">
+                    <div class="custom-control custom-switch switch-success">
+                        <input type="checkbox" class="custom-control-input" id="customSwitchSuccess"> 
+                        <label class="custom-control-label text-muted" for="customSwitchSuccess">Запомнить меня</label>
+                    </div>
                 </div>
+                <div class="col-sm-6 text-right">
+                    <span (click)='checkForm()' class="text-muted font-13">
+                        <i class="fa fa-lock"></i> Напомнить пароль
+                    </span>
+                </div>
+            </div>     
+            <div class="form-group mb-0 row">
+                <button type="submit" class="btn btn-primary btn-round btn-block waves-effect waves-light" [disabled]="loginForm.ivalid">Войти</button>
             </div>
         </form>
     </div>
     <div id="remember_password_form" *ngIf="activeForm">
-        <h1>Напомнить пароль</h1>
+        <div class="text-center auth-logo-text mb-5 mt-5">
+            <h4 class="mt-0">Напомнить пароль</h4>
+        </div>
         <form [formGroup]="remindForm" class="form-horizontal">
             <p class="alert-block"></p>
             <div class="form-group">

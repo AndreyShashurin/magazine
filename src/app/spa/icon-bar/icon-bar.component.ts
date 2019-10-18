@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SpaConfigService } from '../../services/config.service';
+import { SpaConfigService } from '../../shared/services/config.service';
 @Component({
   selector: 'icon-bar',
   templateUrl: './icon-bar.component.html',

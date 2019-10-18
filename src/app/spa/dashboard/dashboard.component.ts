@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
 import { SubscriptionLike } from 'rxjs';
 
-import { DbService } from 'src/app/db.service';
-import { personsInterface, tovarInterface } from 'src/app/services/interface.service';
+import { DbService } from 'src/app/shared/services/db.service';
+import { personsInterface, tovarInterface } from 'src/app/shared/services/interface.service';
 import { HomeComponent } from '../home.component';
 
 @Component({

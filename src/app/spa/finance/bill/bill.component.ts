@@ -3,9 +3,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubscriptionLike, of } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
-import { DbService } from 'src/app/db.service';
-import { ModalContentComponent } from 'src/app/modal-content/modal-content.component';
-import { ModalDetailComponent } from 'src/app/modal-detail/modal-detail.component';
+import { DbService } from 'src/app/shared/services/db.service';
+import { ModalContentComponent } from 'src/app/shared/component/modal-content/modal-content.component';
+import { ModalDetailComponent } from 'src/app/shared/component/modal-detail/modal-detail.component';
 
 @Component({
   selector: 'app-bill',

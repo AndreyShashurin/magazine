@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Subscription, forkJoin } from 'rxjs';
-import { DbService } from 'src/app/db.service';
-import { categoryInterface } from 'src/app/services/interface.service';
+import { DbService } from 'src/app/shared/services/db.service';
+import { categoryInterface } from 'src/app/shared/services/interface.service';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
+import { AlertService } from 'src/app/shared/services/alert.service';
 
 @Component({
   selector: 'app-newpersonal',
@@ -36,7 +37,8 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
     constructor(
         private db: DbService,
         private fb: FormBuilder,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private alert: AlertService
     ) {}
 
     createForm() {
@@ -96,25 +98,23 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
             console.log(this.form.value)
             this.subscription = this.db.updateUser(this.form.value).subscribe(
                 (responce) => {
-                    console.log('Пользователь изменен', responce)
+                    this.alert.success('Информация о пользователе изменена')
                 },
                 (error) => {
-                    console.log('Ошибка изменения', error)
+                    this.alert.error('Ошибка изменения')
                 }
             ) 
         }  else {
             console.log(this.form.value)
             this.subscription = this.db.saveUser(this.form.value).subscribe(
                 (responce) => {
-                    console.log('Пользователь сохранен', responce)
+                    this.alert.success('Новый пользователь создан')
                 },
                 (error) => {
-                    console.log('Ошибка сохранения', error)
+                    this.alert.error('Ошибка сохранения')
                 }
             )
         }
-
-
     }
  
     ngOnInit() {

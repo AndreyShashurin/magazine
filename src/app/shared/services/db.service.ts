@@ -3,14 +3,15 @@ import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Subscription, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser } from './services/interface.service';
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser } from './interface.service';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable()
 export class DbService implements OnDestroy  {
-  apiURL = `http://shashurin.beget.tech/dashboard/api/`;
+  apiURL = environment.url;
   canActivateMessage = '';
   bsModalRef: BsModalRef;
   subscription:  Subscription;

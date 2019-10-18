@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { DbService } from '../db.service';
+import { DbService } from './db.service';
 import { User } from './interface.service';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { ParamsModel } from '../services/params.model';
+import { ParamsModel } from '../shared/services/params.model';
 
 @Component({
   templateUrl: './home.component.html',

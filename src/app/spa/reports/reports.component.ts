@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DbService } from 'src/app/db.service';
+import { DbService } from 'src/app/shared/services/db.service';
 
 @Component({
   selector: 'app-reports',

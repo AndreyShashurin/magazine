@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DbService } from 'src/app/db.service';
+import { DbService } from 'src/app/shared/services/db.service';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { Subscription } from 'rxjs';
-import { settingsIntarface } from 'src/app/services/interface.service';
+import { settingsIntarface } from 'src/app/shared/services/interface.service';
 
 
 @Component({
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 
@@ -34,23 +34,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
       (settings) => {
         this.settings = settings;
         console.log(this.settings);
-        this.ngOnInit()
       },
       (error) => {console.log(error);}
     )
-  }
-
-  ngOnInit() {
-    console.log(this.authService.userId)
-
-    this.settingsForm = new FormGroup({
-      company: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      beznalSale: new FormControl('', Validators.required),
-      countingOrders: new FormControl('', Validators.required),
-      smsService: this.fb.array([])
-    })
-    this.setData()
   }
 
   setData() {
@@ -72,6 +58,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   saveSettings(){
     this.db.saveSettings(this.settingsForm.value)
+  }
+
+  ngOnInit() {
+    this.settingsForm = new FormGroup({
+      company: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      beznalSale: new FormControl('', Validators.required),
+      countingOrders: new FormControl('', Validators.required),
+      smsService: this.fb.array([])
+    })
+    this.setData()
   }
 
   ngOnDestroy() {

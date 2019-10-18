@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DbService } from 'src/app/db.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ModalContentComponent } from 'src/app/modal-content/modal-content.component';
-import { skladIntarface } from 'src/app/services/interface.service';
+
+import { DbService } from 'src/app/shared/services/db.service';
+import { skladIntarface } from 'src/app/shared/services/interface.service';
+import { ModalContentComponent } from 'src/app/shared/component/modal-content/modal-content.component';
 
 @Component({
   selector: 'app-warehouse',

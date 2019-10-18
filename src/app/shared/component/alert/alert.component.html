@@ -1,0 +1,8 @@
+<div class="dhtmlx_message_area" *ngIf="text">
+  <div class="dhtmlx-info">
+    <div [ngClass]="{
+      'success': type === 'success',
+      'error': type === 'error'
+    }">{{text}}</div>
+  </div>
+</div>

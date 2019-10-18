@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DbService } from '../db.service';
+import { DbService } from '../services/db.service';
 
 @Component({
   selector: 'modal-content',

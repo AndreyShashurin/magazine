@@ -1,9 +1,9 @@
 import { Component, OnInit, Input} from '@angular/core';
-import { MenuService } from '../../services/menu.service';
+import { MenuService } from '../../shared/services/menu.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { MenuItem } from 'src/app/services/interface.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { MenuItem } from 'src/app/shared/services/interface.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 
 @Component({

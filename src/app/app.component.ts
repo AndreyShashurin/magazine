@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthGuard } from './services/auth-guard.service';
+import { AuthGuard } from './shared/services/auth-guard.service';
 import { Router } from '@angular/router';
-import { MenuItem } from './services/interface.service';
+import { MenuItem } from './shared/services/interface.service';
 
 @Component({
   selector: 'app-root',

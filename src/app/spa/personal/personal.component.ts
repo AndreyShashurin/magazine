@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
-import { DbService } from 'src/app/db.service';
+import { DbService } from 'src/app/shared/services/db.service';
 
 @Component({
   selector: 'app-personal',

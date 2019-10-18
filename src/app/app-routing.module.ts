@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './spa/home.component';
 import { SingInComponent } from './sing-in/sing-in.component';
-import { AuthGuard } from './services/auth-guard.service';
+import { AuthGuard } from './shared/services/auth-guard.service';
 import { DashboardComponent } from './spa/dashboard/dashboard.component';
 import { DiscountComponent } from './spa/reports/discount/discount.component';
 import { ReportsComponent } from './spa/reports/reports.component';
@@ -18,7 +18,7 @@ import { WarehouseComponent } from './spa/warehouse/warehouse.component';
 import { MenuComponent } from './spa/menu/menu.component';
 import { PersonalComponent } from './spa/personal/personal.component';
 import { newPersonalComponent } from './spa/personal/new-personal.component';
-import { DeactivateGuard } from './services/deactivate-guard.service';
+import { DeactivateGuard } from './shared/services/deactivate-guard.service';
 import { updatePersonalComponent } from './spa/personal/update-personal.component';
 
 const routes: Routes = [

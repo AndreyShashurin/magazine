@@ -5,10 +5,10 @@ import { takeUntil } from 'rxjs/operators';
 import { SubscriptionLike, Subject } from 'rxjs';
 import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 
-import { DbService } from 'src/app/db.service';
-import { ModalDetailComponent } from 'src/app/modal-detail/modal-detail.component';
-import { ModalContentComponent } from 'src/app/modal-content/modal-content.component';
-import { menuIntarface, skladIntarface } from 'src/app/services/interface.service';
+import { DbService } from 'src/app/shared/services/db.service';
+import { menuIntarface, skladIntarface } from 'src/app/shared/services/interface.service';
+import { ModalContentComponent } from 'src/app/shared/component/modal-content/modal-content.component';
+import { ModalDetailComponent } from 'src/app/shared/component/modal-detail/modal-detail.component';
 
 @Component({
   selector: 'app-menu',
@@ -183,21 +183,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   addBlock(){
-   /* var element = document.getElementsByClassName('item-process');
-    var element2 = document.getElementsByClassName('item-process-number');
-    var attribute = parseInt(element[element.length - 1].getAttribute("id"));
-    let newElement = document.createElement('input');
-    let newElement2 = document.createElement('input');
-    newElement.type = "text";
-    newElement2.type = "text";
-    newElement.className  = "form-control item-process-number";
-    newElement2.className  = "form-control item-process";
-    attribute = attribute + 1;
-    newElement2.setAttribute("id", `${attribute}`);
-    newElement.setAttribute("value", `${attribute}`);
-    element[element.length - 1].parentNode.insertBefore(newElement, element[element.length - 1].nextSibling);
-    element2[element2.length - 1].parentNode.insertBefore(newElement2, element2[element2.length - 1].nextSibling);
-*/
     (<FormArray>this.form.get('process')).push(
       this.fb.group({
         id: [''],

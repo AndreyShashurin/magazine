@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SpaConfigService } from 'src/app/services/config.service';
-import { DbService } from 'src/app/db.service';
+import { SpaConfigService } from 'src/app/shared/services/config.service';
+import { DbService } from 'src/app/shared/services/db.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

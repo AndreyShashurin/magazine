@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { DbService } from '../db.service';
+import { DbService } from './db.service';
 import { settingsIntarface } from './interface.service';
 import { Subscription } from 'rxjs';
 
