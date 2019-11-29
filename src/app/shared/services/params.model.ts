@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DbService } from './db.service';
 import { settingsIntarface } from './interface.service';
-import { Subscription } from 'rxjs';
 
 @Injectable()
 export class ParamsModel implements OnDestroy {

@@ -59,6 +59,7 @@ export interface MenuItem {
   text: string;
   icon: string;
   route: string;
+  visible?: any
   role: string;
   authF: string;
   submenu: Array<MenuItem>;

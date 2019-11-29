@@ -1,5 +1,6 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { ParamsModel } from '../shared/services/params.model';
+import { SettingsService } from '../shared/services/settings.service';
 
 @Component({
   templateUrl: './home.component.html',
@@ -10,11 +11,15 @@ import { ParamsModel } from '../shared/services/params.model';
 export class HomeComponent implements OnInit {
   private settings: any;
 
-  constructor(private paramsModel:ParamsModel) {
+  constructor(
+    private paramsModel:ParamsModel,
+    private settingsService: SettingsService
+    ) {
   }
 
   ngOnInit() {
-      this.settings = this.paramsModel.getParams();
+    this.settingsService.getSetting()
+    this.settings = this.paramsModel.getParams();
   }
 
   getSetting() {

@@ -18,6 +18,7 @@ export class SingInComponent implements OnInit, OnDestroy {
   submitted: boolean = false;
   error: string;
   message: string;
+  activeForm: boolean = false;
 
   constructor(
     private authService:AuthService,
@@ -56,6 +57,7 @@ export class SingInComponent implements OnInit, OnDestroy {
       'token': new FormControl(null, Validators.required),
       'newPassword': new FormControl(null, Validators.required)
     });
+    this.activeForm = true;
   }
 
   remindButton() {

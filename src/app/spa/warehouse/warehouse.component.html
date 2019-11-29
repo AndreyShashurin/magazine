@@ -1,59 +1,36 @@
-
 <div class="stats-wrapper">
-        <form class="filter_form">
-            <div class="btn-group">
-                <input class="form-control search_name_warehouse" id="search_name_warehouse" name="search_name_warehouse" type="text">
-            </div>
-            <div class="btn-group">
-    
-            </div>
-        </form>  
-    </div>
-    <table class="full-list table table-centered searchable">
-            <thead>
-                <tr>
-                    <th style="width: 50px;"></th>
-                    <th>Название</th>
-                    <th>Категория</th>
-                    <th>Единица измерения</th>
-                    <th>Остаток на складе</th>
-                    <th>Себестоимость</th>
-                    <th>Сумма остатка</th>
-                    <th style="width: 100px;"></th>
-                </tr>
-            </thead>
-            </table>
-                                <cdk-virtual-scroll-viewport class="table-viewport" [itemSize]="20">
-
-                                    <table class="full-list table">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 50px;"></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th style="width: 100px;"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                <tr *cdkVirtualFor="let sklad of sklads"class="item">
-            <td>
-                <a class="fa fa-area-chart delivery-area-chart" href="#myModal" data-toggle="modal" data-name="Chupa chups"></a>
-            </td>
-            <td class="left-cell index"><a class="show-ing-uses-table pseudo-link" data-id="61" data-type="1" data-cols="9">{{sklad.tovar}}</a></td>
-            <td>{{sklad.categories_name}}</td>
-            <td>{{sklad.ed}}</td>
-            <td>{{sklad.value}}</td>
-            <td>{{sklad.price}} <i class="fa fa-rub"></i></td>                            
-            <td>{{sklad.price_itog}} <i class="fa fa-rub"></i></td>
-            <td>
-                <div><a href="#" id="recept_red" (click)="ngEdit(sklad.id,sklad.weight_flag,sklad.sale_price, sklad.tovar, sklad.price, sklad.value, sklad.filial)">Изменить</a></div>
-                <div><a href="#" id="write-off" (click)="ngWriteOff(sklad.id, sklad.tovar, sklad.value, sklad.price, sklad.ed)">Списать</a></div>
-                <div (click)="openModal(sklad.id, sklad.tovar, 'sklad')">Удалить</div>                                  
-            </td> 
-        </tr></tbody>
+  <cdk-virtual-scroll-viewport class="table-viewport" [itemSize]="20">
+    <table class="full-list table">
+      <thead>
+        <tr>
+          <th [style.top]="inverseOfTranslation" style="width: 50px;"></th>
+          <th [style.top]="inverseOfTranslation">Название</th>
+          <th [style.top]="inverseOfTranslation">Категория</th>
+          <th [style.top]="inverseOfTranslation">Единица измерения</th>
+          <th [style.top]="inverseOfTranslation">Остаток на складе</th>
+          <th [style.top]="inverseOfTranslation">Себестоимость</th>
+          <th [style.top]="inverseOfTranslation">Сумма остатка</th>
+          <th [style.top]="inverseOfTranslation" style="width: 100px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *cdkVirtualFor="let sklad of sklads" class="item" cdkFixedHeader>
+          <td>
+            <a class="fa fa-area-chart delivery-area-chart" href="#myModal" data-toggle="modal" data-name="Chupa chups"></a>
+          </td>
+          <td class="left-cell index"><a class="show-ing-uses-table pseudo-link" data-id="61" data-type="1" data-cols="9">{{sklad.tovar}}</a></td>
+          <td>{{sklad.categories_name}}</td>
+          <td>{{sklad.ed}}</td>
+          <td>{{sklad.value}}</td>
+          <td>{{sklad.price}} <i class="fa fa-rub"></i></td>                            
+          <td>{{sklad.price_itog}} <i class="fa fa-rub"></i></td>
+          <td>
+            <div><a href="#" id="recept_red" (click)="ngEdit(sklad)">Изменить</a></div>
+            <div><a href="#" id="write-off" (click)="ngWriteOff(sklad)">Списать</a></div>
+            <div (click)="openModal(sklad.id, sklad.tovar, 'sklad')">Удалить</div>                                  
+          </td> 
+        </tr>
+      </tbody>
     </table>
-      </cdk-virtual-scroll-viewport>        
+  </cdk-virtual-scroll-viewport>        
+</div>

@@ -6,44 +6,25 @@
                 <div id="wrap-container"> </div>
             </div>
             <div class="stats-container"> 
-                    <div class="col-xs-12 br-lg-r">
-                        <div class="col-sm-8">
-                            <h4>Выручка <span>0.00<i class="fa fa-rub"></i></span></h4>
-                        </div>
-                        <div class="col-sm-4">                        
-                            <span class="measure persantage"><sup>0</sup></span>
-                        </div>
+                <div class="col-xs-12 br-lg-r"
+                 *ngFor="let status of statuses; let i = index" 
+                 [ngClass]="{'br-active': typeStats === i}" 
+                 (click)="toggleChart(i, typePeriod)"
+                >
+                    <div class="col-sm-8">
+                        <h4>{{ status.name }} <span>{{ status.value }}<i class="fa fa-rub"></i></span></h4>
                     </div>
-                    <div class="col-xs-12 br-lg-r" data-type="1">
-                        <div class="col-sm-8">
-                            <h4>Прибыль <span>0.00<i class="fa fa-rub"></i></span></h4>
-                        </div>
-                        <div class="col-sm-4">                        
-                            <span class="measure persantage"><sup>0</sup></span>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 br-lg-r" data-type="2">
-                        <div class="col-sm-8">
-                            <h4>Чеков  <span>0</span>  </h4>
-                        </div>
-                        <div class="col-sm-4">                        
-                            <span class="measure persantage"><sup>0</sup></span>
-                        </div>			
-                    </div>
-                    <div class="col-xs-12 br-lg-r" data-type="3">
-                        <div class="col-sm-8">
-                            <h4>Средний чек  <span>0.00<i class="fa fa-rub"></i></span></h4>
-                        </div>
-                        <div class="col-sm-4">                                                
-                            <span class="measure persantage green"><i class="fa fa-long-arrow-up"></i><sup>+0</sup></span>
-                        </div>				
+                    <div class="col-sm-4">                        
+                        <span class="measure persantage"><sup>{{ status.percent }}</sup></span>
                     </div>
                 </div>
+            </div>
         </div>
         <div class="wrap-stat">
             <span>
-                <button type="button"  class="btn btn-stat h_week active" (click)='toggleChart(1)'>Неделя</button>
-                <button type="button" class="btn btn-stat h_month" (click)='toggleChart(2)'>Месяц</button></span>
+                <button type="button"  class="btn btn-stat h_week" [ngClass]="{'active': activeStats === 0}" (click)="toggleChart(typeStats, 0)">Неделя</button>
+                <button type="button" class="btn btn-stat h_month" [ngClass]="{'active': activeStats === 1}"  (click)="toggleChart(typeStats, 1)">Месяц</button>
+            </span>
             <div id="container_chart" style="height: 300px; margin: 0 auto"></div>
         </div>
     <div class="index-bottom"> 

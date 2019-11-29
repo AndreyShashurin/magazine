@@ -1,19 +1,25 @@
 <nav class="side-menu">
-    <ul class="firstLevel">
-        {{menu}}
-        <li class="item" *ngFor="let item of menuService.item">
-            <div (click)='toggleState($event)' >
-                <span class="fa fa-{{item.icon}}"></span>
-                <span class="link"><a [routerLink]="['/dashboard', item.route]" routerLinkActive="active">{{item.text}}</a></span>
-                <b class="caret"></b>
-            </div>
-            <ul class="submenu">
-                <li *ngFor="let sub of item.submenu"><a [routerLink]="['/dashboard', sub.route]" routerLinkActive="active">{{sub.text}}</a></li>
-            </ul>
-        </li>
-        <li class="item" (click)="logout()">
-            <span class="fa fa-exit"></span>
-            <span class="link">Выход</span>
-        </li>
-    </ul>
+    <div *ngIf="settingsService.visible;else other_content">
+        <ul class="firstLevel">
+            <ng-container *ngFor="let item of menuService.item">
+                <li class="item" *ngIf="item.visible.includes(settingsService.visible)">
+                    <div (click)='toggleState($event)'>
+                        <span class="fa fa-{{item.icon}}"></span>
+                        <span class="link"><a [routerLink]="['/dashboard', item.route]" routerLinkActive="active">{{item.text}}</a></span>
+                        <b class="caret" *ngIf="item.submenu"></b>
+                    </div>
+                    <ul class="submenu" *ngIf="item.submenu">
+                        <li *ngFor="let sub of item.submenu"><a [routerLink]="['/dashboard', sub.route]" routerLinkActive="active">{{sub.text}}</a></li>
+                    </ul>
+                </li>
+            </ng-container>   
+            <li class="item" (click)="logout()">
+                <span class="fa fa-exit"></span>
+                <span class="link">Выход</span>
+            </li>
+        </ul>
+    </div>
+    <ng-template #other_content>
+        <img src="../assets/images/loader.gif" style="width: 100%; align-items: center;">
+    </ng-template>
 </nav>

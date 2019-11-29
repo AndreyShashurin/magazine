@@ -8,6 +8,7 @@ export class MenuService {
             text: 'Статистика',
             icon: 'signal',
             route: 'index',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: [
@@ -23,6 +24,7 @@ export class MenuService {
             text: 'Финансы',
             icon: 'rub',
             route: 'bill',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: [
@@ -38,6 +40,7 @@ export class MenuService {
             text: 'Склад',
             icon: 'database',
             route: 'warehouse',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: [
@@ -50,6 +53,7 @@ export class MenuService {
             text: 'Меню',
             icon: 'leanpub',
             route: 'menu',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: [
@@ -60,6 +64,7 @@ export class MenuService {
             text: 'Заведения',
             icon: 'building',
             route: 'filial',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: null
@@ -67,6 +72,7 @@ export class MenuService {
             text: 'Маркетинг',
             icon: 'pie-chart',
             route: 'home',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: [
@@ -77,9 +83,26 @@ export class MenuService {
                 {text: 'Наборы', icon: '',route:'combo',role: '',authF:'',submenu:null}
             ]
         },{
+            text: 'Терминал',
+            icon: 'desktop',
+            route: 'terminal',
+            visible: [1,2],
+            role: '',
+            authF: '',
+            submenu: null
+        },{
+            text: 'Кухня',
+            icon: 'desktop',
+            route: 'kitchen',
+            visible: [2],
+            role: '',
+            authF: '',
+            submenu: null
+        },{
             text: 'Настройки',
             icon: 'wrench',
             route: 'settings',
+            visible: [1,2],
             role: '',
             authF: '',
             submenu: [

@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DbService } from 'src/app/shared/services/db.service';
-import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { Subscription } from 'rxjs';
-import { settingsIntarface } from 'src/app/shared/services/interface.service';
+import { settingsIntarface } from '../../shared/services/interface.service';
+import { DbService } from '../../shared/services/db.service';
+import { AlertService } from '../../shared/services/alert.service';
+import { SettingsService } from '../../shared/services/settings.service';
 
 
 @Component({
@@ -14,61 +14,78 @@ import { settingsIntarface } from 'src/app/shared/services/interface.service';
 export class SettingsComponent implements OnInit, OnDestroy {
 
   settingsForm: FormGroup;
+  selectType: number;
   settings: settingsIntarface[] = [];
+  service: any;
   settingsOf: Subscription;
   serviceObservable: Subscription;
 
   constructor(
     private db: DbService,
     private fb: FormBuilder,
-    private http: HttpClient,
-    private authService: AuthService
+    private alertService: AlertService,
+    private settingsService: SettingsService
   ) {
     this.serviceObservable = this.db.getSmsService().subscribe(
       (responce) => {
-        console.log(responce);
+        this.service = responce;    
+        this.addService(responce);
       },
-      (error) => {console.log(error);}
+      (error) => {
+        console.log(error);
+      }
     )
     this.settingsOf = this.db.getSettings().subscribe(
       (settings) => {
         this.settings = settings;
-        console.log(this.settings);
+        this.selectType = +settings['type'];
+        this.setData()
       },
-      (error) => {console.log(error);}
+      (error) => {
+        console.log(error);
+      }
     )
   }
 
   setData() {
-      this.settingsForm.patchValue(this.settings);
-    /* if(this.settingsForm.value.length) {
-      this.form.controls['actions'] = this.fb.array(data.actions.map(i => this.fb.group(i)));
-    }*/
+    this.settingsForm.patchValue(this.settings);
   }
 
-  addService() {
+  addService(data?: any) {
     return (<FormArray>this.settingsForm.get('smsService')).push(
       this.fb.group({
         serviceName: [],
-        serviceLogin: [],
+        serviceLogin: [data ? data.company : ''],
         servicePassword: [],
       })
     )
   }
 
+  selectTypeF(data: number) {
+    this.selectType = data;
+  }
+
   saveSettings(){
-    this.db.saveSettings(this.settingsForm.value)
+    this.settingsForm.value.type = this.selectType;
+    this.db.saveSettings(this.settingsForm.value).subscribe(
+      (val) => {
+          this.alertService.success('Настройки изменены')
+          this.settingsService.visibleMenu(this.selectType)
+      },
+      (error) => {
+        this.alertService.error('Ошибка изменения')
+      });
   }
 
   ngOnInit() {
     this.settingsForm = new FormGroup({
       company: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
+      type: new FormControl(''),
       beznalSale: new FormControl('', Validators.required),
       countingOrders: new FormControl('', Validators.required),
       smsService: this.fb.array([])
     })
-    this.setData()
   }
 
   ngOnDestroy() {

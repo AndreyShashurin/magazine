@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
 import { SubscriptionLike } from 'rxjs';
 
-import { DbService } from 'src/app/shared/services/db.service';
-import { personsInterface, tovarInterface } from 'src/app/shared/services/interface.service';
+import { DbService } from '../../shared/services/db.service';
+import { personsInterface, tovarInterface } from '../../shared/services/interface.service';
 import { HomeComponent } from '../home.component';
+import { SettingsService } from '../../shared/services/settings.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -18,11 +19,41 @@ export class DashboardComponent implements OnInit, OnDestroy {
   errorMessage: string;
   loggedInEmail: string = "";
   isLoggedIn: boolean;
+  activeTab: boolean = true;
+  activeStats: boolean = true;
+  visibleFilter: boolean = false;
   persons: personsInterface[] =[];
-  data = '1';
+  typeStats: number = 0; // Выручка-Средний чек
+  typePeriod: number = 0; // неделя/месяц
   tovars: tovarInterface[] =[];
   subscription: SubscriptionLike;
-  
+  statuses = [
+      {
+        id: 0,
+        name: 'Выручка',
+        value: 0,
+        percent: 0
+      },
+      {
+        id: 1,
+        name: 'Прибыль',
+        value: 0,
+        percent: 0
+      },
+      {
+        id: 2,
+        name: 'Чеков',
+        value: 0,
+        percent: 0
+      },
+      {
+        id: 3,
+        name: 'Средний чек',
+        value: 0,
+        percent: 0
+      }
+  ];
+
   public options: any = {
     chart: {
       type: 'column',
@@ -148,25 +179,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor( 
     private db: DbService,
     private http: HttpClient,
-    private homeComponent:HomeComponent
+    private homeComponent:HomeComponent,
+    private settingsService: SettingsService
     ) {
   }
 
 
-  toggleChart(data) {
-    this.subscription = this.db.getHightcharsResponse(data).subscribe(
+  toggleChart(...val: any) {
+    this.typeStats = val[0]
+    this.typePeriod = val[1]
+    this.activeStats = val[1]
+    const statusesFilter = this.statuses.filter(id => id.id === val[0])
+               
+    this.subscription = this.db.getHightcharsResponse(val[1]).subscribe(
         (response: Response) => { 
             this.options.series[0]['data'] = response['value'];
             this.options.xAxis.categories = response['key'];   
-            this.popularTovar.series[0]['data'] = response['popular']; 
-            if (data == 1) {
-                this.containerChart.title.text = "Выручка за неделю";  
-                this.containerChart.series[0]['data'] = response['day']['sum'];
-                this.containerChart.xAxis.categories = response['day']['title'].split(', '); 
-            } else {
-                this.containerChart.title.text = "Выручка за месяц";  
+            this.popularTovar.series[0]['data'] = response['popular'];
+            this.containerChart.series[0]['name'] = statusesFilter[0].name;
+            if (val[0] >= 0 && val[1] === 1) {
+                this.containerChart.title.text = `${statusesFilter[0].name} за месяц`;  
                 this.containerChart.series[0]['data'] = [response['day']['monthLastValue'], response['day']['monthNowValue']];
                 this.containerChart.xAxis.categories = [response['day']['monthLast'], response['day']['monthNow']]; 
+            } else if(val[0] >= 0 && val[1] === 0) {
+                this.containerChart.title.text = `${statusesFilter[0].name} за неделю`;  
+                this.containerChart.series[0]['data'] = response['day']['sum'];
+                this.containerChart.xAxis.categories = response['day']['title'].split(', '); 
             }    
             Highcharts.chart('wrap-container', this.options); 
             Highcharts.chart('popular-chart', this.popularTovar);
@@ -196,9 +234,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.log(error)
         }
     )  
-    this.toggleChart(this.data)
+    this.toggleChart(this.typeStats, this.typePeriod)
+    this.settingsService.visibleFilterDunc(false)
   }
-
+ 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

@@ -1,9 +1,8 @@
 import { Component, OnInit, Input} from '@angular/core';
+import { MenuItem } from '../../shared/services/interface.service';
 import { MenuService } from '../../shared/services/menu.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { MenuItem } from 'src/app/shared/services/interface.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { SettingsService } from '../../shared/services/settings.service';
 
 
 @Component({
@@ -18,12 +17,11 @@ export class NavComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private authService: AuthService,
-    private router: Router
+    private settingsService: SettingsService
   ) { }
 
   ngOnInit() {
-    console.log('menu',this.menu)
-    console.log('x',this.menuService)
+
   }
 
   logout() {

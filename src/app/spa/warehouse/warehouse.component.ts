@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 import { DbService } from 'src/app/shared/services/db.service';
 import { skladIntarface } from 'src/app/shared/services/interface.service';
@@ -11,6 +12,9 @@ import { ModalContentComponent } from 'src/app/shared/component/modal-content/mo
   styleUrls: ['./warehouse.component.scss']
 })
 export class WarehouseComponent implements OnInit {
+  @ViewChild(CdkVirtualScrollViewport)
+
+  public viewPort: CdkVirtualScrollViewport;   
   bsModalRef: BsModalRef;
   sklads: skladIntarface[] = [];
   items = [];
@@ -50,4 +54,13 @@ export class WarehouseComponent implements OnInit {
     this.bsModalRef.content.confirmDeleteParam = id;
     this.bsModalRef.content.confirmDeleteGet = link;
   }
+
+
+  public get inverseOfTranslation(): string {
+    if (!this.viewPort || !this.viewPort["_renderedContentOffset"]) {
+      return "-0px";
+    }
+    let offset = this.viewPort["_renderedContentOffset"];
+    return `-${offset}px`;
+  }      
 }

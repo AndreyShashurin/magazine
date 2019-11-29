@@ -95,7 +95,6 @@ export class MenuComponent implements OnInit, OnDestroy {
       ).subscribe(
       (response) => {
         this.sklad = response;
-        console.log(response)
         for (let record of this.sklad) {
           this.contactTypes.push({title: record['tovar'], price: record['price']});
         }

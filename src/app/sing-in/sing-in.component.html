@@ -12,7 +12,7 @@
                 <p class="alert" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
             </div>
             <div class="form-group">
-                <div class="input-group mb-3">
+                <div class="input-group">
                     <input class="form-control" type="text" formControlName="login" placeholder="Логин">
                     <i class="fa fa-user"></i>
                 </div>
@@ -41,28 +41,26 @@
             </div>
         </form>
     </div>
-    <div id="remember_password_form" *ngIf="activeForm">
+    <div class="px-3" id="remember_password_form" *ngIf="activeForm">
         <div class="text-center auth-logo-text mb-5 mt-5">
             <h4 class="mt-0">Напомнить пароль</h4>
         </div>
-        <form [formGroup]="remindForm" class="form-horizontal">
+        <form [formGroup]="remindForm" class="form-horizontal my-4">
             <p class="alert-block"></p>
             <div class="form-group">
-                <div class="flex">
-                    <i class="fa fa-code"></i>
+                <div class="input-group">
                     <input class="form-control" type="text" formControlName="token" placeholder="Токен">
+                    <i class="fa fa-code"></i>
                 </div>
             </div>
             <div class="form-group">
-                <div class="flex">
-                    <i class="fa fa-key"></i>
+                <div class="input-group mb-3">
                     <input class="form-control" type="password" formControlName="newPassword" placeholder="Новый пароль">
+                    <i class="fa fa-key"></i>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <input type="submit" value="Напомнить пароль" class="submit" (click)='remindButton()'>
-                </div>
+            <div class="form-group mb-0 row">
+                <button type="submit" class="btn btn-primary btn-round btn-block waves-effect waves-light" (click)='remindButton()' [disabled]="remindForm.ivalid">Напомнить пароль</button>
             </div>
         </form>
     </div>

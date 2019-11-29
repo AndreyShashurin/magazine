@@ -4,7 +4,6 @@
             <h3>Настройки компании</h3>
         </div>
     </div>
-
     <div class="form-group row">
         <label for="company_name" class="col-sm-3 col-form-label">Название компании</label>
         <div class="col-sm-9">
@@ -26,13 +25,13 @@
         <label for="currency" class="col-sm-3 col-form-label">Тип заведения</label>
         <div class="col-sm-6">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                 <label class="btn btn-primary {{settings.type == 1 ? 'active' : ''}}">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Фастфуд
+                 <label class="btn btn-primary {{selectType === 1 ? 'active' : ''}}" (click)="selectTypeF(1)">
+                    <input type="radio" name="options" id="option1" autocomplete="off"> Фастфуд
                 </label>
-                <label class="btn btn-primary {{settings.type == 2 ? 'active' : ''}}">
+                <label class="btn btn-primary {{selectType === 2 ? 'active' : ''}}" (click)="selectTypeF(2)">
                     <input type="radio" name="options" id="option2" autocomplete="off"> Кафе с кухней
                 </label>
-                <label class="btn btn-primary {{settings.type == 3 ? 'active' : ''}}">
+                <label class="btn btn-primary {{selectType === 3 ? 'active' : ''}}" (click)="selectTypeF(3)">
                     <input type="radio" name="options" id="option3" autocomplete="off"> Интернет-магазин
                </label>
             </div>
@@ -61,9 +60,9 @@
             <input type="checkbox" id="counting_orders" formControlName="countingOrders">
         </div>
     </div>
-    <div class="content-header">
-        <h3 class="ib pull-left">Сервисы рассылок</h3>
-        <span class="plus pull-left" (click)="addService()">+</span>
+    <div class="content-header row">
+        <h3 class="ib alignSelf">Сервисы рассылок</h3>
+        <div class="plus" (click)="addService()">+</div>
     </div>
     <div class="form-group row mb-3" formGroupName="smsService">
       <div class="form-group row" *ngFor="let control of settingsForm.get('smsService').controls; let i = index">

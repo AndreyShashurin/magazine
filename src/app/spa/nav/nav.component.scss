@@ -2,6 +2,9 @@
     color: white;
 }
 
+.hidden {
+    display: none;
+}
 .side-menu {
     ul {
         margin-top: 0;
@@ -20,7 +23,7 @@
                 font-size: 0.8vw;
 
                 &.active {
-                    color: red !important
+                    color: #4597ef !important
                 }
             }
             span {

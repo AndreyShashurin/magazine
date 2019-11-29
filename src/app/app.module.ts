@@ -45,6 +45,8 @@ import { CustomSelectComponent } from './shared/component/custom-select/custom-s
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ModalContentComponent } from './shared/component/modal-content/modal-content.component';
 import { ModalDetailComponent } from './shared/component/modal-detail/modal-detail.component';
+import { SettingsService } from './shared/services/settings.service';
+import { FilterComponent } from './spa/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ import { ModalDetailComponent } from './shared/component/modal-detail/modal-deta
     PersonalComponent,
     newPersonalComponent,
     updatePersonalComponent,
-    AlertComponent
+    AlertComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +104,8 @@ import { ModalDetailComponent } from './shared/component/modal-detail/modal-deta
     DeactivateGuard,
     ParamsModel,
     InterfaceService,
-    AuthService
+    AuthService,
+    SettingsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
