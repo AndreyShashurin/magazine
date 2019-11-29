@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public options: any = {
     chart: {
       type: 'column',
-      height:"200px"
+        height:"180px"
     },
     title: {
         text: ''
@@ -98,7 +98,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         plotBackgroundColor: null,
         plotBorderWidth: null,
         plotShadow: false,
-        type: 'pie'
+        type: 'pie',
+        height:"250px"
     },
     title: {
         text: ''
@@ -111,6 +112,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     },   
     plotOptions: {
         pie: {
+            colors: [
+              '#ff453c', 
+              '#fdc5c3', 
+              '#ffbf36', 
+              '#20c997', 
+              '#64E572', 
+              '#FF9655'
+            ],
             allowPointSelect: true,
             cursor: 'pointer',
             dataLabels: {

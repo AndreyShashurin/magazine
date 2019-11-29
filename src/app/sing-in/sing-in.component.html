@@ -1,67 +1,82 @@
-<div class="auth-page">
-    <div class="px-3" *ngIf="!activeForm">
-        <div class="text-center auth-logo-text mb-5 mt-5">
-            <h4 class="mt-0">Войти в личный кабинет</h4>
+<header class="d-flex justify-content-between align-items-center">
+        <a class="d-flex font-24 font-weight-500 auth-brand" href="#">
+            SmarJoin
+        </a>
+        <div class="btn-group btn-group-sm">
+            <a href="#" class="btn btn-outline-secondary">Help</a>
+            <a href="#" class="btn btn-outline-secondary">About Us</a>
         </div>
-        <div class="alert alert-danger" *ngIf="error || message">
-            {{ error || message }}
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-5 pa-0">
+            <div class="auth-cover-img overlay-wrap"></div>
         </div>
-        <form [formGroup]="loginForm" class="form-horizontal auth-form my-4" (submit)="singIn()">
-            <div class="alert-danger">
-                <p class="alert" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>
-                <p class="alert" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <input class="form-control" type="text" formControlName="login" placeholder="Логин">
-                    <i class="fa fa-user"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group mb-3">
-                    <input class="form-control" type="password" formControlName="password" placeholder="Пароль" autocomplete="off">
-                    <i class="fa fa-lock"></i>
-                </div>
-            </div>
-            <div class="form-group auth-row mb-5 mt-4">
-                <div class="col-sm-6">
-                    <div class="custom-control custom-switch switch-success">
-                        <input type="checkbox" class="custom-control-input" id="customSwitchSuccess"> 
-                        <label class="custom-control-label text-muted" for="customSwitchSuccess">Запомнить меня</label>
+        <div class="col-xl-7 pa-0">
+            <div class="auth-page py-xl-0 py-50">
+                    <div class="auth-form w-xxl-55 w-xl-75 w-sm-90 w-xs-100" *ngIf="!activeForm">
+                        <h1 class="display-5 mb-10">Войти в личный кабинет</h1>
+                        <div class="alert alert-danger" *ngIf="error || message">
+                            {{ error || message }}
+                        </div>
+                        <form [formGroup]="loginForm" class="form-horizontal auth-form my-4" (submit)="singIn()">
+                            <div class="alert-danger">
+                                <p class="alert" *ngIf="!loginForm.get('login').valid && loginForm.get('login').touched">Пожалуйста введите логин.</p>
+                                <p class="alert" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Пожалуйста введите пароль.</p>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" formControlName="login" placeholder="Логин">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="password" formControlName="password" placeholder="Пароль" autocomplete="off">
+                                    <i class="fa fa-lock"></i>
+                                </div>
+                            </div>
+                            <div class="form-group auth-row mb-5 mt-4">
+                                <div class="col-sm-6">
+                                    <div class="custom-control custom-switch switch-success">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitchSuccess"> 
+                                        <label class="custom-control-label text-muted" for="customSwitchSuccess">Запомнить меня</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <span (click)='checkForm()' class="text-muted font-13">
+                                        <i class="fa fa-lock"></i> Напомнить пароль
+                                    </span>
+                                </div>
+                            </div>     
+                            <div class="form-group mb-0 row">
+                                <button type="submit" class="btn btn-danger btn-block" [disabled]="loginForm.ivalid">Войти</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="px-3" id="remember_password_form" *ngIf="activeForm">
+                        <div class="text-center auth-logo-text mb-5 mt-5">
+                            <h4 class="mt-0">Напомнить пароль</h4>
+                        </div>
+                        <form [formGroup]="remindForm" class="form-horizontal my-4">
+                            <p class="alert-block"></p>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" formControlName="token" placeholder="Токен">
+                                    <i class="fa fa-code"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="password" formControlName="newPassword" placeholder="Новый пароль">
+                                    <i class="fa fa-key"></i>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <button type="submit" class="btn btn-primary btn-round btn-block waves-effect waves-light" (click)='remindButton()' [disabled]="remindForm.ivalid">Напомнить пароль</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="col-sm-6 text-right">
-                    <span (click)='checkForm()' class="text-muted font-13">
-                        <i class="fa fa-lock"></i> Напомнить пароль
-                    </span>
-                </div>
-            </div>     
-            <div class="form-group mb-0 row">
-                <button type="submit" class="btn btn-primary btn-round btn-block waves-effect waves-light" [disabled]="loginForm.ivalid">Войти</button>
-            </div>
-        </form>
-    </div>
-    <div class="px-3" id="remember_password_form" *ngIf="activeForm">
-        <div class="text-center auth-logo-text mb-5 mt-5">
-            <h4 class="mt-0">Напомнить пароль</h4>
         </div>
-        <form [formGroup]="remindForm" class="form-horizontal my-4">
-            <p class="alert-block"></p>
-            <div class="form-group">
-                <div class="input-group">
-                    <input class="form-control" type="text" formControlName="token" placeholder="Токен">
-                    <i class="fa fa-code"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group mb-3">
-                    <input class="form-control" type="password" formControlName="newPassword" placeholder="Новый пароль">
-                    <i class="fa fa-key"></i>
-                </div>
-            </div>
-            <div class="form-group mb-0 row">
-                <button type="submit" class="btn btn-primary btn-round btn-block waves-effect waves-light" (click)='remindButton()' [disabled]="remindForm.ivalid">Напомнить пароль</button>
-            </div>
-        </form>
     </div>
-</div>

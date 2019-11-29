@@ -1,40 +1,32 @@
 :host {
-    background: #34495e;
-    border-right: 1px solid #e0e0e0;
-    font-size: 16px;
-    flex: 0 0 12%;
-    transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1) 0s;
-    padding: 0;
-    margin: 0;
-}
-.side-menu {
-    .logo {
-        text-align: center;
-        padding: 12%;
-        padding-top: 10%;
-        padding-bottom: 10%;
-        font-weight: bold;
-        background: white;
 
-        a {
-            color: black;
-            text-decoration: none;
-        }
-        span {
-            background: #f34230;
-            padding: 6px;
-            color: white;
-            margin-left: 6px;
-        }
-    }
 }
-@media screen and (min-width: 1200px) {
-    .logo {
-        font-size: 22px;
-    }
+.hk-navbar.navbar-light {
+    background: #fff;
 }
-@media screen and (max-width: 1200px) {
-    .logo {
-        font-size: 1.5vw;
-    }
+.hk-navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+.text-red, .text-danger {
+    color: #f83f37 !important;
+}
+a.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    line-height: inherit;
+    white-space: nowrap;
 }

@@ -18,8 +18,7 @@ export class SettingsService {
     this.db.getSettings().subscribe(
       (val) => {
         this.settings = val;      
-       // this.visible = +val.type;
-        this.visible = +val;
+        this.visible = +val.type;
       },
       (error) => {
         console.log(error);

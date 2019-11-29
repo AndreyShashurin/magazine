@@ -6,7 +6,7 @@ import { SettingsService } from '../../shared/services/settings.service';
 
 
 @Component({
-  selector: 'spa-menu',
+  selector: 'spa-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })

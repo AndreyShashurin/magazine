@@ -23,11 +23,6 @@
         border-left: solid 5px #f71e3d !important;
     }
 }
-.index_top{
-    margin-left: -15px;
-    margin-right: -15px;
-    background: #f7f9fa;
-}
 .index-bottom {
     display: flex;
 } 
@@ -105,7 +100,7 @@
 .wrap-popular {
     .popular-chart {
         overflow: hidden;
-        height: 200px;
+        height: 100px;
         width: 40%;
     }
     .popular-table {
@@ -119,7 +114,9 @@
     color: black !important;
     background: white !important;
 }
-
+.br-active {
+    border-left: solid 5px #f83f37 !important;
+}
 
 @media screen and (max-width: 800px) {
     .flex-reverse {

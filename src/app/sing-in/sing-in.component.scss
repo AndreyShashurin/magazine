@@ -1,17 +1,25 @@
-.auth-page {
-    overflow: hidden;
-    width: 500px;
-    max-width: 100%;
+header {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    width: 100%;
     padding: 20px;
-    margin: 100px auto;
-    background-color: #FFFFFF;
-    border-radius: 20px;
-    box-shadow: 0px 4px 43px rgba(73, 86, 99, 1);
-
-    .auth-logo-text h4 {
-        font-weight: 600;
-        color: #50649c;
-        font-size: 26px;
+}
+a {
+    text-decoration: none;
+    color: #f83f37 !important;
+}
+.auth-page {
+    padding: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100vh;
+    .auth-form {
+        margin: 0 auto;
     }
     .flex{
         display: flex;
@@ -21,7 +29,6 @@
         font-weight: 500;
         margin-bottom: 28px;
         line-height: 1.1;
-        text-align: center;
         font-size: 24px;
     }
     label {
@@ -41,8 +48,9 @@
             z-index: 100;
             top: 50%;
             right: 16px;
+            font-size: 18px;
             margin-top: -15px;
-            color: #AAAAAA;
+            color: #737373;
         }
     }
     #remember_password {
@@ -101,7 +109,7 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 input.ng-invalid.ng-touched  {
-    border: 1px solid red;
+    border: 1px solid red !important;
     
     +i {
         color:red
@@ -119,4 +127,25 @@ p.help-block{
 }
 .alert-block {
     margin-bottom: 12px;
+}
+@media (min-width: 1400px) {
+    .w-xxl-55 {
+        width: 55% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .w-xl-75 {
+        width: 75% !important;
+    }
+}
+@media (min-width: 576px) {
+    .w-sm-90 {
+        width: 90% !important;
+    }
+}
+@media (min-width: 1400px) {
+.w-xxl-55 {
+    width: 55% !important;
+}
 }

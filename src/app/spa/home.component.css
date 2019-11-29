@@ -1,0 +1,20 @@
+.hk-navbar.navbar-light {
+    background: #fff;
+}
+.hk-navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+.pg-wrapper {
+    background: #fff;
+    padding: 57px 50px 60px;
+    position: relative;
+}

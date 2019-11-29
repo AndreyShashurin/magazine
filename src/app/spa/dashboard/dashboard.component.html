@@ -1,25 +1,86 @@
-<div class="index_top">
-    <div class="chart-wrapper"> 
-        <div class="flex-container flex-reverse">
-            <div class="wrap-container"> 
-                <h2>Популярные товары</h2>
-                <div id="wrap-container"> </div>
-            </div>
-            <div class="stats-container"> 
-                <div class="col-xs-12 br-lg-r"
-                 *ngFor="let status of statuses; let i = index" 
-                 [ngClass]="{'br-active': typeStats === i}" 
-                 (click)="toggleChart(i, typePeriod)"
-                >
-                    <div class="col-sm-8">
-                        <h4>{{ status.name }} <span>{{ status.value }}<i class="fa fa-rub"></i></span></h4>
+<div class="chart-wrapper"> 
+    <div class="sj-row">
+        <div class="col-lg-4">
+            <div class="card card-sm">
+                <div class="card-body">
+                    <div class="sj-legend-wrap mb-10">
+                        <div class="sj-legend">
+                            <span>Популярные товары</span>
+                        </div>
                     </div>
-                    <div class="col-sm-4">                        
-                        <span class="measure persantage"><sup>{{ status.percent }}</sup></span>
+                </div>
+                <div class="popular-chart" id="popular-chart"></div>
+                <div class="popular-table">
+                    <table class="table table-overflow">
+                        <thead>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Продаж</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tovar of tovars">
+                                <td>{{tovar.name}}</td>
+                                <td>{{tovar.sold}}</td>
+                            </tr>                                 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="sj-row">
+                <div class="col-lg-6" *ngFor="let status of statuses; let i = index">
+                    <div class="card card-sm maxHeight-151 minHeight-151" 
+                        [ngClass]="{'br-active': typeStats === i}" 
+                        (click)="toggleChart(i, typePeriod)"
+                    >
+                        <div class="card-body pa-0">
+                            <div class="pa-15 mb-10">
+                                <span class="d-block font-14 font-weight-500 text-dark">{{ status.name }}</span>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="display-5 font-weight-400 text-dark">{{ status.value }}<i class="fa fa-rub"></i></div>
+                                    <div class="font-13 font-weight-500">
+                                        <span>{{ status.percent }}%</span>
+                                        <i class="ion ion-md-arrow-down text-danger ml-5"></i>
+                                    </div>
+                                </div>
+                            </div>      
+                            <div id="sparkline_1"><canvas width="233" height="50" style="display: inline-block; width: 233.766px; height: 50px; vertical-align: top;"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sj-row">
+                <div class="col-lg-12">    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="sj-legend-wrap mb-10">
+                                <div class="sj-legend">
+                                    <span>Продажи по часам</span>
+                                </div>
+                            </div>
+                        </div>               
+                        <div id="wrap-container"></div> 
                     </div>
                 </div>
             </div>
         </div>
+    </div>       
+    <div class="stats-container"> 
+            <div class="col-xs-12 br-lg-r"
+             *ngFor="let status of statuses; let i = index" 
+             [ngClass]="{'br-active': typeStats === i}" 
+             (click)="toggleChart(i, typePeriod)"
+            >
+                <div class="col-sm-8">
+                    <h4>{{ status.name }} <span>{{ status.value }}<i class="fa fa-rub"></i></span></h4>
+                </div>
+                <div class="col-sm-4">                        
+                    <span class="measure persantage"><sup>{{ status.percent }}</sup></span>
+                </div>
+            </div>
+        </div>     
         <div class="wrap-stat">
             <span>
                 <button type="button"  class="btn btn-stat h_week" [ngClass]="{'active': activeStats === 0}" (click)="toggleChart(typeStats, 0)">Неделя</button>
@@ -28,30 +89,6 @@
             <div id="container_chart" style="height: 300px; margin: 0 auto"></div>
         </div>
     <div class="index-bottom"> 
-            <div class="wrap-container wrap-popular">
-                    <h2>Популярные товары</h2>
-                    <div class="flexItem">
-                        <div class="popular-chart" id="popular-chart">            
-
-                        </div>
-                        <div class="popular-table">
-                            <table class="table table-overflow">
-                                <thead>
-                                    <tr>
-                                        <th>Товар</th>
-                                        <th>Продаж</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let tovar of tovars">
-                                        <td>{{tovar.name}}</td>
-                                        <td>{{tovar.sold}}</td>
-                                    </tr>                                 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
         <div class="wrap-users wrap-container">
                 <h2>Сотрудники</h2>
                 <div class="flexItem">
@@ -74,4 +111,3 @@
                 </div>
             </div>
     </div>
-</div>
