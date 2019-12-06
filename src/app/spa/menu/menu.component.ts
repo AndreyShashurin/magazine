@@ -85,6 +85,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           takeUntil(this.ngUnsubscribe)
       ).subscribe(
       (response) => {
+        console.log(response)
         this.menu = response;
       } ,
       (error) => {console.log(error);}

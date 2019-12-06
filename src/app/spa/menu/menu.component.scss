@@ -11,20 +11,6 @@ div.blue-wrapper {
 .flexBox {
     display: flex
 }
-.structure-table {
-
-    tr {
-        color: black !important;
-
-        &:hover {
-            background: #f9f9f9;
-            transition: background-color 200ms linear;
-            -moz-transition: background-color 200ms linear;
-            -webkit-transition: background-color 200ms linear;
-            -o-transition: background-color 200ms linear;
-        }
-    }
-}
 .operation-total {
     border: solid 2px #2688cd;
     z-index: 1000;
@@ -58,12 +44,6 @@ div.blue-wrapper {
     text-align: right;
     padding-top: 1%;
     padding-bottom: 1%;
-}
-td, th {
-    padding: 0;
-    border-top-color: #e7eaec;
-    border-top-style: solid;
-    border-top-width: 1px;
 }
 .show > .dropdown-menu {
   overflow: auto;

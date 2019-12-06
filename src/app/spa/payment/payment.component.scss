@@ -1,0 +1,24 @@
+.pay {
+    .info-wrapper {
+        background: #fafafa none repeat scroll 0 0;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        margin: 0 auto;
+        margin-top: 20px;
+        padding: 25px 20px;
+        strong {
+            display: table;
+            font-size: 22px;
+            padding-top: 9px;
+        }        
+    }   
+    .btn {
+        margin-right: 7px;
+        margin-top: 10px;
+    }
+    .btn_payment {
+        color: white;
+        background: #fe5858;
+        border: solid 1px #fe5858;
+    }     
+}

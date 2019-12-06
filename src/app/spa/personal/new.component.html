@@ -1,66 +1,53 @@
-<form class="row" [formGroup]="form" (ngSubmit)="save()">
-    <div class="form-group row">
-        <label for="name" class="col-sm-3 col-form-label">Имя сотрудника</label>
-        <div class="col-sm-9">
-            <mat-form-field class="name">
-                <input matInput id="name" formControlName="name">
-            </mat-form-field>
+<div class="pg-header">
+    <h4 class="pg-title"><span class="title-icon icons"><i class="icon-people"></i></span>Добавить нового сотрудника</h4>
+</div>
+<section class="sec-wrapper">
+    <form class="row" [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group row">
+            <div class="col-md-4 mb-10">
+                <label for="name">Имя сотрудника</label>
+                <input class="form-control" id="name" formControlName="name" placeholder="Имя" type="text">
+            </div>
+            <div class="col-md-4 mb-10">
+                <label for="access">Уровень доступа</label>
+                <select class="form-control custom-select d-block w-100" id="access" formControlName="access">
+                    <option *ngFor="let access of accesses; trackBy: trackByFn" value="{{access.access}}">{{access.value}}</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-10">
+                <label for="filial">Заведение для привязки</label>
+                <select class="form-control custom-select d-block w-100" id="filial" formControlName="filial">
+                    <option *ngFor="let filial of filials; trackBy: trackByFn" value="{{filial.id}}">{{filial.name}}</option>
+                </select>
+            </div>
+        </div> 
+        <hr>      
+        <div class="form-group row">
+            <div class="col-md-6 mb-10">
+                <label for="pass">Пароль для входа в админ панель</label>
+                <input class="form-control"  id="pass" type="password" formControlName="password">
+            </div>
+            <div class="col-md-6 mb-10">
+                <label for="pin">PIN для входа в терминал</label>
+                <input class="form-control" id="pin" type="password" formControlName="pin">
+            </div>
+        </div>  
+        <hr>     
+        <div class="form-group row">
+            <label class="col-sm-3 control-label">Права доступа</label>
+            <div class="col-sm-9 custom-control custom-checkbox" formArrayName="level">
+                <ng-template ngFor let-category [ngForOf]="form.controls.level.controls" let-i="index">
+                    <div formGroupName="{{ i }}" class="mb-15">
+                        <input class="custom-control-input" id="same-address{{ i }}" type="checkbox"  formControlName="checked" [checked]="categories[i].checked">
+                        <label class="custom-control-label" for="same-address{{ i }}">{{ categories[i].name }}</label>
+                    </div>
+                </ng-template> 
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label for="access" class="col-sm-3 control-label">Уровень доступа</label>
-        <div class="col-sm-9">
-            <mat-form-field>
-                <mat-select formControlName="access">
-                    <mat-option *ngFor="let access of accesses; trackBy: trackByFn" value="{{access.access}}">
-                        {{access.value}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div class="control-group the-submit">
+            <div class="max-width-wrapper">
+                <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">Сохранить</button>
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-3 control-label">Права доступа</label>
-        <div class="col-sm-9 tax-type-change" formArrayName="level">
-            <ng-template ngFor let-category [ngForOf]="form.controls.level.controls" let-i="index">
-                <label formGroupName="{{ i }}">
-                    <mat-checkbox color="primary" class="tp-margin" formControlName="checked" [checked]="categories[i].checked">{{ categories[i].name }}</mat-checkbox>
-                </label>
-                <br>
-            </ng-template> 
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="filial" class="col-sm-3 control-label">Заведение для привязки</label>
-        <div class="col-sm-9">
-            <mat-form-field>
-                <mat-select formControlName="filial">
-                    <mat-option *ngFor="let filial of filials; trackBy: trackByFn" value="{{filial.id}}">
-                        {{filial.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> 
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="pass" class="col-sm-3 control-label">Пароль для входа в админ панель</label>
-        <div class="col-sm-9">
-            <mat-form-field class="pin">
-                <input matInput id="pass" type="password" formControlName="password">
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="pin" class="col-sm-3 control-label">PIN для входа в терминал</label>
-        <div class="col-sm-9">
-            <mat-form-field class="pin">
-                <input matInput id="pin" type="password" formControlName="pin">
-            </mat-form-field>
-        </div>
-    </div>  
-    <div class="control-group the-submit">
-        <div class="max-width-wrapper">
-            <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">Сохранить</button>
-        </div>
-    </div>
-</form> 
+    </form> 
+</section>

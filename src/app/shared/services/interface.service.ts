@@ -86,8 +86,8 @@ export interface menuIntarface {
   nodiscountFlag: boolean;
   output: number;
   price: number;
-  process: any;
-  structure: any;
+  process?: any;
+  structure?: any;
   weight_flag: string;
 }
 
@@ -118,6 +118,42 @@ export interface settingsIntarface {
   tarif: string,
   time: string,
   type: number
+}
+export interface suppliersIntarface {
+  name: string, 
+  adress: string, 
+  phone: string,
+  comments?: string,  
+  price?: string,
+  count?: number,
+  lat?: string,  
+  lng?: string
+}
+
+export interface deliveryInterface {
+  name: string, 
+  adress: string, 
+  phone: string,
+  comments?: string,  
+  price?: string,
+  count?: number,
+  lat?: string,  
+  lng?: string
+}
+
+export interface discardIntarface {
+  tovar: string, 
+  reason: string, 
+  date: string,
+  price?: string
+}
+
+export interface categoriesInterface {
+  id: string,
+  name: string, 
+  childe?: string, 
+  parent?: string,
+  images?: string
 }
 
 @Injectable({

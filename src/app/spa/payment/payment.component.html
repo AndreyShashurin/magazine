@@ -1,0 +1,16 @@
+<div class="pay" *ngIf="settingsService.settings.type == 1">
+  <div class="info-wrapper row">
+      <div class="col-sm">
+        Аккаунт действителен до:<br> <strong>{{settingsService.settings.payment.end}}</strong>
+      </div>
+      <div class="col-sm">
+        До блокировки:<br> <strong>{{settingsService.settings.payment.block}}</strong>
+      </div>
+      <div class="col-sm">
+        Тариф:<br> <strong>{{settingsService.settings.payment.tarif}}</strong>
+      </div>
+  </div>
+  <button class="btn btn_payment btn-sm">Продление услуг</button>
+  <button class="btn btn-success btn-sm">История платежей</button>
+  <button class="btn btn-danger btn-sm">Удалить компанию</button>
+</div>

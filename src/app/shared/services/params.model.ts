@@ -12,12 +12,6 @@ export class ParamsModel implements OnDestroy {
     }
     
     public setParams() {
-        this.settingsOf = this.db.getSettings().subscribe(
-        (settings) => { 
-          this.params = settings;
-        } ,
-        (error) => {console.log(error);}
-       ) 
     }
 
     public getParams() {

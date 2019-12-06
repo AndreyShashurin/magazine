@@ -3,9 +3,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubscriptionLike, of } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
-import { DbService } from 'src/app/shared/services/db.service';
-import { ModalContentComponent } from 'src/app/shared/component/modal-content/modal-content.component';
-import { ModalDetailComponent } from 'src/app/shared/component/modal-detail/modal-detail.component';
+import { DbService } from '../../../shared/services/db.service';
+import { ModalContentComponent } from '../../../shared/component/modal-content/modal-content.component';
+import { ModalDetailComponent } from '../../../shared/component/modal-detail/modal-detail.component';
 
 @Component({
   selector: 'app-bill',
@@ -24,14 +24,6 @@ export class BillComponent implements OnInit {
     private db: DbService,
     private modalService: BsModalService
   ) { }
-
-  public get inverseOfTranslation(): string {
-    if (!this.viewPort || !this.viewPort["_renderedContentOffset"]) {
-      return "-0px";
-    }
-    let offset = this.viewPort["_renderedContentOffset"];
-    return `-${offset}px`;
-  }
 
   ngOnInit() {
     this.getBill()

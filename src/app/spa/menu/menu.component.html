@@ -1,35 +1,23 @@
-<div class="button_form content-header">
-  <button (click)="newForm()" class="btn btn-sm btn-add" id="add_recept">Добавить технологическую карту</button>
-
-</div>
 <div *ngIf='menuForm' class="stats-wrapper">
-    <form class="filter_form">
-        <div class="btn-group">
-            <input class="form-control search_name_warehouse" id="search_name_warehouse" name="search_name_warehouse" type="text">
-        </div>
-        <div class="btn-group">
-
-        </div>
-    </form>
     <cdk-virtual-scroll-viewport [itemSize]="19">
         <table class="table table-centered">
             <thead>
                 <tr>
                     <th [style.top]="inverseOfTranslation"></th>
-                    <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 300px; max-width: 300px;" name="name">Название</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 200px; max-width: 200px;" name="name">Название</th>
                     <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 120px;" name="categories">Категория</th>
                     <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="size">Обьем</th>
                     <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="cost">Себестоимость</th>
                     <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="price">Цена</th>
                     <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="margin">Наценка</th>
                     <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="output">Выход</th>
-                    <th [style.top]="inverseOfTranslation" style="border-top: 0;;" name="nodiscount">Участие в скидках</th>
-                    <th [style.top]="inverseOfTranslation" style="border-top: 0;"></th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;;" name="nodiscount">Скидка</th>
+                    <th [style.top]="inverseOfTranslation" style="border-top: 0;">Действие</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *cdkVirtualFor="let item of menu" class="item" cdkFixedHeader>
-                    <td class="detail_menu"><i class="fa fa-bars detail_menu" (click)='openDetail(item)'></i></td>
+                    <td class="detail_menu"><i class="icon-eye icons" (click)='openDetail(item)' *ngIf="item.structure" ></i></td>
                     <td class="left-cell index"><a class="show-ing-uses-table pseudo-link">{{item.name}}</a></td>
                     <td>{{item.categories_name}}</td>
                     <td>{{item.size}}</td>
@@ -39,8 +27,8 @@
                     <td>{{item.output}}</td>
                     <td>{{item.nodiscountText}}</td>
                     <td>
-                        <div (click)="update(item)">Изменить</div>
-                        <div (click)="openModal(item.id, item.name, 'menus')">Удалить</div>
+                        <i class="icon-pencil mr-25" (click)="update(item)"></i>
+                        <i class="icon-trash txt-danger mr-25" (click)="openModal(item.id, item.name, 'menus')"></i>
                     </td>
                 </tr>
             </tbody>

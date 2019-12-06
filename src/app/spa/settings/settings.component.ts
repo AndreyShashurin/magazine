@@ -78,6 +78,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.settingsService.visibleFilterDunc(false)
     this.settingsForm = new FormGroup({
       company: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),

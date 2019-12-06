@@ -7,12 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class FilterComponent implements OnInit {
 
-  @Input() visible: boolean = true;
+  @Input() visible: boolean = true; // Видимость фильтра
+  @Input() warehouse: boolean = false; //Кнопки склада
+  @Input() addPersonal: boolean = false; //Добавить нового сотрудника
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.visible)
+
   }
 
 }

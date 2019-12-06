@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription, forkJoin, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { map, tap } from 'rxjs/operators';
 
-import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser } from './interface.service';
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface } from './interface.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -23,16 +23,15 @@ export class DbService implements OnDestroy  {
     private modalService: BsModalService,
 ){}
 
-  getSettings() {
+  getSettings(): Observable<settingsIntarface[]> {
     return this.http.get<settingsIntarface[]>(this.apiURL + 'settings');
   }
 
-  getSmsService() {
+  getSmsService(): Observable<any> {
     return this.http.get(this.apiURL + 'service');
   }
 
-  getTovars() {
-
+  getTovars(): Observable<tovarInterface[]> {
     return this.http.get<tovarInterface[]>(this.apiURL + 'tovars', {
       params: new HttpParams().set('limit', '6')
     });
@@ -43,14 +42,37 @@ export class DbService implements OnDestroy  {
     return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
   }
 
+  // Склады
+  getSuppliers(): Observable<suppliersIntarface[]> {
+    return this.http.get<suppliersIntarface[]>(this.apiURL + 'warehouse', {
+      params: new HttpParams().set('suppliers', '1')
+    });
+  }
+
+  getDelivery(): Observable<deliveryInterface[]> {
+    return this.http.get<deliveryInterface[]>(this.apiURL + 'warehouse', {
+      params: new HttpParams().set('delivery', '1')
+    });
+  }
+
+  getDiscard(): Observable<discardIntarface[]> {
+    return this.http.get<discardIntarface[]>(this.apiURL + 'warehouse', {
+      params: new HttpParams().set('discard', '1')
+    });
+  }
+
+  postWriteOf(data: any): Observable<any> {
+    return this.http.post(this.apiURL + 'warehouse', data, {
+      params: new HttpParams().set('writeOf', '1')
+    });
+  }
+
   // Users
   saveUser(users: newUser) {
-
     return this.http.post(this.apiURL + 'users', users)
   }
 
   getUsers() {
-
     return this.http.get<personsInterface[]>(this.apiURL + 'users')
   }  
   
@@ -77,6 +99,17 @@ export class DbService implements OnDestroy  {
 
     return this.http.put<personsInterface[]>(this.apiURL + 'users', user, {
       params: new HttpParams().set('update', 'update')
+    })
+  }
+
+  // Категории
+  getCategories() {
+    return this.http.get<categoriesInterface[]>(this.apiURL + 'categories')
+  }
+
+  getCategoriesChilde(data: any) {
+    return this.http.get<categoriesInterface[]>(this.apiURL + 'categories', {
+      params: new HttpParams().set('categories', data)
     })
   }
 
@@ -119,8 +152,15 @@ export class DbService implements OnDestroy  {
     );
   }
 
-  getMenu(){
-    return this.http.get<menuIntarface[]>(this.apiURL + 'menus');
+  // Меню  
+  getMenu() {
+    return this.http.get<menuIntarface[]>(this.apiURL + 'menu');
+  }
+
+  getMenuByID(id: any) {
+    return this.http.get<menuIntarface[]>(this.apiURL + 'menu', {
+      params: new HttpParams().set('id', id)
+    });
   }
 
   deleteMenu(data){
@@ -130,12 +170,13 @@ export class DbService implements OnDestroy  {
       }),
       body: data,
     };
-    return this.http.delete(this.apiURL + 'menus', options).subscribe(
+    return this.http.delete(this.apiURL + 'menu', options).subscribe(
         (val) => {
           this.modalService.hide(1);
         }
     );
   }
+
 
   saveSettings(data: settingsIntarface[]){
     return this.http.post(this.apiURL + 'settings', data)

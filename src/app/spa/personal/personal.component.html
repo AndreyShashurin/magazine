@@ -1,9 +1,7 @@
-<div class="button_form content-header">
-  <a [routerLink]="['/dashboard', 'newpersonal']"  class="btn btn-sm btn-add" id="add_tovar">Добавить сотрудника</a>
-</div>
+<app-filter [addPersonal]="true"></app-filter>
 <div class="listing">
-  <div class="content-header clearfix manage-page-header">
-    <div class="pull-left"><h2 class="ib">Персонал</h2></div>
+  <div class="pg-header">
+      <h4 class="pg-title small-icons"><span class="title-icon icons"><i class="icon-people"></i></span> Персонал</h4>
   </div>
   <div class="table-container table-list">
     <table class="table">
@@ -12,7 +10,7 @@
           <th>Сотрудник</th>
           <th>Права</th>
           <th>Филиал</th>
-          <th style="width: 50px;"></th>
+          <th style="width: 50px;">Действия</th>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +20,10 @@
               <span class="label" [ngClass]="{'label-danger': person.access == 1, 'label-primary':person.access != 1}">{{person.accessName}}</span>
           </td>
           <td width="120px">{{person.filial_name}}</td>
-          <td><div [routerLink]="['/dashboard', 'updatepersonal', person.id]">Редактировать</div></td>
+          <td>
+              <a [routerLink]="['/dashboard', 'updatepersonal', person.id]" class="mr-25" data-toggle="tooltip" data-original-title="Edit"> <i class="icon-pencil"></i></a>  
+              <a [routerLink]="['/dashboard', 'updatepersonal', person.id]" class="mr-25" data-toggle="tooltip" data-original-title="Delete"> <i class="icon-trash txt-danger"></i> </a>       
+          </td>
         </tr>
       </tbody>
     </table>

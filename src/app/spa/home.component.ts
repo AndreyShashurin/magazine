@@ -1,6 +1,7 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { ParamsModel } from '../shared/services/params.model';
+import { Component, OnInit, Injectable, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { SettingsService } from '../shared/services/settings.service';
+import { DbService } from '../shared/services/db.service';
 
 @Component({
   templateUrl: './home.component.html',
@@ -9,21 +10,26 @@ import { SettingsService } from '../shared/services/settings.service';
 
 @Injectable()
 export class HomeComponent implements OnInit {
-  private settings: any;
+  @ViewChild(CdkVirtualScrollViewport)
+
+  public viewPort: CdkVirtualScrollViewport;
+  public settings: any;
 
   constructor(
-    private paramsModel:ParamsModel,
-    private settingsService: SettingsService
+    public db: DbService,
+    public settingsService: SettingsService
     ) {
   }
 
   ngOnInit() {
+    this.db.getSettings().subscribe(
+      (val) => {
+        this.settings = val;   
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
     this.settingsService.getSetting()
-    this.settings = this.paramsModel.getParams();
   }
-
-  getSetting() {
-      return this.settings;
-  }
-
 }

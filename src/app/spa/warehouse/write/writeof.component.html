@@ -1,0 +1,51 @@
+<div [formGroup]="writeOf" (submit)="sendForm()">
+  <div class="form-group">
+    <label for="promo_name" class="col-xs-3 control-label">Причина списания</label>
+    <div class="col-xs-6">
+      <select class="browser-default custom-select" formControlName="reason" >
+        <option></option>
+        <option value="Просрочка">Просрочка</option>
+        <option value="Порча товаара">Порча товра</option>
+      </select> 
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="reason_new" class="col-xs-3 control-label">Своя причина</label>
+    <div class="col-xs-5">
+      <input type="text" class="form-control" id="reason_new" name="reason_new">
+    </div>                            
+  </div>
+  <div class="form-group">
+    <label for="comment" class="col-xs-3 control-label">Коментарии</label>
+    <div class="col-xs-6">
+      <textarea class="form-control" formControlName="comment" autosize></textarea>
+    </div>
+  </div>
+  <div class="gray-wrapper">
+    <table class="table sortable structure-table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Колличество</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="noprint">
+                <td class="noprint" colspan="4">
+                  <a class="btn-link add-write-off" data-type="add-write-off">Добавить позицию</a>
+                </td>
+                <td class="noprint-cell"></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr class="write-off" id="write-off">
+                <td class="ingredient">
+                    <input class="form-control write-off" name="write-off"  type="text">
+                </td>
+        </tbody>
+    </table> 
+    <div class="noprint">
+        <div><b>Итого: <span class="price_itog">0</span></b></div>
+    </div>  
+  </div>
+</div>

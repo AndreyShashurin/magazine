@@ -1,19 +1,23 @@
-<ul class="navbar-nav" *ngIf="settingsService.visible;else other_content">
+<ul class="navbar-nav">
     <ng-container *ngFor="let item of menuService.item">
-        <li class="item nav-item dropdown show-on-hover"  *ngIf="item.visible.includes(settingsService.visible)">
-            <a class="nav-link dropdown-toggle" [routerLink]="['/dashboard', item.route]" routerLinkActive="active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li *ngIf="item.visible.includes(settingsService.menu)" class="dropdown">
+            <a class="nav-link" 
+            [ngClass]="item.submenu ? 'dropdown-toggle':'dropdown-toggle2'"
+            [routerLink]="['/dashboard', item.route]" 
+            routerLinkActive="active" 
+            >
                 {{item.text}}
             </a>
-            <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" *ngIf="item.submenu">
-                <a *ngFor="let sub of item.submenu" [routerLink]="['/dashboard', sub.route]" routerLinkActive="active">{{sub.text}}</a>
+            <div class="dropdown-content" *ngIf="item.submenu">
+                <a *ngFor="let sub of item.submenu" [routerLink]="['/dashboard', sub.route]" routerLinkActive="active" class="dropdown-item">{{sub.text}}</a>
             </div>
         </li>
     </ng-container>   
-    <li class="item" (click)="logout()">
-        <span class="fa fa-exit"></span>
-         <span class="link">Выход</span>
+    <li class="dropdown" (click)="logout()">
+        <a class="nav-link">Выход</a>
     </li>
 </ul>
 <ng-template #other_content>
         <img src="../assets/images/loader.gif" style="width: 100%; align-items: center;">
 </ng-template>
+

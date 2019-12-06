@@ -6,9 +6,9 @@ import { settingsIntarface } from './interface.service';
   providedIn: 'root'
 })
 export class SettingsService {
-  settings: settingsIntarface[] = [];
-  visible: number;
-  visibleFilter: boolean= true;
+  public settings: settingsIntarface[] = [];
+  public menu: number;
+  visibleFilter: boolean = true;
 
   constructor(
     private db: DbService
@@ -17,21 +17,21 @@ export class SettingsService {
   getSetting() {
     this.db.getSettings().subscribe(
       (val) => {
-        this.settings = val;      
-        this.visible = +val.type;
+        this.settings = val;    
+        this.menu = +val.type;
       },
       (error) => {
         console.log(error);
       }
     )
-    return this.settings
   }
 
   visibleMenu(data: number) {
-    this.visible = data;
+    this.menu = data;
   }    
 
   visibleFilterDunc(data: boolean) {
     this.visibleFilter = data;
   }  
+  
 }

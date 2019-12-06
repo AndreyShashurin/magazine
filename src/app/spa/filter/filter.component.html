@@ -1,5 +1,11 @@
 <div *ngIf="visible">
-<p>
-  filter works!
-</p>
+  <div class="button_form content-header">
+    <div *ngIf="warehouse">
+      <a [routerLink]="['/dashboard/warehouse', 'addSklad']" class="btn btn-sm btn-add">Добавить поставку</a>
+      <a [routerLink]="['/dashboard/warehouse', 'addSklad']" class="btn btn-sm btn-add">Добавить позицию</a>     
+    </div> 
+    <div *ngIf="addPersonal">
+      <a [routerLink]="['/dashboard', 'newpersonal']"  class="btn btn-sm btn-add">Добавить сотрудника</a>
+    </div>    
+  </div>  
 </div>

@@ -47,6 +47,16 @@ import { ModalContentComponent } from './shared/component/modal-content/modal-co
 import { ModalDetailComponent } from './shared/component/modal-detail/modal-detail.component';
 import { SettingsService } from './shared/services/settings.service';
 import { FilterComponent } from './spa/filter/filter.component';
+import { PaymentComponent } from './spa/payment/payment.component';
+import { AddWarehousComponent } from './spa/warehouse/add-warehous/add-warehous.component';
+import { SuppliersComponent } from './spa/warehouse/suppliers/suppliers.component';
+import { DeliveryComponent } from './spa/warehouse/delivery/delivery.component';
+import { DiscardComponent } from './spa/warehouse/discard/discard.component';
+import { WriteOfComponent } from './spa/warehouse/write/writeof.component';
+import { AutosizeDirective } from './directives/autosize.directive';
+import { TerminalComponent } from './spa/terminal/terminal.component';
+import { TerminalIdComponent } from './spa/terminal/terminal-id/terminal-id.component';
+import { TerminalBillComponent } from './spa/terminal/terminal-bill/terminal-bill.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +88,17 @@ import { FilterComponent } from './spa/filter/filter.component';
     newPersonalComponent,
     updatePersonalComponent,
     AlertComponent,
-    FilterComponent
+    FilterComponent,
+    PaymentComponent,
+    AddWarehousComponent,
+    SuppliersComponent,
+    DeliveryComponent,
+    DiscardComponent,
+    WriteOfComponent,
+    AutosizeDirective,
+    TerminalComponent,
+    TerminalIdComponent,
+    TerminalBillComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
-import { DbService } from 'src/app/shared/services/db.service';
+import { DbService } from '../../shared/services/db.service';
+import { FilterService } from '../../shared/services/filter.service';
 
 @Component({
   selector: 'app-personal',
@@ -12,7 +13,8 @@ export class PersonalComponent implements OnInit {
   subscription: Subscription;
   persons: Observable<Object>;
   constructor(
-    private db: DbService
+    private db: DbService,
+    private filterService: FilterService
   ) { }
 
   ngOnInit() {

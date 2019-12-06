@@ -44,10 +44,10 @@ export class MenuService {
             role: '',
             authF: '',
             submenu: [
-                {text: 'Ингредиенты', icon: '',route:'warehouse',role: '',authF:'',submenu:null},
-                {text: 'Поставщики', icon: '',route:'suppliers',role: '',authF:'',submenu:null},
-                {text: 'Поставки', icon: '',route:'delivery',role: '',authF:'',submenu:null},
-                {text: 'Списания', icon: '',route:'write',role: '',authF:'',submenu:null}
+                {text: 'Ингредиенты', icon: '', route:'warehouse', role: '', authF:'', submenu:null},
+                {text: 'Поставщики', icon: '', route:'suppliers', role: '', authF:'', submenu:null},
+                {text: 'Поставки', icon: '', route:'delivery', role: '', authF:'', submenu:null},
+                {text: 'Списания', icon: '', route:'discard', role: '', authF:'', submenu:null}
             ]
         },{
             text: 'Меню',

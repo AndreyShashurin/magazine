@@ -2,16 +2,19 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
-import { DbService } from 'src/app/shared/services/db.service';
-import { skladIntarface } from 'src/app/shared/services/interface.service';
-import { ModalContentComponent } from 'src/app/shared/component/modal-content/modal-content.component';
+import { DbService } from '../../shared/services/db.service';
+import { skladIntarface } from '../../shared/services/interface.service';
+import { ModalContentComponent } from '../../shared/component/modal-content/modal-content.component';
+import { FilterService } from '../../shared/services/filter.service';
+import { HomeComponent } from '../home.component';
+import { SettingsService } from '../../shared/services/settings.service';
 
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']
 })
-export class WarehouseComponent implements OnInit {
+export class WarehouseComponent extends HomeComponent implements OnInit {
   @ViewChild(CdkVirtualScrollViewport)
 
   public viewPort: CdkVirtualScrollViewport;   
@@ -19,20 +22,24 @@ export class WarehouseComponent implements OnInit {
   sklads: skladIntarface[] = [];
   items = [];
   constructor(
-    private db: DbService,
-    private modalService: BsModalService
+    public db: DbService,
+    private modalService: BsModalService,
+    public settingsService: SettingsService,
+    private filterService: FilterService
   ) {
+    super(
+      db,
+      settingsService
+    );
     db.getSklad().subscribe(
       (response) => { 
         this.sklads = response;
-        console.log(this.sklads);
-      } ,
+      },
       (error) => {console.log(error);}
      )  
-    }
+  }
 
   ngOnInit() {
-  
   }
 
   openModal(id, tovar, link) {

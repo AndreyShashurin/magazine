@@ -20,6 +20,13 @@ import { PersonalComponent } from './spa/personal/personal.component';
 import { newPersonalComponent } from './spa/personal/new-personal.component';
 import { DeactivateGuard } from './shared/services/deactivate-guard.service';
 import { updatePersonalComponent } from './spa/personal/update-personal.component';
+import { AddWarehousComponent } from './spa/warehouse/add-warehous/add-warehous.component';
+import { SuppliersComponent } from './spa/warehouse/suppliers/suppliers.component';
+import { DeliveryComponent } from './spa/warehouse/delivery/delivery.component';
+import { DiscardComponent } from './spa/warehouse/discard/discard.component';
+import { WriteOfComponent } from './spa/warehouse/write/writeof.component';
+import { TerminalComponent } from './spa/terminal/terminal.component';
+import { TerminalIdComponent } from './spa/terminal/terminal-id/terminal-id.component';
 
 const routes: Routes = [
   {path: '', component: SingInComponent},
@@ -48,7 +55,14 @@ const routes: Routes = [
               { path: "newpersonal", component: newPersonalComponent, canDeactivate: [DeactivateGuard]},
               { path: "updatepersonal/:id", component: updatePersonalComponent},
               { path: "warehouse", component: WarehouseComponent},
-              { path: "menu", component: MenuComponent},
+                  { path: 'addSklad', component: AddWarehousComponent},
+                  { path: 'suppliers', component: SuppliersComponent},
+                  { path: 'delivery', component: DeliveryComponent},
+                  { path: 'discard', component: DiscardComponent},  
+                  { path: 'write', component: WriteOfComponent},             
+              { path: "menu", component: MenuComponent},          
+              { path: "terminal", component: TerminalComponent},
+              { path: 'terminal/:id', component: TerminalIdComponent}
           ]
       }]
   },
