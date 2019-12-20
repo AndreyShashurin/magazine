@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate{
+export class GuardTerminal implements CanActivate {
     component: Object;
     route: ActivatedRouteSnapshot;
     constructor(
@@ -14,16 +14,15 @@ export class AuthGuard implements CanActivate{
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean  {
-        if (this.authService.isAuthenticated()) {
+        if (this.authService.isAuthenticatedTerminal()) {
             return true
         } else {
-            this.authService.logout()
-            this.router.navigate(['/'], {
+            console.log(2)
+           /* this.router.navigate(['/', 'terminal'], {
                 queryParams: {
                     token : false
                 }}
-            )
-            return false
-        } 
+            )*/
+        }
     }
 }

@@ -74,10 +74,14 @@ export interface newUser {
 }
 
 export interface menuIntarface {
-  categories_id: number;
+  categories?: number;
+  categories_id?: number;
   categories_name: string;
   cost: number;
+  count?: number,
+  filial?: number;
   filial_id: number;
+  nalog?: number;
   id: number;
   margin: number;
   name: string;
@@ -88,6 +92,9 @@ export interface menuIntarface {
   price: number;
   process?: any;
   structure?: any;
+  profit?: any;
+  sold?: any;
+  size?: string;
   weight_flag: string;
 }
 
@@ -149,13 +156,27 @@ export interface discardIntarface {
 }
 
 export interface categoriesInterface {
-  id: string,
+  id?: number,
   name: string, 
   childe?: string, 
   parent?: string,
   images?: string
 }
 
+export interface promoInterface {
+  id?: number, 
+  name: string, 
+  active:  number | boolean, 
+  day_week: string, 
+  categories: string, 
+  combo: string, 
+  price: string, 
+  sale: number, 
+  group_id: number,
+  max: number,
+  time_start: string,
+  time_end: string
+}
 @Injectable({
   providedIn: 'root'
 })

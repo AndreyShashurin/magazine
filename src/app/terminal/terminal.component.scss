@@ -1,0 +1,45 @@
+.main-container {
+    margin-top: 38px;
+    height: 100%;
+
+    .barista-container {
+        height: 94%;
+    }
+    .side-bill {
+        background: white;
+        border-left: 2px solid #e7eaec;
+        color: black;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .barista-box {
+        height: 93%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    .barista-promo {
+        border-top: 2px solid #e7eaec;
+        z-index: 50;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-right: -15px;
+        margin-left: -15px;
+        position: absolute;
+        background: white;
+        bottom: 0;
+        width: 100%;    
+        padding-top: 11px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .promo {
+            margin-bottom: 0px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+        }        
+    }
+}

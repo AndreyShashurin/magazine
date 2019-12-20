@@ -1,0 +1,57 @@
+.cart {
+    height: 60%;
+    overflow-y: auto;
+}
+.plus, .minus, .flag_minus, .flag_plus {
+    color: rgba(248, 63, 55, 1);
+    font-weight: normal;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 19px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+td.calc-count {
+    display: flex;
+    input {
+        width: 50px;
+        height: 28px;
+        text-align: center;
+    }
+}
+.new_bill {
+    clear: both;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.pay_bill span {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0px;
+    padding: 7px !important;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+.table {
+    margin-bottom: 0;
+}
+td {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}
+.new_bill .cancel-bill-opacity, .new_bill .new-bill-opacity {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.new_bill .cancel-bill-opacity, .new_bill .new-bill-opacity, .new-bill, .cancel-bill, span.new-check-bill-opacity, span.new-check-bill, span.new_check_bill {
+    float: left;
+    width: 48%;
+    margin: 1%;
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 13px;
+    font-weight: bold !important;
+}

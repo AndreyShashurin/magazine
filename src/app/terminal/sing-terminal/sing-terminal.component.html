@@ -1,0 +1,36 @@
+<header class="d-flex justify-content-between align-items-center">
+  <a class="d-flex font-24 font-weight-500 auth-brand" href="#">
+      SmarJoin
+  </a>
+</header>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-xl-5 pa-0">
+          <div class="auth-cover-img overlay-wrap"></div>
+      </div>
+      <div class="col-xl-7 pa-0">
+          <div class="terminal login-form">
+            <div class="alert alert-danger" *ngIf="error || message">
+                  {{ error || message }}
+            </div>
+            <input class="form-control" type="number" name="pin" placeholder="Введите пин" autofocus [value]="currentNumber" (input)="onValueChange($event)">
+            <div class="mt-4 mb-5 row">
+              <div class="number" (click)="getNumber('1')">1</div>
+              <div class="number" (click)="getNumber('2')">2</div>
+              <div class="number" (click)="getNumber('3')">3</div>
+              <div class="number" (click)="getNumber('4')">4</div>
+              <div class="number" (click)="getNumber('5')">5</div>
+              <div class="number" (click)="getNumber('6')">6</div>
+              <div class="number" (click)="getNumber('7')">7</div>
+              <div class="number" (click)="getNumber('8')">8</div>
+              <div class="number" (click)="getNumber('9')">9</div>
+              <div class="delete" (click)="getDeleteOperation()">X</div>
+              <div class="number" (click)="getNumber('0')">0</div>
+              <div class="replace" (click)="getReplaceOperation()"><</div>
+            </div>
+            <div class="form-group mt-4 row">
+              <button class="btn btn-danger btn-block" type="submit" (click)="singIn()">Войти</button>
+            </div> 
+      </div>
+  </div>
+</div>

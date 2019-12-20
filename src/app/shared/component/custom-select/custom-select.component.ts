@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { MenuComponent } from 'src/app/spa/menu/menu.component';
+import { MenuComponent } from '../../../site/menu/menu.component';
 
 interface selectOption {
   title: string;

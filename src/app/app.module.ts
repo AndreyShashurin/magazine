@@ -4,64 +4,68 @@ import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule } fr
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ContentComponent } from './spa/content/content.component';
-import { SpaHeaderComponent } from './spa/header/header.component';
-import { IconBarComponent } from './spa/icon-bar/icon-bar.component';
+import { ContentComponent } from './site/content/content.component';
+import { SpaHeaderComponent } from './site/header/header.component';
+import { IconBarComponent } from './site/icon-bar/icon-bar.component';
 import { MenuService } from './shared/services/menu.service';
 import { ScreenService } from './shared/services/screen.service';
-import { NavComponent } from './spa/nav/nav.component';
+import { NavComponent } from './site/nav/nav.component';
 import { SpaConfigService } from './shared/services/config.service';
-import { AuthenticatedComponent } from './spa/authenticated/authenticated.component';
-import { SingInComponent } from './sing-in/sing-in.component';
+import { AuthenticatedComponent } from './site/authenticated/authenticated.component';
+import { SingInComponent } from './site/sing-site/sing-in.component';
 import { DbService } from './shared/services/db.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { HomeComponent } from './spa/home.component';
-import { SettingsComponent } from './spa/settings/settings.component';
+import { HomeComponent } from './site/home.component';
+import { SettingsComponent } from './site/settings/settings.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
+import { GuardTerminal } from './shared/services/guardterminal.service';
 import { AuthService } from './shared/services/auth.service';
-import { DashboardComponent } from './spa/dashboard/dashboard.component';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
-import { WarehouseComponent } from './spa/warehouse/warehouse.component';
-import { MenuComponent } from './spa/menu/menu.component';
+import { CartService } from './shared/services/cart.service';
+import { DashboardComponent } from './site/dashboard/dashboard.component';
+import { WarehouseComponent } from './site/warehouse/warehouse.component';
+import { MenuComponent } from './site/menu/menu.component';
 import { InterfaceService } from './shared/services/interface.service';
-import { ReportsComponent } from './spa/reports/reports.component';
-import { NewsfeedComponent } from './spa/reports/newsfeed/newsfeed.component';
-import { DiscountComponent } from './spa/reports/discount/discount.component';
-import { StaffComponent } from './spa/reports/staff/staff.component';
-import { IngredientsComponent } from './spa/reports/ingredients/ingredients.component';
-import { BillComponent } from './spa/finance/bill/bill.component';
-import { TransactionsComponent } from './spa/finance/transactions/transactions.component';
-import { FinanсeComponent } from './spa/finance/finanсe.component';
+import { ReportsComponent } from './site/reports/reports.component';
+import { NewsfeedComponent } from './site/reports/newsfeed/newsfeed.component';
+import { DiscountComponent } from './site/reports/discount/discount.component';
+import { StaffComponent } from './site/reports/staff/staff.component';
+import { IngredientsComponent } from './site/reports/ingredients/ingredients.component';
+import { BillComponent } from './site/finance/bill/bill.component';
+import { TransactionsComponent } from './site/finance/transactions/transactions.component';
+import { FinanсeComponent } from './site/finance/finanсe.component';
 import { ParamsModel } from './shared/services/params.model';
-import { ReceptComponent } from './spa/recept/recept.component';
-import { PersonalComponent } from './spa/personal/personal.component';
-import { newPersonalComponent } from './spa/personal/new-personal.component';
+import { ReceptComponent } from './site/recept/recept.component';
+import { PersonalComponent } from './site/personal/personal.component';
+import { newPersonalComponent } from './site/personal/new-personal.component';
 import { DeactivateGuard } from './shared/services/deactivate-guard.service';
-import { updatePersonalComponent } from './spa/personal/update-personal.component';
+import { updatePersonalComponent } from './site/personal/update-personal.component';
 import { CustomSelectComponent } from './shared/component/custom-select/custom-select.component';
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ModalContentComponent } from './shared/component/modal-content/modal-content.component';
 import { ModalDetailComponent } from './shared/component/modal-detail/modal-detail.component';
 import { SettingsService } from './shared/services/settings.service';
-import { FilterComponent } from './spa/filter/filter.component';
-import { PaymentComponent } from './spa/payment/payment.component';
-import { AddWarehousComponent } from './spa/warehouse/add-warehous/add-warehous.component';
-import { SuppliersComponent } from './spa/warehouse/suppliers/suppliers.component';
-import { DeliveryComponent } from './spa/warehouse/delivery/delivery.component';
-import { DiscardComponent } from './spa/warehouse/discard/discard.component';
-import { WriteOfComponent } from './spa/warehouse/write/writeof.component';
+import { FilterComponent } from './site/filter/filter.component';
+import { PaymentComponent } from './site/payment/payment.component';
+import { AddWarehousComponent } from './site/warehouse/add-warehous/add-warehous.component';
+import { SuppliersComponent } from './site/warehouse/suppliers/suppliers.component';
+import { DeliveryComponent } from './site/warehouse/delivery/delivery.component';
+import { DiscardComponent } from './site/warehouse/discard/discard.component';
+import { WriteOfComponent } from './site/warehouse/write/writeof.component';
 import { AutosizeDirective } from './directives/autosize.directive';
-import { TerminalComponent } from './spa/terminal/terminal.component';
-import { TerminalIdComponent } from './spa/terminal/terminal-id/terminal-id.component';
-import { TerminalBillComponent } from './spa/terminal/terminal-bill/terminal-bill.component';
+import { TerminalComponent } from './terminal/terminal.component';
+import { TerminalHeaderComponent } from './terminal/terminal-header/terminal-header.component';
+import { TerminalIdComponent } from './terminal/terminal-id/terminal-id.component';
+import { TerminalBillComponent } from './terminal/terminal-bill/terminal-bill.component';
+import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.component';
+import { TerminalContentComponent } from './terminal/terminal-content/terminal-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomeComponent, 
     SpaHeaderComponent,
     IconBarComponent,
     NavComponent,
@@ -96,9 +100,12 @@ import { TerminalBillComponent } from './spa/terminal/terminal-bill/terminal-bil
     DiscardComponent,
     WriteOfComponent,
     AutosizeDirective,
+    TerminalContentComponent,
     TerminalComponent,
     TerminalIdComponent,
-    TerminalBillComponent
+    TerminalBillComponent,
+    TerminalHeaderComponent,
+    SingTerminalComponent
   ],
   imports: [
     BrowserModule,
@@ -121,11 +128,13 @@ import { TerminalBillComponent } from './spa/terminal/terminal-bill/terminal-bil
     DbService,
     HttpClient,
     AuthGuard,
+    GuardTerminal,
     DeactivateGuard,
     ParamsModel,
     InterfaceService,
     AuthService,
-    SettingsService
+    SettingsService,
+    CartService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

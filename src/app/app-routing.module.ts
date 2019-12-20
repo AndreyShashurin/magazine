@@ -1,32 +1,34 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './spa/home.component';
-import { SingInComponent } from './sing-in/sing-in.component';
+import { HomeComponent } from './site/home.component';
+import { SingInComponent } from './site/sing-site/sing-in.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
-import { DashboardComponent } from './spa/dashboard/dashboard.component';
-import { DiscountComponent } from './spa/reports/discount/discount.component';
-import { ReportsComponent } from './spa/reports/reports.component';
-import { StaffComponent } from './spa/reports/staff/staff.component';
-import { IngredientsComponent } from './spa/reports/ingredients/ingredients.component';
-import { TransactionsComponent } from './spa/finance/transactions/transactions.component';
-import { BillComponent } from './spa/finance/bill/bill.component';
-import { FinanсeComponent } from './spa/finance/finanсe.component';
-import { NewsfeedComponent } from './spa/reports/newsfeed/newsfeed.component';
-import { SettingsComponent } from './spa/settings/settings.component';
-import { WarehouseComponent } from './spa/warehouse/warehouse.component';
-import { MenuComponent } from './spa/menu/menu.component';
-import { PersonalComponent } from './spa/personal/personal.component';
-import { newPersonalComponent } from './spa/personal/new-personal.component';
+import { GuardTerminal } from './shared/services/guardterminal.service';
+import { DashboardComponent } from './site/dashboard/dashboard.component';
+import { DiscountComponent } from './site/reports/discount/discount.component';
+import { ReportsComponent } from './site/reports/reports.component';
+import { StaffComponent } from './site/reports/staff/staff.component';
+import { IngredientsComponent } from './site/reports/ingredients/ingredients.component';
+import { TransactionsComponent } from './site/finance/transactions/transactions.component';
+import { BillComponent } from './site/finance/bill/bill.component';
+import { FinanсeComponent } from './site/finance/finanсe.component';
+import { NewsfeedComponent } from './site/reports/newsfeed/newsfeed.component';
+import { SettingsComponent } from './site/settings/settings.component';
+import { WarehouseComponent } from './site/warehouse/warehouse.component';
+import { MenuComponent } from './site/menu/menu.component';
+import { PersonalComponent } from './site/personal/personal.component';
+import { newPersonalComponent } from './site/personal/new-personal.component';
 import { DeactivateGuard } from './shared/services/deactivate-guard.service';
-import { updatePersonalComponent } from './spa/personal/update-personal.component';
-import { AddWarehousComponent } from './spa/warehouse/add-warehous/add-warehous.component';
-import { SuppliersComponent } from './spa/warehouse/suppliers/suppliers.component';
-import { DeliveryComponent } from './spa/warehouse/delivery/delivery.component';
-import { DiscardComponent } from './spa/warehouse/discard/discard.component';
-import { WriteOfComponent } from './spa/warehouse/write/writeof.component';
-import { TerminalComponent } from './spa/terminal/terminal.component';
-import { TerminalIdComponent } from './spa/terminal/terminal-id/terminal-id.component';
+import { updatePersonalComponent } from './site/personal/update-personal.component';
+import { AddWarehousComponent } from './site/warehouse/add-warehous/add-warehous.component';
+import { SuppliersComponent } from './site/warehouse/suppliers/suppliers.component';
+import { DeliveryComponent } from './site/warehouse/delivery/delivery.component';
+import { DiscardComponent } from './site/warehouse/discard/discard.component';
+import { WriteOfComponent } from './site/warehouse/write/writeof.component';
+import { TerminalIdComponent } from './terminal/terminal-id/terminal-id.component';
+import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.component';
+import { TerminalComponent } from './terminal/terminal.component';
 
 const routes: Routes = [
   {path: '', component: SingInComponent},
@@ -60,12 +62,17 @@ const routes: Routes = [
                   { path: 'delivery', component: DeliveryComponent},
                   { path: 'discard', component: DiscardComponent},  
                   { path: 'write', component: WriteOfComponent},             
-              { path: "menu", component: MenuComponent},          
-              { path: "terminal", component: TerminalComponent},
-              { path: 'terminal/:id', component: TerminalIdComponent}
+              { path: "menu", component: MenuComponent}
           ]
       }]
+  },  
+  {
+      path: "terminal",
+      component: SingTerminalComponent,
+      //canActivate: [GuardTerminal],
   },
+  {path: 'terminal/index', component: TerminalComponent},
+  {path: 'terminal/index/:id', component: TerminalIdComponent}          
  // {path: '**', component: PageNotFoundComponent}
 ];
 

@@ -1,0 +1,17 @@
+<terminal-header></terminal-header>
+<div class="row main-container">
+  <div class="col-8 barista-container">
+    <div class="barista-box">
+      <terminal-id class="width100" [promo]="promo"></terminal-id>
+    </div>
+      <div class="barista-promo">
+        <ng-container *ngFor="let item of promo">
+          <span class="modal_pay btn promo" *ngIf="!item.combo">{{item.name}}</span>
+        </ng-container>
+      </div>
+  </div>
+  <div class="col side-bill">
+    <terminal-bill></terminal-bill>  
+  </div>
+</div>
+<app-alert></app-alert>

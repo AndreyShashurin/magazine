@@ -334,6 +334,18 @@ h2 {
 	margin-top: 10px;
 	margin-bottom: 20px !important;
 }
+header {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 20px;
+
+  a {
+    text-decoration: none;
+    color: #f83f37 !important;
+  }  
+}
 a {
     text-decoration: none;
     color: #f83f37;
@@ -367,7 +379,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .sec-wrapper {
   background: #fff;
   padding: 1.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgba(248, 63, 55, 0.4);
   border-radius: .25rem;
   margin-bottom: 14px;
 }
@@ -375,6 +387,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   position: relative;
   margin-bottom: 0 !important;;
   vertical-align: top;
+}
+.width100{
+  width: 100%;
 }
 .height100 {
   height: 100%;
@@ -467,6 +482,9 @@ i.detail_menu {
     color: #1e1e1e;
     margin-right: 11px !important;
 }
+.btn {
+  cursor: pointer;
+}
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active {
   color: #fff;
@@ -485,6 +503,12 @@ i.detail_menu {
     border-color: initial !important;
     border-image: initial !important;
     padding: 5px 18px !important;
+}
+
+.btn-secondary {
+  color: #292b2c !important;
+  background-color: #fff !important;
+  border-color: #ccc !important;
 }
 .filter_form {
     padding-top: 10px;
@@ -517,11 +541,6 @@ a:active, a:hover {
 .item-process {
     float: left;
     width: 90% !important;
-}
-.btn-secondary {
-    color: #292b2c !important;
-    background-color: #fff !important;
-    border-color: #ccc !important;
 }
 .show>.dropdown-menu {
     display: block;
@@ -1468,4 +1487,9 @@ i.detail_bill {
   .container {
       max-width: 1500px !important;
   }
+}
+.pay_nal, .pay_beznal, .modal_pay, .clients_group_btn {
+  border: solid 1px #38aa3e !important;
+  color: black !important;
+  padding: 7px !important;
 }

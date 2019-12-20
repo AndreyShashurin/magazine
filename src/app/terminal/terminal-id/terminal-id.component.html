@@ -1,0 +1,32 @@
+<div class="clearBox">
+  <ng-container *ngFor="let item of categories">
+    <div class="categories sec-wrapper" *ngIf="item.parent == 0" (click)="getChildren(item)">
+      <img src="../assets/images/no_foto.jpg">
+      <span class="name">{{item.name}}</span>
+    </div> 
+  </ng-container> 
+  <ng-container *ngFor="let item of promo"> 
+    <div class="combo sec-wrapper" *ngIf="!!item.combo">
+      <img src="../assets/images/no_foto.jpg">
+      <span class="name">{{item.name}}</span>
+    </div>  
+  </ng-container> 
+</div>
+<div class="clearBox">
+  <div class="tovar sec-wrapper" *ngFor="let item of menu" (click)="getZakaz(item)">
+    <div class="tovar-name">{{item.name}}</div>
+    <div class="tovar-character">
+      <span *ngIf="item.categories == 1">
+        Объем: <b>{{item.size}}</b>
+        <br>
+      </span>
+      Цена: <b>{{item.price}} <i class="fa fa-rub"></i></b><br>          
+      <br>
+      <div class="icon">
+          <span *ngIf="item.weight_flag"><i class="fa fa-balance-scale"></i></span>
+          <span *ngIf="!item.nodiscount"><i class="fa fa-percent"></i></span>
+      </div>
+    </div>
+    <div class="process" *ngIf="item.process">Рецепт</div>
+  </div> 
+</div>

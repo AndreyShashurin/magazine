@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 
-import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-sing-in',

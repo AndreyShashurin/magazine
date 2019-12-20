@@ -1,0 +1,27 @@
+<header class="header row">
+  <div class="left-nav col-8">
+      <div class="breadcump">
+        <i class="fa fa-th" aria-hidden="true"></i> <a id="all_categories">Все категории</a>
+        <ng-container *ngFor="let item of cartService.breadcrumbs">
+          <span class="fa fa-long-arrow-right"></span>
+          <a class="next_page">{{item.name}}</a>
+        </ng-container>
+      </div>
+      <div class="search">
+        <div class="search_clients input-group">
+            <i class="fa fa-user"></i>
+            <input type="text" class="search">
+        </div>
+        <div class="search input-group">
+            <input type="text" class="search">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </div>     
+      </div>       
+  </div>
+  <div class="right-nav col">
+      <ul>
+        <li><a class="item" href="#myModalSmena">Начать смену</a></li>
+        <li><a href="./terminal_exit.php" alt="Выход"><span class="glyphicon glyphicon-off"></span> Выйти</a></li>
+      </ul>
+  </div>
+</header>

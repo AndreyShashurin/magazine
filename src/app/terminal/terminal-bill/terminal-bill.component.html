@@ -1,0 +1,61 @@
+<div class="cart">
+  <table class="table table-condensed table-zakaz">
+    <thead>
+      <tr>
+        <th>Наименование</th>
+        <th></th>
+        <th>Цена</th>
+        <th>Кол-во</th>
+        <th>Итого</th>
+        <th></th>
+      </tr>
+    </thead>            
+    <tbody>    
+      <tr *ngFor="let item of cartService.data">
+        <td class="name">{{item.name}}</td>
+        <td>{{item.size}}</td>
+        <td class="price">{{item.price}}</td>
+        <td class="calc-count">
+          <span class="minus" (click)="setIncrement(item.price)">-</span>
+          <span class="count"><input type="text" [value]="coutner"> </span>
+          <span class="plus" (click)="setDecrement(item.price)">+</span>
+        </td>
+        <td class="price-new">{{item.price * coutner}}</td>
+        <td class="delete-tovar" (click)="deleteCart(item)">
+          <a class="delete-tovar">x</a>
+        </td>
+      </tr>           
+    <tbody>
+  </table>  
+</div>
+<div class="new_bill">
+  <table class="table detail-transaction pay_bill">
+    <tbody>
+      <tr class="bg-grey">
+        <td><span class="pay_beznal btn" data-val="2" data-sale="">Безналичными</span></td>
+        <td><span class="pay_nal btn" data-val="3" data-sale="">Наличными</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table detail-transaction">
+    <tbody>
+      <tr class="bg-grey last-product">
+        <td>Позиций</td>
+        <td class="right-cell no-wrap"></td>
+        <td class="count-cell no-wrap">{{cartService.count}}</td>
+      </tr>
+      <tr class="bg-grey last-product">
+        <td>Итого</td>
+        <td class="right-cell no-wrap"></td>
+        <td class="price-cell no-wrap">{{price}}</td>
+      </tr>
+      <tr class="bg-grey last-product">
+        <td>Итого со скидкой <b></b></td>
+        <td class="right-cell no-wrap" id="itog_plus_sale"><b></b></td>
+        <td class="price-cell-sale no-wrap">{{priceSale}}</td>
+      </tr>
+    </tbody>
+  </table>                             
+  <span class="btn btn-danger cancel-bill-opacity">Отмена заказа</span>
+  <span class="btn btn-success new-bill-opacity">Оплата заказа</span>
+</div>

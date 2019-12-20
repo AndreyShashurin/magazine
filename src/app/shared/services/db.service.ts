@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { map, tap } from 'rxjs/operators';
 
-import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface } from './interface.service';
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface, promoInterface } from './interface.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -38,8 +38,12 @@ export class DbService implements OnDestroy  {
   }
 
   getSklad() {
-
     return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
+  }
+
+  // Акции
+  getPromo(): Observable<promoInterface[]> {
+    return this.http.get<promoInterface[]>(this.apiURL + 'promo');
   }
 
   // Склады
