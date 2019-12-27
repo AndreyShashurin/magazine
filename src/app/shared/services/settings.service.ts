@@ -18,18 +18,27 @@ export class SettingsService implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSetting()
-    this.getPromo()
+    this.getSetting();
+    this.getPromo();
+    this.getFilial();
   }
 
   getSetting() {
     this.db.getSettings().subscribe(
       (val) => {
         this.settings = val;    
-        this.menu = +val.type;
+        this.menu = +val['type'];
       },
       (error) => {
         console.log(error);
+      }
+    )
+  }
+
+  public getFilial() {    
+    return this.db.getFilial().subscribe(
+      (val) => {
+        return val
       }
     )
   }

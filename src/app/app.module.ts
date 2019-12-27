@@ -61,6 +61,7 @@ import { TerminalIdComponent } from './terminal/terminal-id/terminal-id.componen
 import { TerminalBillComponent } from './terminal/terminal-bill/terminal-bill.component';
 import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.component';
 import { TerminalContentComponent } from './terminal/terminal-content/terminal-content.component';
+import { ModalTerminalComponent } from './terminal/component/modal-terminal/modal-terminal.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { TerminalContentComponent } from './terminal/terminal-content/terminal-c
     WarehouseComponent,
     ModalContentComponent,
     ModalDetailComponent,
+    ModalTerminalComponent,
     MenuComponent,
     ReportsComponent,
     IngredientsComponent,
@@ -139,7 +141,8 @@ import { TerminalContentComponent } from './terminal/terminal-content/terminal-c
   bootstrap: [AppComponent],
   entryComponents: [
     ModalContentComponent,
-    ModalDetailComponent
+    ModalDetailComponent,
+    ModalTerminalComponent
   ]
 })
 export class AppModule { }

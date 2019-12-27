@@ -31,48 +31,48 @@ import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.co
 import { TerminalComponent } from './terminal/terminal.component';
 
 const routes: Routes = [
-  {path: '', component: SingInComponent},
-  {
-      path: "dashboard",
-      component: HomeComponent,
-      canActivate: [AuthGuard],
-      children: [{
-          path: '',
-          children: [
-              { path: "index", component: DashboardComponent},
-              { path: "discount", component: DiscountComponent},
-              { path: "reports", component: ReportsComponent},
-              { path: "staff", component: StaffComponent},
-              { path: "ingredients", component: IngredientsComponent},
-              { path: "newsfeed", component: NewsfeedComponent},            
-              { path: "finance", component: FinanсeComponent},           
-              { path: "bill", component: BillComponent},          
-              { path: "transactions", component: TransactionsComponent},          
-              { path: "сhange", component: DashboardComponent},          
-              { path: "balance", component: DashboardComponent},          
-              { path: "taxes", component: DashboardComponent},          
-              { path: "category", component: DashboardComponent},
-              { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
-              { path: "personal", component: PersonalComponent},
-              { path: "newpersonal", component: newPersonalComponent, canDeactivate: [DeactivateGuard]},
-              { path: "updatepersonal/:id", component: updatePersonalComponent},
-              { path: "warehouse", component: WarehouseComponent},
-                  { path: 'addSklad', component: AddWarehousComponent},
-                  { path: 'suppliers', component: SuppliersComponent},
-                  { path: 'delivery', component: DeliveryComponent},
-                  { path: 'discard', component: DiscardComponent},  
-                  { path: 'write', component: WriteOfComponent},             
-              { path: "menu", component: MenuComponent}
-          ]
-      }]
-  },  
-  {
-      path: "terminal",
-      component: SingTerminalComponent,
-      //canActivate: [GuardTerminal],
-  },
-  {path: 'terminal/index', component: TerminalComponent},
-  {path: 'terminal/index/:id', component: TerminalIdComponent}          
+    {path: '', component: SingInComponent},
+    {
+        path: "dashboard",
+        component: HomeComponent,
+        canActivateChild: [AuthGuard],
+        children: [{
+            path: '',
+            children: [
+                { path: "index", component: DashboardComponent},
+                { path: "discount", component: DiscountComponent},
+                { path: "reports", component: ReportsComponent},
+                { path: "staff", component: StaffComponent},
+                { path: "ingredients", component: IngredientsComponent},
+                { path: "newsfeed", component: NewsfeedComponent},            
+                { path: "finance", component: FinanсeComponent},           
+                { path: "bill", component: BillComponent},          
+                { path: "transactions", component: TransactionsComponent},          
+                { path: "сhange", component: DashboardComponent},          
+                { path: "balance", component: DashboardComponent},          
+                { path: "taxes", component: DashboardComponent},          
+                { path: "category", component: DashboardComponent},
+                { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
+                { path: "personal", component: PersonalComponent},
+                { path: "newpersonal", component: newPersonalComponent, canDeactivate: [DeactivateGuard]},
+                { path: "updatepersonal/:id", component: updatePersonalComponent},
+                { path: "warehouse", component: WarehouseComponent},
+                    { path: 'addSklad', component: AddWarehousComponent},
+                    { path: 'suppliers', component: SuppliersComponent},
+                    { path: 'delivery', component: DeliveryComponent},
+                    { path: 'discard', component: DiscardComponent},  
+                    { path: 'write', component: WriteOfComponent},             
+                { path: "menu", component: MenuComponent}
+            ]
+        }]
+    },  
+    {
+        path: "terminal",
+        component: SingTerminalComponent,
+        //canActivate: [GuardTerminal],
+    },
+    {path: 'terminal/index', component: TerminalComponent},
+    {path: 'terminal/index/:id', component: TerminalIdComponent}   
  // {path: '**', component: PageNotFoundComponent}
 ];
 

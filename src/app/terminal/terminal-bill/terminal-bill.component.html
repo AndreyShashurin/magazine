@@ -11,7 +11,23 @@
       </tr>
     </thead>            
     <tbody>    
-      <tr *ngFor="let item of cartService.data">
+      <ng-container *ngFor="let items of cartService.data.combo; let key = index;">
+        <tr>
+          <td colspan="5">
+            <div class="flex flex__center">
+              <div class="flex__20">
+                <ng-container *ngFor="let item of items.zakaz">
+                  <div class="name">{{item.name}}</div>
+                </ng-container>
+              </div>
+              <div class="bold">Комбо {{items.tovarName}}</div>
+            </div>
+          </td>
+          <td colspan="1" (click)="deleteCombo(items.zakazLength, key, items.price)"><a class="delete-tovar">x</a></td> 
+        </tr>
+      </ng-container>
+      <ng-container>
+      <tr *ngFor="let item of cartService.data.tovar; let key = index">
         <td class="name">{{item.name}}</td>
         <td>{{item.size}}</td>
         <td class="price">{{item.price}}</td>
@@ -21,10 +37,12 @@
           <span class="plus" (click)="setDecrement(item.price)">+</span>
         </td>
         <td class="price-new">{{item.price * coutner}}</td>
-        <td class="delete-tovar" (click)="deleteCart(item)">
+        <td class="delete-tovar" (click)="deleteCart(key, coutner, item.price * coutner)">
           <a class="delete-tovar">x</a>
         </td>
-      </tr>           
+      </tr>  
+      </ng-container>      
+         
     <tbody>
   </table>  
 </div>
@@ -32,8 +50,7 @@
   <table class="table detail-transaction pay_bill">
     <tbody>
       <tr class="bg-grey">
-        <td><span class="pay_beznal btn" data-val="2" data-sale="">Безналичными</span></td>
-        <td><span class="pay_nal btn" data-val="3" data-sale="">Наличными</span></td>
+        <td *ngFor="let item of list"><span class="pay_beznal btn" (click)="onSelectItem(item)" [class.active]="item === activeItem">{{item}}</span></td>
       </tr>
     </tbody>
   </table>
@@ -47,15 +64,17 @@
       <tr class="bg-grey last-product">
         <td>Итого</td>
         <td class="right-cell no-wrap"></td>
-        <td class="price-cell no-wrap">{{price}}</td>
+        <td class="price-cell no-wrap">{{cartService.price}}</td>
       </tr>
       <tr class="bg-grey last-product">
         <td>Итого со скидкой <b></b></td>
         <td class="right-cell no-wrap" id="itog_plus_sale"><b></b></td>
-        <td class="price-cell-sale no-wrap">{{priceSale}}</td>
+        <td class="price-cell-sale no-wrap">{{cartService.priceSale}}</td>
       </tr>
     </tbody>
-  </table>                             
-  <span class="btn btn-danger cancel-bill-opacity">Отмена заказа</span>
-  <span class="btn btn-success new-bill-opacity">Оплата заказа</span>
+  </table>    
+  <div class="opensmena" [ngClass]="{'cancel-opacity': !openSmena}">                       
+    <span class="btn btn-danger btn-bill" >Отмена заказа</span>
+    <span class="btn btn-success btn-bill" (click)="buy()">Оплата заказа</span>
+  </div>  
 </div>

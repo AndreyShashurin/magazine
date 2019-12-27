@@ -1,4 +1,5 @@
 <terminal-header></terminal-header>
+<router-outlet></router-outlet>
 <div class="row main-container">
   <div class="col-8 barista-container">
     <div class="barista-box">
@@ -6,12 +7,19 @@
     </div>
       <div class="barista-promo">
         <ng-container *ngFor="let item of promo">
-          <span class="modal_pay btn promo" *ngIf="!item.combo">{{item.name}}</span>
+          <span class="modal_pay btn promo" 
+            *ngIf="!item.combo" 
+            (click)="onSelectItem(item)" 
+            [class.active]="item === activeItem"
+          >
+          {{item.name}}
+        </span>
         </ng-container>
       </div>
   </div>
   <div class="col side-bill">
-    <terminal-bill></terminal-bill>  
+  {{openSmena}}
+    <terminal-bill [openSmena]="openSmena" (onVoted)="onVoted($event)"></terminal-bill>  
   </div>
 </div>
 <app-alert></app-alert>

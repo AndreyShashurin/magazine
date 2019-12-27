@@ -95,6 +95,7 @@ export interface menuIntarface {
   profit?: any;
   sold?: any;
   size?: string;
+  combo?: string;
   weight_flag: string;
 }
 

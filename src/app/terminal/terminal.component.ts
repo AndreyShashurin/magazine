@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SettingsService } from '../shared/services/settings.service';
 import { DbService } from '../shared/services/db.service';
@@ -13,16 +13,17 @@ export class TerminalComponent implements OnInit {
 
   currentNumber: string = '';
   submitted: boolean = false;
+  openSmena: boolean = false;
+  activeItem: string | number;
   error: string;
   message: string;
   settingsOf: Subscription;
   promo: promoInterface[] = [];
 
   constructor(
-    public db: DbService,
-    private settingsService: SettingsService
+    public db: DbService
   ) {
-   }
+  }
 
   ngOnInit() {
     this.db.getPromo().subscribe(
@@ -34,4 +35,17 @@ export class TerminalComponent implements OnInit {
       }
     )
   }
+
+  public getSmena() {
+    this.openSmena = true;
+  }
+
+  public onSelectItem(item: any): void {
+    if (!this.activeItem) {
+      this.activeItem = item;
+    } else {
+      this.activeItem = '';
+    }
+    return item
+  }  
 }

@@ -42,11 +42,16 @@ td {
     padding-top: 7px !important;
     padding-bottom: 7px !important;
 }
-.new_bill .cancel-bill-opacity, .new_bill .new-bill-opacity {
-    opacity: 0.5;
-    cursor: not-allowed;
+.opensmena {
+    &.cancel-opacity {
+        .btn {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
 }
-.new_bill .cancel-bill-opacity, .new_bill .new-bill-opacity, .new-bill, .cancel-bill, span.new-check-bill-opacity, span.new-check-bill, span.new_check_bill {
+
+.new_bill .btn-bill, .new_bill .btn-bill, .new-bill, .cancel-bill, span.new-check-bill-opacity, span.new-check-bill, span.new_check_bill {
     float: left;
     width: 48%;
     margin: 1%;

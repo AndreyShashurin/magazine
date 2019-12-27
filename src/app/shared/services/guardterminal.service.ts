@@ -17,12 +17,25 @@ export class GuardTerminal implements CanActivate {
         if (this.authService.isAuthenticatedTerminal()) {
             return true
         } else {
-            console.log(2)
            /* this.router.navigate(['/', 'terminal'], {
                 queryParams: {
                     token : false
                 }}
-            )*/
+            )
+            return false*/
+        }
+    }
+
+    canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean  {
+        if (this.authService.isAuthenticatedTerminal()) {
+            return true
+        } else {
+            this.router.navigate(['/', 'terminal'], {
+                queryParams: {
+                    token : false
+                }}
+            )
+            return false
         }
     }
 }

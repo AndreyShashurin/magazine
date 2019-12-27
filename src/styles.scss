@@ -361,7 +361,13 @@ label {
   color: #324148;    
   margin-bottom: 10px !important;
 }
+select[multiple], select[size] {
+  min-height: 150px;
+  overflow: auto;
+  font-size: 12px;
+}
 hr {
+  clear: both;
   margin-top: 20px !important;
   margin-bottom: 20px !important;
   border-top: 1px solid #e0e3e4 !important;
@@ -375,6 +381,20 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: inherit;
   font-weight: 500;
   line-height: 1.2;
+}
+.flex {
+  display: flex;
+  
+  &__center {
+       align-items: center;
+  }
+
+  &__20 {
+      flex: 0 0 20em;
+  }
+}
+.bold {
+  font-weight: bold;
 }
 .sec-wrapper {
   background: #fff;
@@ -1492,4 +1512,10 @@ i.detail_bill {
   border: solid 1px #38aa3e !important;
   color: black !important;
   padding: 7px !important;
+}
+
+.btn.active {
+  border: none !important;
+  background: #0980e2 !important;
+  color: white !important;
 }

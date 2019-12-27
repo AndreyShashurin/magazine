@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{type === 2 ? data.name : 'Открыть смену'}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <div class="modal-body">
+    <div class="row">        
+      <ng-container *ngIf="type === 1">
+        <div style="flex:100%;"  *ngIf="price.invalid && (price.dirty || price.touched)">
+          <div class="alert alert-danger"*ngIf="price.errors.required">
+            Поле не должно быть пустым
+          </div>        
+        </div>   
+
+        <div class="col-4" style="align-self: flex-end;"> 
+          <label class="control-label"><b>Сумма в кассе:</b></label>
+        </div> 
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="Form.price" #price="ngModel" required>
+        </div>
+      </ng-container>         
+      <ng-container *ngIf="type === 2">
+      <form [formGroup]="form" style="width: 100%;">
+        <div class="col-12" *ngIf="combo1">
+          <div class="combo-parent-name">{{combo1[0].tovarName}}</div>
+          <select size="4" class="form-control combo_select" formControlName="combo1">         
+            <option *ngFor="let child of combo1[0].tovarArray">{{child[0].name}}</option>
+          </select>            
+        </div>
+        <div class="col-12" *ngIf="combo2">
+          <div class="combo-parent-name">{{combo2[0][0].categories_name}}</div>
+          <select style="width: 100%;" class="form-control combo_select" size="4" formControlName="combo2">
+            <ng-container *ngFor="let child2 of combo2">    
+              <option *ngFor="let child of child2">{{child.name}}</option>
+            </ng-container>
+          </select>            
+        </div>   
+        </form>
+      </ng-container>
+    </div> 
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 2" (click)="getCombo(structureArray, data)" [disabled]="!form.touched">{{confirmBtnName}}</button>
+    <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 1" (click)="saveModal()">{{confirmBtnName}}</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+  </div>

@@ -1,12 +1,19 @@
 <div class="clearBox">
   <ng-container *ngFor="let item of categories">
-    <div class="categories sec-wrapper" *ngIf="item.parent == 0" (click)="getChildren(item)">
+    <div class="categories sec-wrapper" *ngIf="item.parent == 0 || categories.type" (click)="getChildren(item)">
       <img src="../assets/images/no_foto.jpg">
       <span class="name">{{item.name}}</span>
     </div> 
   </ng-container> 
+  <ng-container>
+    <div class="categories sec-wrapper"  *ngFor="let item of categoriesChilde" (click)="getChildren(item)">
+      <img src="../assets/images/no_foto.jpg">
+      <span class="name">{{item.name}}</span>
+    </div> 
+    <hr>
+  </ng-container> 
   <ng-container *ngFor="let item of promo"> 
-    <div class="combo sec-wrapper" *ngIf="!!item.combo">
+    <div class="combo sec-wrapper" *ngIf="!!item.combo" (click)='openModal(item)'>
       <img src="../assets/images/no_foto.jpg">
       <span class="name">{{item.name}}</span>
     </div>  

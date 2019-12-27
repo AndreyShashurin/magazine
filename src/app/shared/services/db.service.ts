@@ -71,6 +71,11 @@ export class DbService implements OnDestroy  {
     });
   }
 
+  // Информация о комбо наборе
+  getComboID(id) {
+    return this.http.get<personsInterface[]>(this.apiURL + 'combo', id)
+  }  
+
   // Users
   saveUser(users: newUser) {
     return this.http.post(this.apiURL + 'users', users)
@@ -240,7 +245,14 @@ export class DbService implements OnDestroy  {
   getFilial() {
     return this.http.get(this.apiURL + 'filial');
   }
-  
+
+  // Смена
+
+  // Открыть смену
+  setOpenSmena(smena) {
+    return this.http.post(this.apiURL + 'smena', smena)
+  }  
+
   ngOnDestroy() {
     if (this.subscription) {
         this.subscription.unsubscribe();

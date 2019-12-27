@@ -6,19 +6,48 @@ import { menuIntarface } from './interface.service';
 })
 export class CartService {
   tovarSelected = new EventEmitter<menuIntarface[]>();
-  data: menuIntarface[] = [];
+  data: any = {
+    tovar: [],
+    combo: []
+  };
   breadcrumbs: any[] = [];
   count: number = 0;
+  price: number = 0;
 
   onSelected(data) {
-    this.data.push(data);
+    this.data.tovar.push(data);
+  }
+
+  onSelectedArray(data, id) {
+    this.data[`combo`].push(data)
+    console.log(this.data)
+  }
+
+  updateCount(data: number) {
+    this.count += data;
+  }
+
+  incrementCount(data: number) {
+    this.count -= data;
+  }
+
+  incrementPrice(data: number) {
+    this.price -= data;
+  }
+
+  updatePrice(data: number) {
+    this.price += data;
   }
 
   onBreadcrumbs(data) {
     this.breadcrumbs.push(data);
   }
 
-  deleteCart(data) {
-    this.data = this.data.filter(val => val.id !== data.id);
+  deleteCart(index: number) {
+    this.data.tovar = this.data.tovar.filter((arr, i) => i !== index)
+  }  
+
+  deleteCombo(index: number) {
+    this.data.combo = this.data.combo.filter((arr, i) => i !== index)
   }
 }
