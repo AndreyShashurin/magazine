@@ -90,17 +90,17 @@ export class DbService implements OnDestroy  {
       this.http.get(this.apiURL + 'users', {
         params: new HttpParams().set('id', data)
       }).pipe(
-          tap(
-            response => response
-          )
+        tap(
+          response => response
+        )
       ),
       this.http.get(this.apiURL + 'users', {
-        params: new HttpParams().set('user', data)
+        params: new HttpParams().set('access', data)
       }).pipe(
-          tap(
-            response => response
-            )
-      )  
+        tap(
+          response => response
+        )
+      )
    );    
   }
 
@@ -192,7 +192,6 @@ export class DbService implements OnDestroy  {
   }
 
   getHightcharsResponse(data){
-
     return this.http.get(this.apiURL + 'chart', {
       params: new HttpParams().set('period', data)
     });
@@ -200,16 +199,12 @@ export class DbService implements OnDestroy  {
 
   // Отчеты
   getReports() {
-
     return this.http.get(this.apiURL + 'reports')
-
   }
 
   // Финансы
   getBill() {
-
     return this.http.get(this.apiURL + 'bill')
-
   }
 
   // Счета
@@ -251,6 +246,13 @@ export class DbService implements OnDestroy  {
   // Открыть смену
   setOpenSmena(smena) {
     return this.http.post(this.apiURL + 'smena', smena)
+  }  
+  // Активная смена
+  getSmena(data) {
+    console.log
+    return this.http.get(this.apiURL + 'smena', {
+      params: new HttpParams().set('user', data)
+    })
   }  
 
   ngOnDestroy() {

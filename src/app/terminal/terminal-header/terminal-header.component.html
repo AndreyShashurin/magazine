@@ -1,7 +1,7 @@
 <header class="header row">
   <div class="left-nav col-8">
       <div class="breadcump">
-        <i class="fa fa-th" aria-hidden="true"></i> <a id="all_categories">Все категории</a>
+        <i class="fa fa-th"></i> <a id="all_categories" (click)="clickbreadcump()">Все категории</a>
         <ng-container *ngFor="let item of cartService.breadcrumbs">
           <span class="fa fa-long-arrow-right"></span>
           <a class="next_page">{{item.name}}</a>
@@ -19,9 +19,20 @@
       </div>       
   </div>
   <div class="right-nav col">
-      <ul>
-        <li><a class="item"(click)="openModal()">Начать смену</a></li>
+    <ul>
+      <li *ngIf="!openSmena"><a class="item" (click)="openModal()">Начать смену</a></li>
+      <ng-container *ngIf="openSmena">
+        <li class="dropdown"><i class="fa fa-bars detail_bill"></i>
+          <div class="dropdown-content">
+            <a class="dropdown-item">Статистика</a>
+            <a class="dropdown-item">Перевод смены</a>
+            <a class="dropdown-item">Инкасация</a>
+          </div>
+        </li>
+        <li><a class="smena_close">Закрыть смену</a></li>
         <li><a (click)="logout()" alt="Выход"><span class="glyphicon glyphicon-off"></span> Выйти</a></li>
-      </ul>
+      </ng-container>
+      <li class="user_id"><a>Имя</a></li>
+    </ul>    
   </div>
 </header>

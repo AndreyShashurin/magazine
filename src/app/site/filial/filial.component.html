@@ -1,0 +1,35 @@
+<div class="stats-wrapper">
+  <cdk-virtual-scroll-viewport [itemSize]="19">
+      <table class="table table-centered">
+          <thead>
+              <tr>            
+                  <th [style.top]="inverseOfTranslation"></th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 200px; max-width: 200px;" name="name">Заведение</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 120px;" name="categories">Адрес</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="size">Выручка</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="cost">Прибыль</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="price">Чеки</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="margin">Средний чек</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="output">Скидки</th>
+                  <th [style.top]="inverseOfTranslation" style="border-top: 0;"></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *cdkVirtualFor="let item of settings.filial" class="item" cdkFixedHeader>
+                  <td class="left-cell index">{{item.name}}</td>
+                  <td>{{item.adress}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                      <i class="icon-pencil mr-25" (click)="update(item)"></i>
+                      <i class="icon-trash txt-danger mr-25" (click)="openModal(item.id, item.name, 'menus')"></i>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </cdk-virtual-scroll-viewport>
+</div>

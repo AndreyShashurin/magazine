@@ -21,16 +21,15 @@ export class ModalTerminalComponent extends TerminalComponent implements OnInit 
     price: ''
   };
   
-  @Output() onVoted = new EventEmitter<boolean>();
-
-  
   constructor(
     public bsModalRef: BsModalRef,
     public db: DbService,
-    private cartService: CartService
+    public settingsService: SettingsService,
+    public cartService: CartService
   ) {
     super (
-      db
+      db,
+      settingsService
     )
    }
 
@@ -50,7 +49,7 @@ export class ModalTerminalComponent extends TerminalComponent implements OnInit 
     zakaz[0]['zakaz'] = length;
     zakaz[0]['zakazLength'] = length.length;
     
-    this.cartService.updateCount(length.length);
+    this.cartService.updateCount(zakaz[0], length.length);
     this.cartService.onSelectedArray(zakaz[0], item.id);
     this.cartService.updatePrice(+item.price);
     
@@ -62,10 +61,7 @@ export class ModalTerminalComponent extends TerminalComponent implements OnInit 
   }
 
   saveModal() {
-    this.openSmena = true;
-    console.log(this.openSmena)
-    
-    this.onVoted.emit(true);
+
     let smena = [
       localStorage.getItem('SJTerminalid'), 
       localStorage.getItem('SJTerminalid'), 
@@ -74,13 +70,11 @@ export class ModalTerminalComponent extends TerminalComponent implements OnInit 
       +this.Form.price, 
       moment(this.date).format('YYYY-MM-DD h:mm:ss')     
     ]
-    this.bsModalRef.hide();
-    /*
     this.db.setOpenSmena(smena).subscribe(
       val => {
         this.bsModalRef.hide();
-        console.log(val)
+        this.settingsService.setSmena(true)
       }
-    )*/
+    )
   }
 }

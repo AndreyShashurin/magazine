@@ -27,16 +27,16 @@
         </tr>
       </ng-container>
       <ng-container>
-      <tr *ngFor="let item of cartService.data.tovar; let key = index">
+      <tr *ngFor="let item of cartService.data.tovar; let key = index; trackBy: trackByFn">
         <td class="name">{{item.name}}</td>
         <td>{{item.size}}</td>
         <td class="price">{{item.price}}</td>
         <td class="calc-count">
-          <span class="minus" (click)="setIncrement(item.price)">-</span>
-          <span class="count"><input type="text" [value]="coutner"> </span>
-          <span class="plus" (click)="setDecrement(item.price)">+</span>
+          <span class="minus" (click)="setIncrement(key, item, item.price)">-</span>
+          <span class="count"><input type="text" [value]="item.totalCounter || 1"> </span>
+          <span class="plus" (click)="setDecrement(key, item, item.price)">+</span>
         </td>
-        <td class="price-new">{{item.price * coutner}}</td>
+        <td class="price-new">{{item.price * (item.totalCounter || 1)}}</td>
         <td class="delete-tovar" (click)="deleteCart(key, coutner, item.price * coutner)">
           <a class="delete-tovar">x</a>
         </td>

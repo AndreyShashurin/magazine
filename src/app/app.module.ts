@@ -61,7 +61,8 @@ import { TerminalIdComponent } from './terminal/terminal-id/terminal-id.componen
 import { TerminalBillComponent } from './terminal/terminal-bill/terminal-bill.component';
 import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.component';
 import { TerminalContentComponent } from './terminal/terminal-content/terminal-content.component';
-import { ModalTerminalComponent } from './terminal/component/modal-terminal/modal-terminal.component';
+import { ModalTerminalComponent } from './terminal/modal-terminal/modal-terminal/modal-terminal.component';
+import { FilialComponent } from './site/filial/filial.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { ModalTerminalComponent } from './terminal/component/modal-terminal/moda
     TerminalIdComponent,
     TerminalBillComponent,
     TerminalHeaderComponent,
-    SingTerminalComponent
+    SingTerminalComponent,
+    FilialComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import { DbService } from '../../shared/services/db.service';
 import { menuIntarface } from '../../shared/services/interface.service';
 import { CartService } from '../../shared/services/cart.service';
 import { TerminalComponent } from '../terminal.component';
+import { SettingsService } from 'src/app/shared/services/settings.service';
 
 @Component({
   selector: 'terminal-bill',
@@ -27,24 +28,30 @@ export class TerminalBillComponent extends TerminalComponent implements OnInit {
 
   constructor(
     public db: DbService,
-    private cartService: CartService,
+    public cartService: CartService,
+    public settingsService: SettingsService,
   ) { 
     super (
-      db
+      db,
+      settingsService
     )
   }
 
   ngOnInit() {
   }
 
-  setIncrement(price: string)  {
+  setIncrement(key: any, item: any, price: number)  {
     this.coutner--;
     this.cartService.count--;
+    this.cartService.incrementPrice(+price)
+    this.cartService.incrementCounter(key, item)
   }
 
-  setDecrement(price: string) {
+  setDecrement(key: any, item: any, price: number) {
     this.coutner++;
     this.cartService.count++;
+    this.cartService.updatePrice(+price)
+    this.cartService.decrementCounter(key, item)
   }
 
   deleteCart(key: number, count:number, price: any) {
@@ -67,8 +74,8 @@ export class TerminalBillComponent extends TerminalComponent implements OnInit {
     }
   }  
 
-  onVoted(agreed: boolean) {
-    console.log(agreed)
+  trackByFn(index, item) {  
+    return item.id;
   }
 
   buy() {

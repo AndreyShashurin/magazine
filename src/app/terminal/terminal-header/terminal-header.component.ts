@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
-import { ModalTerminalComponent } from '../component/modal-terminal/modal-terminal.component';
+import { ModalTerminalComponent } from '../modal-terminal/modal-terminal/modal-terminal.component';
+import { SettingsService } from 'src/app/shared/services/settings.service';
 
 @Component({
   selector: 'terminal-header',
@@ -12,14 +13,17 @@ import { ModalTerminalComponent } from '../component/modal-terminal/modal-termin
 export class TerminalHeaderComponent implements OnInit {
 
   bsModalRef: BsModalRef;
-
+  @Input() openSmena: boolean;
+  
   constructor(
     private cartService: CartService,
     private authService: AuthService,
+    private settingsService: SettingsService,
     private modalService: BsModalService
     ) { }
 
   ngOnInit() {
+    
   }
 
   logout() {
@@ -35,5 +39,9 @@ export class TerminalHeaderComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Закрыть';
     this.bsModalRef.content.confirmBtnName = 'Открыть смену';
    // this.bsModalRef.content.confirmDeleteGet = type;
+  }
+
+  clickbreadcump() {
+    
   }
 }

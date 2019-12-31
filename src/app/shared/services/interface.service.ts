@@ -78,7 +78,7 @@ export interface menuIntarface {
   categories_id?: number;
   categories_name: string;
   cost: number;
-  count?: number,
+  count?: number;
   filial?: number;
   filial_id: number;
   nalog?: number;
@@ -97,6 +97,7 @@ export interface menuIntarface {
   size?: string;
   combo?: string;
   weight_flag: string;
+  totalCounter?: number;
 }
 
 export interface settingsIntarface {

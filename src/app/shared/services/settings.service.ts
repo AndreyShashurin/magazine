@@ -2,6 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 import { DbService } from './db.service';
 import { settingsIntarface, promoInterface } from './interface.service';
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
+import { validateConfig } from '@angular/router/src/config';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,13 @@ import { settingsIntarface, promoInterface } from './interface.service';
 export class SettingsService implements OnInit {
   public settings: settingsIntarface[] = [];
   public menu: number;
+  public activeSmena;
+  public activeUser;
+  public activefilial;
+  public filial: any = [];
   public promo: promoInterface[] = [];
   public md5 = new Md5(); 
+  public openSmena: boolean = false;
   visibleFilter: boolean = true;
 
   constructor(
@@ -18,9 +25,22 @@ export class SettingsService implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getUser()
     this.getSetting();
     this.getPromo();
     this.getFilial();
+    this.getSmena();
+  }
+
+  getUser() {
+    this.db.getUser(localStorage.getItem('SJTerminalid')).subscribe(
+      (val) => {
+        this.activeUser = val;
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
   getSetting() {
@@ -35,19 +55,33 @@ export class SettingsService implements OnInit {
     )
   }
 
-  public getFilial() {    
-    return this.db.getFilial().subscribe(
+  getFilial() {    
+    let job1 = this.db.getFilial().subscribe(
       (val) => {
-        return val
+        this.filial = val;
+        this.activefilial = this.filial.filter(val => +val.id === +localStorage.getItem('SJTerminalid'));
+        console.log(this.activefilial[0].id)
       }
     )
+  }
+
+  getSmena() { 
+    console.log(this.activefilial)
+    this.db.getSmena(this.activefilial).subscribe(
+      (val) => {
+        this.activeSmena = val;  
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+
   }
 
   getPromo() {    
     this.db.getPromo().subscribe(
       (val) => {
         this.promo = val;  
-        console.log(this.promo )
       },
       (error) => {
         console.log(error);
@@ -62,7 +96,11 @@ export class SettingsService implements OnInit {
   visibleFilterDunc(data: boolean) {
     this.visibleFilter = data;
   }  
-  
+
+  setSmena(data: boolean) {
+    this.openSmena = data;
+  }  
+
   returnPromo() {
     return this.promo
   }

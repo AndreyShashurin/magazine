@@ -1,5 +1,4 @@
-<terminal-header></terminal-header>
-<router-outlet></router-outlet>
+<terminal-header [openSmena]="settingsService.openSmena"></terminal-header>
 <div class="row main-container">
   <div class="col-8 barista-container">
     <div class="barista-box">
@@ -18,8 +17,7 @@
       </div>
   </div>
   <div class="col side-bill">
-  {{openSmena}}
-    <terminal-bill [openSmena]="openSmena" (onVoted)="onVoted($event)"></terminal-bill>  
+    <terminal-bill [openSmena]="settingsService.openSmena"></terminal-bill>  
   </div>
 </div>
 <app-alert></app-alert>

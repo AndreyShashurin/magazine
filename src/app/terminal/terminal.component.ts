@@ -21,11 +21,14 @@ export class TerminalComponent implements OnInit {
   promo: promoInterface[] = [];
 
   constructor(
-    public db: DbService
+    public db: DbService,    
+    public settingsService: SettingsService
   ) {
   }
-
+  
   ngOnInit() {
+    this.settingsService.ngOnInit();
+    
     this.db.getPromo().subscribe(
       (val) => {
         this.promo = val;  

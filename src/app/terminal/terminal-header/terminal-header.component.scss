@@ -8,11 +8,14 @@ header {
     ul {
         display: flex;
         list-style: none;
-        margin-bottom: 9px;
+        margin-bottom: 7px;
+        justify-content: flex-end;
+
         li {
+            display: inline;
             a {
                 color: white;
-                padding: 10px 10px;
+                padding: 8px 10px;
                 font-size: 14px;
                 font-weight: 600;
                 list-style: none;  
@@ -79,10 +82,52 @@ header {
     }
 
     .right-nav {
-        flex: 0 0 25em;
         align-self: center;
     }
 }
 a {
     color: white !important;
+}
+.dropdown {
+    &:hover {
+        .dropdown-content {
+            display: block;
+        }
+    }
+    i {
+        color: white;
+    }
+    .dropdown {
+        &-content {
+            top: 100%;
+            position: absolute;
+            left: 0;
+            z-index: 1000;
+            display: none;
+            float: left;
+            min-width: 10rem;
+            padding: .5rem 0;
+            margin: 0 0 0;
+            font-size: 1rem;
+            text-align: left;
+            font-size: 0.875rem;
+            list-style: none;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: .25rem;
+        }
+        &-item {
+            display: block;
+            width: 100%;
+            padding: 0.25rem 1.5rem;
+            clear: both;
+            font-weight: 400;
+            color: #212529 !important;
+            text-align: inherit;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+        }
+    }
 }

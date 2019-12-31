@@ -31,5 +31,6 @@ export class HomeComponent implements OnInit {
       }
     )
     this.settingsService.getSetting()
+    this.settingsService.getFilial()
   }
 }

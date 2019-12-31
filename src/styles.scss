@@ -475,8 +475,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     background: white;
     border-bottom: none !important;
 }
+.table td {
+  border-top: 1px solid #e0e3e4 !important;
+}
 .table td, .table th {
-    border-top: 1px solid #e0e3e4 !important;
     vertical-align: middle !important;
     padding: .75rem 1.25rem !important;
 }

@@ -4,9 +4,10 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, categoriesInterface, promoInterface } from '../../shared/services/interface.service';
 import { CartService } from '../../shared/services/cart.service';
-import { ModalTerminalComponent } from '../component/modal-terminal/modal-terminal.component';
+import { ModalTerminalComponent } from '../modal-terminal/modal-terminal/modal-terminal.component';
 import { validateConfig } from '@angular/router/src/config';
 import { TerminalComponent } from '../terminal.component';
+import { SettingsService } from 'src/app/shared/services/settings.service';
 
 @Component({
   selector: 'terminal-id',
@@ -25,12 +26,14 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public db: DbService,
+    public settingsService: SettingsService,
     private cartService: CartService,
     private router: Router,
     private modalService: BsModalService
   ) {
     super(
-      db
+      db,
+      settingsService
     )
   }
 
@@ -51,7 +54,6 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
         this.db.getCategoriesChilde(item.childe).subscribe(val => {
           this.categoriesChilde = val;
           this.categories = [];
-          console.log(this.categoriesChilde)
         })
       } else {
         this.categories = [];
@@ -65,7 +67,7 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
 
   getZakaz(data: menuIntarface[]) {
     this.cartService.onSelected(data);
-    this.cartService.updateCount(1);
+    this.cartService.updateCount(data, 1);
     this.cartService.updatePrice(+data['price'])
   }
 
@@ -111,11 +113,22 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
     this.bsModalRef.content.confirmBtnName = 'Выбрать';
    // this.bsModalRef.content.confirmDeleteGet = type;
   }
+  
+  openModalRecept(data): void {
+    console.log(data)
+
+    const initialState = {
+      "type": 3,
+      data
+    };
+    this.bsModalRef = this.modalService.show(ModalTerminalComponent, {initialState});
+    this.bsModalRef.content.ModalBody = '';
+    this.bsModalRef.content.closeBtnName = 'Закрыть';
+  }
 
    unserialize (data) {
-    var that = this,
+    let that = this,
       utf8Overhead = function (chr) {
-        // http://phpjs.org/functions/unserialize:571#comment_95906
         var code = chr.charCodeAt(0);
         if (code < 0x0080) {
           return 0;

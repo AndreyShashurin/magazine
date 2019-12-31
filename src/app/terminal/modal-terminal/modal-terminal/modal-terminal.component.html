@@ -1,5 +1,9 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">{{type === 2 ? data.name : 'Открыть смену'}}</h4>
+  <h4 class="modal-title pull-left">
+    {{type === 1 ? 'Открыть смену': ''}}
+    {{type === 2 ? data.name: ''}}
+    {{type === 3 ? 'Рецепт': ''}}
+  </h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true">&times;</span>
   </button>
@@ -30,13 +34,25 @@
         </div>
         <div class="col-12" *ngIf="combo2">
           <div class="combo-parent-name">{{combo2[0][0].categories_name}}</div>
-          <select style="width: 100%;" class="form-control combo_select" size="4" formControlName="combo2">
+          <select class="form-control combo_select width100" size="4" formControlName="combo2">
             <ng-container *ngFor="let child2 of combo2">    
               <option *ngFor="let child of child2">{{child.name}}</option>
             </ng-container>
           </select>            
         </div>   
         </form>
+      </ng-container>
+      <ng-container *ngIf="type === 3">
+        <div class="row width100 pb-1" *ngFor="let item of data.process">  
+          <div class="col-2">{{item[0]}}</div>
+          <div class="col-10">{{item[1]}}</div>
+        </div>
+         <!--<div class="structure">
+          <ul *ngFor="let item of data.structure" class="col-12">
+            <li>{{item[0]}}</li>
+            <li>{{item[1]}} {{item[4]}}</li>
+          </ul>    
+        </div>     -->
       </ng-container>
     </div> 
   </div>

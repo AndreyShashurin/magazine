@@ -29,6 +29,7 @@ import { WriteOfComponent } from './site/warehouse/write/writeof.component';
 import { TerminalIdComponent } from './terminal/terminal-id/terminal-id.component';
 import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.component';
 import { TerminalComponent } from './terminal/terminal.component';
+import { FilialComponent } from './site/filial/filial.component';
 
 const routes: Routes = [
     {path: '', component: SingInComponent},
@@ -51,7 +52,8 @@ const routes: Routes = [
                 { path: "сhange", component: DashboardComponent},          
                 { path: "balance", component: DashboardComponent},          
                 { path: "taxes", component: DashboardComponent},          
-                { path: "category", component: DashboardComponent},
+                { path: "category", component: DashboardComponent},  
+                { path: "filial", component: FilialComponent},
                 { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
                 { path: "personal", component: PersonalComponent},
                 { path: "newpersonal", component: newPersonalComponent, canDeactivate: [DeactivateGuard]},

@@ -20,20 +20,22 @@
   </ng-container> 
 </div>
 <div class="clearBox">
-  <div class="tovar sec-wrapper" *ngFor="let item of menu" (click)="getZakaz(item)">
-    <div class="tovar-name">{{item.name}}</div>
-    <div class="tovar-character">
-      <span *ngIf="item.categories == 1">
-        Объем: <b>{{item.size}}</b>
+  <div class="tovar sec-wrapper" *ngFor="let item of menu">
+    <div (click)="getZakaz(item)">
+      <div class="tovar-name">{{item.name}}</div>
+      <div class="tovar-character">
+        <span *ngIf="item.categories == 1">
+          Объем: <b>{{item.size}}</b>
+          <br>
+        </span>
+        Цена: <b>{{item.price}} <i class="fa fa-rub"></i></b><br>          
         <br>
-      </span>
-      Цена: <b>{{item.price}} <i class="fa fa-rub"></i></b><br>          
-      <br>
-      <div class="icon">
-          <span *ngIf="item.weight_flag"><i class="fa fa-balance-scale"></i></span>
-          <span *ngIf="!item.nodiscount"><i class="fa fa-percent"></i></span>
+        <div class="icon">
+            <span *ngIf="item.weight_flag"><i class="fa fa-balance-scale"></i></span>
+            <span *ngIf="!item.nodiscount"><i class="fa fa-percent"></i></span>
+        </div>
       </div>
     </div>
-    <div class="process" *ngIf="item.process">Рецепт</div>
+    <div class="process" *ngIf="item.process" (click)='openModalRecept(item)'>Рецепт</div>
   </div> 
 </div>
