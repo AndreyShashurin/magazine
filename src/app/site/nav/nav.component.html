@@ -1,6 +1,6 @@
 <ul class="navbar-nav">
     <ng-container *ngFor="let item of menuService.item">
-        <li *ngIf="item.visible.includes(settingsService.menu)" class="dropdown">
+        <li *ngIf="stat[item.name] == 1" class="dropdown">
             <a class="nav-link" 
             [ngClass]="item.submenu ? 'dropdown-toggle':'dropdown-toggle2'"
             [routerLink]="['/dashboard', item.route]" 

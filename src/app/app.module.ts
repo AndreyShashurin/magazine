@@ -17,7 +17,7 @@ import { SpaConfigService } from './shared/services/config.service';
 import { AuthenticatedComponent } from './site/authenticated/authenticated.component';
 import { SingInComponent } from './site/sing-site/sing-in.component';
 import { DbService } from './shared/services/db.service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './site/home.component';
 import { SettingsComponent } from './site/settings/settings.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
@@ -63,6 +63,10 @@ import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.co
 import { TerminalContentComponent } from './terminal/terminal-content/terminal-content.component';
 import { ModalTerminalComponent } from './terminal/modal-terminal/modal-terminal/modal-terminal.component';
 import { FilialComponent } from './site/filial/filial.component';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
+import { AccessComponent } from './site/access/access.component';
+import { MenuAddTovarComponent } from './site/menu-add-tovar/menu-add-tovar.component';
+import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +113,10 @@ import { FilialComponent } from './site/filial/filial.component';
     TerminalBillComponent,
     TerminalHeaderComponent,
     SingTerminalComponent,
-    FilialComponent
+    FilialComponent,
+    AccessComponent,
+    MenuAddTovarComponent,
+    MenuAddReceptComponent
   ],
   imports: [
     BrowserModule,
@@ -138,7 +145,12 @@ import { FilialComponent } from './site/filial/filial.component';
     InterfaceService,
     AuthService,
     SettingsService,
-    CartService
+    CartService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

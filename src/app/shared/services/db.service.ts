@@ -249,7 +249,6 @@ export class DbService implements OnDestroy  {
   }  
   // Активная смена
   getSmena(data) {
-    console.log
     return this.http.get(this.apiURL + 'smena', {
       params: new HttpParams().set('user', data)
     })
@@ -261,4 +260,8 @@ export class DbService implements OnDestroy  {
     }
   }
 
+  //  Сохраняем поставку
+  saveDelivery(data) {
+    return this.http.put(this.apiURL + 'warehouse', data)
+  }
 }

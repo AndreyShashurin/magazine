@@ -30,6 +30,9 @@ import { TerminalIdComponent } from './terminal/terminal-id/terminal-id.componen
 import { SingTerminalComponent } from './terminal/sing-terminal/sing-terminal.component';
 import { TerminalComponent } from './terminal/terminal.component';
 import { FilialComponent } from './site/filial/filial.component';
+import { AccessComponent } from './site/access/access.component';
+import { MenuAddTovarComponent } from './site/menu-add-tovar/menu-add-tovar.component';
+import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.component';
 
 const routes: Routes = [
     {path: '', component: SingInComponent},
@@ -55,6 +58,7 @@ const routes: Routes = [
                 { path: "category", component: DashboardComponent},  
                 { path: "filial", component: FilialComponent},
                 { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
+                { path: "group", component: AccessComponent},
                 { path: "personal", component: PersonalComponent},
                 { path: "newpersonal", component: newPersonalComponent, canDeactivate: [DeactivateGuard]},
                 { path: "updatepersonal/:id", component: updatePersonalComponent},
@@ -64,7 +68,9 @@ const routes: Routes = [
                     { path: 'delivery', component: DeliveryComponent},
                     { path: 'discard', component: DiscardComponent},  
                     { path: 'write', component: WriteOfComponent},             
-                { path: "menu", component: MenuComponent}
+                { path: "menu", component: MenuComponent},          
+                { path: "addtovar", component: MenuAddTovarComponent},             
+                { path: "addrecept", component: MenuAddReceptComponent}   
             ]
         }]
     },  

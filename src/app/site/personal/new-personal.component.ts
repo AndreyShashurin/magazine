@@ -105,6 +105,7 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
                 }
             ) 
         }  else {
+            this.form.value.level = this.form.value.level.filter(val => val.checked)
             console.log(this.form.value)
             this.subscription = this.db.saveUser(this.form.value).subscribe(
                 (responce) => {

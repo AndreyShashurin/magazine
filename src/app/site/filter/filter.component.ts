@@ -10,6 +10,7 @@ export class FilterComponent implements OnInit {
   @Input() visible: boolean = true; // Видимость фильтра
   @Input() warehouse: boolean = false; //Кнопки склада
   @Input() addPersonal: boolean = false; //Добавить нового сотрудника
+  @Input() menu: boolean = false; //Добавить нового сотрудника
 
   constructor() { }
 

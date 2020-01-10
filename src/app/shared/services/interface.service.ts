@@ -57,12 +57,13 @@ export interface skladIntarface {
 
 export interface MenuItem {
   text: string;
-  icon: string;
+  icon?: string;
   route: string;
   visible?: any
-  role: string;
-  authF: string;
-  submenu: Array<MenuItem>;
+  name?: string;
+  role?: string;
+  authF?: string;
+  submenu?: Array<MenuItem>;
 }
 
 export interface newUser {

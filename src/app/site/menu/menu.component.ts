@@ -5,10 +5,10 @@ import { takeUntil } from 'rxjs/operators';
 import { SubscriptionLike, Subject } from 'rxjs';
 import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 
-import { DbService } from 'src/app/shared/services/db.service';
-import { menuIntarface, skladIntarface } from 'src/app/shared/services/interface.service';
-import { ModalContentComponent } from 'src/app/shared/component/modal-content/modal-content.component';
-import { ModalDetailComponent } from 'src/app/shared/component/modal-detail/modal-detail.component';
+import { DbService } from '../../shared/services/db.service';
+import { menuIntarface, skladIntarface } from '../../shared/services/interface.service';
+import { ModalContentComponent } from '../../shared/component/modal-content/modal-content.component';
+import { ModalDetailComponent } from '../../shared/component/modal-detail/modal-detail.component';
 
 @Component({
   selector: 'app-menu',

@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
   public viewPort: CdkVirtualScrollViewport;
   public settings: any;
+  public filial: any;
 
   constructor(
     public db: DbService,
@@ -32,5 +33,11 @@ export class HomeComponent implements OnInit {
     )
     this.settingsService.getSetting()
     this.settingsService.getFilial()
+
+    this.settingsService.filialResponse.subscribe(
+      (data) => {
+        this.filial = data
+      }
+    )    
   }
 }

@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 import { DbService } from './db.service';
 import { settingsIntarface, promoInterface } from './interface.service';
-import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, Subject } from 'rxjs';
 import { validateConfig } from '@angular/router/src/config';
 
 @Injectable({
@@ -19,6 +19,7 @@ export class SettingsService implements OnInit {
   public md5 = new Md5(); 
   public openSmena: boolean = false;
   visibleFilter: boolean = true;
+  public filialResponse = new Subject<any>();
 
   constructor(
     public db: DbService
@@ -40,7 +41,7 @@ export class SettingsService implements OnInit {
       (error) => {
         console.log(error);
       }
-    )
+    )  
   }
 
   getSetting() {
@@ -55,10 +56,11 @@ export class SettingsService implements OnInit {
     )
   }
 
-  getFilial() {    
-    let job1 = this.db.getFilial().subscribe(
+  getFilial() {   
+    this.db.getFilial().subscribe(
       (val) => {
-        this.filial = val;
+        this.filial = val;        
+        this.filialResponse.next(val);
         this.activefilial = this.filial.filter(val => +val.id === +localStorage.getItem('SJTerminalid'));
         console.log(this.activefilial[0].id)
       }
@@ -91,6 +93,7 @@ export class SettingsService implements OnInit {
 
   visibleMenu(data: number) {
     this.menu = data;
+    console.log(data)
   }    
 
   visibleFilterDunc(data: boolean) {

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'http://shashurin.beget.tech/dashboard/api/'
+  url: 'http://shashurin.beget.tech/dashboard/api/',
+  token: ''
 };
 
 /*

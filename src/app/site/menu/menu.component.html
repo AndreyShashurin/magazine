@@ -1,3 +1,4 @@
+<app-filter [menu]="true"></app-filter>
 <div *ngIf='menuForm' class="stats-wrapper">
     <cdk-virtual-scroll-viewport [itemSize]="19">
         <table class="table table-centered">
@@ -121,7 +122,7 @@
                     <th>Цена</th>
                     <th></th>
                 </thead>
-                <tbody *ngIf='!dataArray' >
+                <tbody *ngIf='dataArray' >
                     <tr *ngFor="let tovar of ingredient.controls; let i = index">
                         <td>
                           <!--  <select name="ingredient">

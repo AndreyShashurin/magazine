@@ -399,7 +399,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .sec-wrapper {
   background: #fff;
   padding: 1.5rem;
-  border: 1px solid rgba(248, 63, 55, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: .25rem;
   margin-bottom: 14px;
 }
@@ -464,8 +464,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     height: 100%;
 }
 .content-header {
-    margin: 11px 0px 20px 0px;
-    padding: 5px 30px 0 15px;
+    margin: 0px 0px 50px 0px;
+    padding: 5px 10px 0 15px;
     text-align: right;
     width: 100%;
 }
@@ -477,10 +477,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 .table td {
   border-top: 1px solid #e0e3e4 !important;
-}
-.table td, .table th {
-    vertical-align: middle !important;
-    padding: .75rem 1.25rem !important;
 }
 .table th {
     font-weight: 500;
@@ -674,6 +670,43 @@ i.detail_bill {
 .sj-legend {
     margin-left: 15px;
     margin-right: 15px;
+}
+.structure-table {   
+   padding: 3px;
+  background-color: #f4f4f4;
+  border: solid 1px #e0e0e0;
+  padding-top: 12px;
+
+  th {
+    background-color: #f4f4f4 !important;
+    cursor: pointer;
+    padding-left: 10px;
+    font-size: 11px;
+    padding-bottom: 6px;
+    text-align: left;
+  }
+  td{
+    padding-bottom: 10px;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    vertical-align: inherit !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: none;    
+    text-align: center;
+  }
+  .btn-link {
+    margin-top: 0%;
+    display: block;
+    text-align: right;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: 13px;
+    color: #f83f37 !important;
+  }  
+}
+.self-center {
+  align-self: center;
 }
 .card {
     margin-bottom: 14px;
