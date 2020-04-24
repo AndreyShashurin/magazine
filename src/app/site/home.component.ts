@@ -2,6 +2,7 @@ import { Component, OnInit, Injectable, ViewChild, ChangeDetectionStrategy } fro
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { SettingsService } from '../shared/services/settings.service';
 import { DbService } from '../shared/services/db.service';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './home.component.html',
@@ -14,8 +15,7 @@ export class HomeComponent implements OnInit {
 
   public viewPort: CdkVirtualScrollViewport;
   public settings: any;
-  public filial: any;
-
+  
   constructor(
     public db: DbService,
     public settingsService: SettingsService
@@ -23,21 +23,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.db.getSettings().subscribe(
-      (val) => {
-        this.settings = val;   
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
-    this.settingsService.getSetting()
-    this.settingsService.getFilial()
-
-    this.settingsService.filialResponse.subscribe(
-      (data) => {
-        this.filial = data
-      }
-    )    
+    this.settingsService.getFilial();
   }
 }

@@ -241,6 +241,19 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'filial');
   }
 
+  updateFilial(data) {
+     return this.http.put(this.apiURL + 'filial', data)
+  }
+  deleteFilial(data){
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data,
+    };
+    return this.http.delete(this.apiURL + 'filial', options)
+  }
+
   // Смена
 
   // Открыть смену

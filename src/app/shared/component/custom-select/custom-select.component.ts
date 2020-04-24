@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MenuComponent } from '../../../site/menu/menu.component';
+import { MenuAddReceptComponent } from '../../../site/menu-add-recept/menu-add-recept.component';
 
 interface selectOption {
   title: string;
@@ -28,7 +29,7 @@ interface selectOption {
           type="button"
           class="dropdown-item"
           *ngFor="let option of options"
-          [ngClass]="{'active':option.value === value}"
+          [ngClass]="{'active':option.title === placeholder}"
           (click)="optionSelect(option);">
           {{option.title}}
         </button>
@@ -42,21 +43,21 @@ export class CustomSelectComponent implements ControlValueAccessor {
   @Input() options: selectOption[] = [];
   selectedOption: selectOption;  
   
-  constructor(
-    private menu: MenuComponent
-  ) { }
-
   get placeholder():string{
     return this.selectedOption && this.selectedOption.hasOwnProperty('title') ? this.selectedOption.title : '';
   }
 
   open: boolean = false;
 
+  ngOnInit() {
+    console.log(this.options)
+  }
+
   optionSelect(option: selectOption) {
     this.writeValue(option.title);
     this.onTouched();
     this.open = false;
-    this.menu.updateForm(option);
+    console.log(option.title)
   }
 
   toggleOpen() {
@@ -91,3 +92,5 @@ export class CustomSelectComponent implements ControlValueAccessor {
   }
 
 }
+
+

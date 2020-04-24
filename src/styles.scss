@@ -672,7 +672,7 @@ i.detail_bill {
     margin-right: 15px;
 }
 .structure-table {   
-   padding: 3px;
+  padding: 3px;
   background-color: #f4f4f4;
   border: solid 1px #e0e0e0;
   padding-top: 12px;
@@ -690,15 +690,23 @@ i.detail_bill {
     padding-left: 5px !important;
     padding-right: 5px !important;
     vertical-align: inherit !important;
-    overflow: hidden;
     text-overflow: ellipsis;
     transition: none;    
     text-align: center;
+  
+    .dropdown-menu {
+      max-height: 223px;
+      overflow-x: auto;
+
+      button {
+        cursor: pointer !important;
+      }
+    }    
   }
   .btn-link {
     margin-top: 0%;
     display: block;
-    text-align: right;
+    float: right;
     padding-top: 1%;
     padding-bottom: 1%;
     font-size: 13px;

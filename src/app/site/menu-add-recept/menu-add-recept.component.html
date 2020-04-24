@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<form [formGroup]="form">
   <div class="stats-wrapper">
       <div class="form-horizontal recept">
           <div class="form-group row">
@@ -29,32 +29,30 @@
                     </mat-select>
                   </mat-form-field>                  
               </div>
-          </div>
+          </div>      
           <div class="form-group row">
-              <label for="weight_flag" class="col-sm-2 col-form-label">Весовой товар</label>
+              <label class="col-sm-2 col-form-label">Весовой товар </label>
               <div class="col-sm-9">
-                <mat-checkbox formControlName="weight"></mat-checkbox>
+                <mat-checkbox formControlName="weight" class="col-sm-2"></mat-checkbox>               
               </div>
-          </div>
+          </div> 
           <div class="form-group row">
-              <label for="sale_flag" class="col-sm-2 col-form-label">Запрет на участие в скидках</label>
+              <label class="col-sm-2 col-form-label">Участие в скидках</label>
               <div class="col-sm-9">
-                <mat-checkbox formControlName="sale"></mat-checkbox>
+                <mat-checkbox formControlName="sale" class="col-sm-2"></mat-checkbox>               
               </div>
-          </div>
-          <form id="process">
+          </div> 
+          <form id="process" formArrayName="process">
               <div class="form-group row">
                   <label for="item-process" class="col-sm-2 col-form-label">Процесс приготовления:</label>
                   <div class="col-sm-9">
-                      <div *ngIf="!dataArray">
-                          <div *ngFor="let control of form.get('process').controls; let i = index">
-                            <ng-container [formGroupName]="i">
-                                  <input class="form-control item-process-number" name="item-process-number" [value]="i+1" formControlName="id" hidden>
-                                  <input class="form-control item-process" name="item-process" [id]="i+1" value="" formControlName="value">
-                              </ng-container>
+                      <ng-container *ngFor="let control of form.get('process').controls; let i = index; trackBy:trackByFn" >
+                          <div [formGroupName]="i" class="col-sm-12 mb-3" style="display: flex;">
+                              <input class="form-control item-process-number" name="item-process-number" [value]="i+1" formControlName="id" hidden>
+                              <input class="form-control item-process" name="item-process" [id]="i+1" value="" formControlName="value">
                           </div>
-                          <a class="btn-link add-process" (click)="addBlock()">Добавить</a>
-                      </div>
+                      </ng-container>
+                      <a class="btn-link add-process" (click)="addFormProcess()">Добавить</a>
                   </div>
               </div>
           </form>
@@ -71,7 +69,6 @@
                 </mat-form-field>  
               </div>
           </div>
-          {{filial || json }}
           <div class="form-group row">
               <label for="filial_name" class="col-sm-2  col-form-label">Заведение для привязки</label>
               <div class="col-sm-9">
@@ -86,7 +83,7 @@
               </div>
           </div>
       </div>
-      <div class="flexBox" >
+       <div class="flexBox" formArrayName="ingredient">
           <div class="blue-wrapper ingredients">
           <form id="ingredienty">
           <table class="table sortable structure-table">
@@ -97,13 +94,13 @@
                   <th>Цена</th>
                   <th></th>
               </thead>
-              <tbody >
+              <tbody>    
                   <tr *ngFor="let tovar of ingredient.controls; let i = index">
                       <td>
                           <custom-select [options]="contactTypes" [formControl]="tovar.controls['title']"></custom-select>
                       </td>
                       <td>
-                          <div class="input-group mb-3">
+                          <div class="input-group">
                               <input type="text" class="form-control" (keyup)="onKeyUp($event)">
                               <div class="input-group-append">
                                 <span class="input-group-text">{{tovar.controls.ed}}</span>
@@ -111,7 +108,7 @@
                           </div>
                       </td>
                       <td class="price">
-                          <input type="text" class="form-control" [formControl]="tovar.controls.price">
+                          <input type="text" class="form-control" [formControl]="tovar.controls['price']">
                       </td>
                       <td class="price2">
                           <span class="price-amount2"></span>
@@ -158,9 +155,9 @@
               <div id="calc-profit" class="text-center" style="display:none">{{data ? data.profit: ''}}</div>
           </fieldset>
           </div>
-      </div>
+    </div>
     <div class="controls">
         <button type="submit" class="btn btn-success btn-sm" (click)="save()">Сохранить</button>
     </div>
   </div>
-</div>
+</form>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 import { DbService } from '../../services/db.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'modal-content',
@@ -11,6 +13,8 @@ export class ModalContentComponent implements OnInit {
   closeBtnName: string;
   constructor(
     private db: DbService,
+    private alert: AlertService,
+    private modalService: BsModalService,
   ) {}
  
   ngOnInit() {
@@ -21,9 +25,19 @@ export class ModalContentComponent implements OnInit {
       this.db.deleteMenu(data);
     } else if(link === 'sklad'){
       this.db.getDeleteTovar(data);
-    }else if(link === 'bill'){
+    } else if(link === 'bill'){
       this.db.deleteBill(data);
+    } else if(link === 'filial'){
+      this.db.deleteFilial(data).subscribe(
+        (responce) => {
+            this.alert.success('заведение удалено из списка')
+        },
+        (error) => {
+            this.alert.error('Ошибка удаленияю Попробуйте снова')            
+        }
+      )
     }
+    this.modalService.hide(1);
   }
 
   ngOnDestroy() {

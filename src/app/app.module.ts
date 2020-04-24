@@ -46,6 +46,7 @@ import { CustomSelectComponent } from './shared/component/custom-select/custom-s
 import { AlertComponent } from './shared/component/alert/alert.component';
 import { ModalContentComponent } from './shared/component/modal-content/modal-content.component';
 import { ModalDetailComponent } from './shared/component/modal-detail/modal-detail.component';
+import { ModalUpdateComponent } from './shared/component/modal-update/modal-update.component';
 import { SettingsService } from './shared/services/settings.service';
 import { FilterComponent } from './site/filter/filter.component';
 import { PaymentComponent } from './site/payment/payment.component';
@@ -82,9 +83,12 @@ import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.c
     ContentComponent,
     WarehouseComponent,
     ModalContentComponent,
+    ModalUpdateComponent,
     ModalDetailComponent,
     ModalTerminalComponent,
-    MenuComponent,
+    MenuComponent,    
+    MenuAddTovarComponent,
+    MenuAddReceptComponent,
     ReportsComponent,
     IngredientsComponent,
     NewsfeedComponent,
@@ -114,9 +118,7 @@ import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.c
     TerminalHeaderComponent,
     SingTerminalComponent,
     FilialComponent,
-    AccessComponent,
-    MenuAddTovarComponent,
-    MenuAddReceptComponent
+    AccessComponent
   ],
   imports: [
     BrowserModule,
@@ -156,7 +158,8 @@ import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.c
   entryComponents: [
     ModalContentComponent,
     ModalDetailComponent,
-    ModalTerminalComponent
+    ModalTerminalComponent,
+    ModalUpdateComponent
   ]
 })
 export class AppModule { }

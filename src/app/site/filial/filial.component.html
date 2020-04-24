@@ -3,7 +3,6 @@
       <table class="table table-centered">
           <thead>
               <tr>            
-                  <th [style.top]="inverseOfTranslation"></th>
                   <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 200px; max-width: 200px;" name="name">Заведение</th>
                   <th [style.top]="inverseOfTranslation" style="border-top: 0; min-width: 120px;" name="categories">Адрес</th>
                   <th [style.top]="inverseOfTranslation" style="border-top: 0;" name="size">Выручка</th>
@@ -18,15 +17,14 @@
               <tr *cdkVirtualFor="let item of settings.filial" class="item" cdkFixedHeader>
                   <td class="left-cell index">{{item.name}}</td>
                   <td>{{item.adress}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{item.price}}</td>
+                  <td>{{item.profit}}</td>
+                  <td>{{item.count}}</td>
+                  <td>{{item.avg_price}}</td>
+                  <td>{{item.sale_price}}</td>
                   <td>
-                      <i class="icon-pencil mr-25" (click)="update(item)"></i>
-                      <i class="icon-trash txt-danger mr-25" (click)="openModal(item.id, item.name, 'menus')"></i>
+                      <i class="icon-pencil mr-25" (click)="updateModal(item)"></i>
+                      <i class="icon-trash txt-danger mr-25" (click)="deleteModal(item, 'filial')"></i>
                   </td>
               </tr>
           </tbody>

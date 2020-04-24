@@ -20,6 +20,7 @@ export class SettingsService implements OnInit {
   public openSmena: boolean = false;
   visibleFilter: boolean = true;
   public filialResponse = new Subject<any>();
+  filialSubscriber = this.filialResponse.asObservable();
 
   constructor(
     public db: DbService
@@ -62,13 +63,11 @@ export class SettingsService implements OnInit {
         this.filial = val;        
         this.filialResponse.next(val);
         this.activefilial = this.filial.filter(val => +val.id === +localStorage.getItem('SJTerminalid'));
-        console.log(this.activefilial[0].id)
       }
     )
   }
 
   getSmena() { 
-    console.log(this.activefilial)
     this.db.getSmena(this.activefilial).subscribe(
       (val) => {
         this.activeSmena = val;  

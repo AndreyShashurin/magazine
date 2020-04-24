@@ -3,7 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { SubscriptionLike, Subject } from 'rxjs';
-import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, skladIntarface } from '../../shared/services/interface.service';
