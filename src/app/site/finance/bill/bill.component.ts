@@ -1,18 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubscriptionLike, of } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Store } from '@ngrx/store';
 
+import { SettingsService } from '../../../shared/services/settings.service';
 import { DbService } from '../../../shared/services/db.service';
-import { ModalContentComponent } from '../../../shared/component/modal-content/modal-content.component';
-import { ModalDetailComponent } from '../../../shared/component/modal-detail/modal-detail.component';
+import { ModalContentComponent } from '../../shared/modal-content/modal-content.component';
+import { ModalDetailComponent } from '../../shared/modal-detail/modal-detail.component';
+import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
+import { HomeComponent } from '../../home.component';
 
 @Component({
   selector: 'app-bill',
   templateUrl: './bill.component.html',
   styleUrls: ['./bill.component.scss']
 })
-export class BillComponent implements OnInit {
+export class BillComponent extends HomeComponent implements OnInit {
   @ViewChild(CdkVirtualScrollViewport)
 
   public viewPort: CdkVirtualScrollViewport;
@@ -21,9 +25,17 @@ export class BillComponent implements OnInit {
   bsModalRef: BsModalRef;
   subscription: SubscriptionLike;
   constructor(
-    private db: DbService,
-    private modalService: BsModalService
-  ) { }
+    public db: DbService,
+    private modalService: BsModalService,
+    public settingsService: SettingsService,
+    public store: Store
+  ) {
+    super(
+      db,
+      settingsService,
+      store
+    )
+  }
 
   ngOnInit() {
     this.getBill()
@@ -33,7 +45,6 @@ export class BillComponent implements OnInit {
     this.subscription = this.db.getBill().subscribe(
       (response: Response) => { 
           this.bill = response;
-          console.log(this.bill)
       } ,
       (error) => {console.log(error);}
     )  
@@ -58,7 +69,6 @@ export class BillComponent implements OnInit {
   }
 
   openDetail(item){
-    console.log(item);
     let structureArray = [];
     let sum = 0;
     item.tovar[0].forEach(function(value, key) {
@@ -79,6 +89,13 @@ export class BillComponent implements OnInit {
     };
     this.bsModalRef = this.modalService.show(ModalDetailComponent, {initialState});
     this.bsModalRef.content.ModalBody = {initialState};
+    this.bsModalRef.content.closeBtnName = 'Закрыть';
+  }
+
+  updateModal(item, type){
+    const initialState = {item, type};
+    this.bsModalRef = this.modalService.show(ModalUpdateComponent, {initialState});
+    this.bsModalRef.content.type = type;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
 

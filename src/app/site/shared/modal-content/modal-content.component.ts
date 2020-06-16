@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
-import { DbService } from '../../services/db.service';
-import { AlertService } from '../../services/alert.service';
+import { DbService } from '../../../shared/services/db.service';
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Component({
   selector: 'modal-content',

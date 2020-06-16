@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { DbService } from '../../shared/services/db.service';
 import { FilterService } from '../../shared/services/filter.service';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-personal',
@@ -14,11 +15,14 @@ export class PersonalComponent implements OnInit {
   persons: Observable<Object>;
   constructor(
     private db: DbService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    public store: Store
   ) { }
 
   ngOnInit() {
     this.persons = this.db.getUsers();
+    console.log(this.persons)
+    this.store.subscribe(state => console.log(state['persons'].persons));
   }
 
   ngOnDestroy() {

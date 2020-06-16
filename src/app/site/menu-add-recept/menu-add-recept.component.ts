@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Subject, SubscriptionLike } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+
 import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
 import { DbService } from '../../shared/services/db.service';
@@ -24,11 +26,13 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public db: DbService,
-    public settingsService: SettingsService 
+    public settingsService: SettingsService,
+    public store: Store
   ) { 
     super(
       db,
-      settingsService
+      settingsService,
+      store
     )
   }
   

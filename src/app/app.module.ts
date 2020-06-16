@@ -42,11 +42,11 @@ import { PersonalComponent } from './site/personal/personal.component';
 import { newPersonalComponent } from './site/personal/new-personal.component';
 import { DeactivateGuard } from './shared/services/deactivate-guard.service';
 import { updatePersonalComponent } from './site/personal/update-personal.component';
-import { CustomSelectComponent } from './shared/component/custom-select/custom-select.component';
-import { AlertComponent } from './shared/component/alert/alert.component';
-import { ModalContentComponent } from './shared/component/modal-content/modal-content.component';
-import { ModalDetailComponent } from './shared/component/modal-detail/modal-detail.component';
-import { ModalUpdateComponent } from './shared/component/modal-update/modal-update.component';
+import { CustomSelectComponent } from './site/shared/custom-select/custom-select.component';
+import { AlertComponent } from './site/shared/alert/alert.component';
+import { ModalContentComponent } from './site/shared/modal-content/modal-content.component';
+import { ModalDetailComponent } from './site/shared/modal-detail/modal-detail.component';
+import { ModalUpdateComponent } from './site/shared/modal-update/modal-update.component';
 import { SettingsService } from './shared/services/settings.service';
 import { FilterComponent } from './site/filter/filter.component';
 import { PaymentComponent } from './site/payment/payment.component';
@@ -68,6 +68,8 @@ import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { AccessComponent } from './site/access/access.component';
 import { MenuAddTovarComponent } from './site/menu-add-tovar/menu-add-tovar.component';
 import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.component';
+import { StoreModule } from '@ngrx/store';
+import {reducers} from './store/index';
 
 @NgModule({
   declarations: [
@@ -132,7 +134,8 @@ import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.c
     MatCheckboxModule,
     MatSelectModule,    
     MatInputModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    StoreModule.forRoot(reducers)
   ],
   providers: [
     MenuService, 

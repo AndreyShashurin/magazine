@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DbService } from 'src/app/shared/services/db.service';
-import { deliveryInterface } from 'src/app/shared/services/interface.service';
+import { Store } from '@ngrx/store';
+
+import { DbService } from '../../../shared/services/db.service';
+import { deliveryInterface } from '../../../shared/services/interface.service';
 import { HomeComponent } from '../../home.component';
-import { SettingsService } from 'src/app/shared/services/settings.service';
+import { SettingsService } from '../../../shared/services/settings.service';
 
 @Component({
   selector: 'app-delivery',
@@ -14,11 +16,13 @@ export class DeliveryComponent extends HomeComponent implements OnInit {
 
   constructor(
     public db: DbService,
-    public settingsService: SettingsService
+    public settingsService: SettingsService,
+    public store: Store 
   ) {
     super(
       db,
-      settingsService
+      settingsService,
+      store
     );
     db.getDelivery().subscribe(
       (response) => { 

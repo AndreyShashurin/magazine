@@ -15,6 +15,7 @@ export class SettingsService implements OnInit {
   public activeUser;
   public activefilial;
   public filial: any = [];
+  public payments: any = [];
   public promo: promoInterface[] = [];
   public md5 = new Md5(); 
   public openSmena: boolean = false;
@@ -27,11 +28,6 @@ export class SettingsService implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getUser()
-    this.getSetting();
-    this.getPromo();
-    this.getFilial();
-    this.getSmena();
   }
 
   getUser() {
@@ -90,9 +86,19 @@ export class SettingsService implements OnInit {
     )
   }
 
+  getPayment() { 
+    this.db.getPayment().subscribe(
+      (val) => {
+        this.payments = val;  
+      },
+      (error) => {
+        console.warn(error);
+      }
+    )
+  }
+
   visibleMenu(data: number) {
     this.menu = data;
-    console.log(data)
   }    
 
   visibleFilterDunc(data: boolean) {

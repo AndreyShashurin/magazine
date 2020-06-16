@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { SettingsService } from '../../shared/services/settings.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { HomeComponent } from '../home.component';
@@ -13,16 +15,16 @@ export class ContentComponent extends HomeComponent implements OnInit {
   constructor(
     public db: DbService,
     public settingsService: SettingsService,
-    private filterService: FilterService
+    public store: Store
   ) { 
     super(
       db,
-      settingsService
+      settingsService,
+      store
     );
   }
 
   ngOnInit() {
-    
   }
 
 }

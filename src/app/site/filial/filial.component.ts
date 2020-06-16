@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { SettingsService } from '../../shared/services/settings.service';
-import { ModalContentComponent } from '../../shared/component/modal-content/modal-content.component';
-import { ModalUpdateComponent } from '../../shared/component/modal-update/modal-update.component';
+import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
+import { ModalUpdateComponent } from '../shared/modal-update/modal-update.component';
 
 @Component({
   selector: 'app-filial',
@@ -41,9 +41,10 @@ export class FilialComponent implements OnInit {
     this.bsModalRef.content.confirmDeleteGet = type;
   }
 
-  updateModal(item){
+  updateModal(item, type){
     const initialState = {item};
     this.bsModalRef = this.modalService.show(ModalUpdateComponent, {initialState});
+    this.bsModalRef.content.type = type;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
 }

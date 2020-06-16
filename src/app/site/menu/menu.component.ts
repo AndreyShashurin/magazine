@@ -7,8 +7,8 @@ import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, skladIntarface } from '../../shared/services/interface.service';
-import { ModalContentComponent } from '../../shared/component/modal-content/modal-content.component';
-import { ModalDetailComponent } from '../../shared/component/modal-detail/modal-detail.component';
+import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
+import { ModalDetailComponent } from '../shared/modal-detail/modal-detail.component';
 
 @Component({
   selector: 'app-menu',

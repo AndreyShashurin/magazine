@@ -197,7 +197,7 @@ export class DbService implements OnDestroy  {
     });
   }
 
-  // Отчеты
+  // Отчеты 
   getReports() {
     return this.http.get(this.apiURL + 'reports')
   }
@@ -205,6 +205,18 @@ export class DbService implements OnDestroy  {
   // Финансы
   getBill() {
     return this.http.get(this.apiURL + 'bill')
+  }
+
+  // Обновляем счет
+  updateBill(data) {
+    return this.http.put(this.apiURL + 'bill', data)
+  }
+
+  // Типы оплат
+  getPayment() {
+    return this.http.get(this.apiURL + 'bill', {
+      params: new HttpParams().set('payment', '1')
+    })
   }
 
   // Счета

@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { Store } from '@ngrx/store';
 
 import { DbService } from '../../shared/services/db.service';
 import { skladIntarface } from '../../shared/services/interface.service';
-import { ModalContentComponent } from '../../shared/component/modal-content/modal-content.component';
 import { FilterService } from '../../shared/services/filter.service';
 import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
+import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 
 @Component({
   selector: 'app-warehouse',
@@ -25,11 +26,13 @@ export class WarehouseComponent extends HomeComponent implements OnInit {
     public db: DbService,
     private modalService: BsModalService,
     public settingsService: SettingsService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    public store: Store 
   ) {
     super(
       db,
-      settingsService
+      settingsService,
+      store
     );
     db.getSklad().subscribe(
       (response) => { 

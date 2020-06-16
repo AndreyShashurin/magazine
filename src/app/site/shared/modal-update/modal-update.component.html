@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" [formGroup]="form" >
+    <div class="form" *ngIf="type == 2">
+        <div class="form-group">
+            <label for="type_bill" class="col-xs-3 control-label">Тип оплаты</label>
+            <div class="col-xs-8">
+                <select name="type_bill" class="form-control" id="type_bill" formControlName="typeBill">
+                    <option *ngFor="let payment of payments" selected="{{payment.id == item.type_biill ? 'selected' : ''}}" value="{{payment.id}}">{{payment.name}}</option>
+                 </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pay_bill" class="col-xs-3 control-label">Оплата</label>
+            <div class="col-xs-8">
+                <select name="pay_bill" class="form-control" id="pay_bill" formControlName="payBill">
+                    <option value="1" selected="{{'1'== item.payment ? 'selected' : ''}}">Оплачен</option>
+                    <option value="0" selected="{{'0' == item.payment ? 'selected' : ''}}">Не оплачен</option>
+                </select>
+            </div>
+        </div>    
+            <div class="form-group">
+            <label for="bill_comment" class="col-xs-3 control-label">Комментарий</label>
+            <div class="col-xs-8">
+                <textarea id="bill_comment" formControlName="commentBill" class="form-control" style="width: 100%;"></textarea>  
+            </div>
+        </div>
+    </div>
+    <div *ngIf="type == 5">
+        <div class="form-group">
+            <label for="filial_name" class="col-xs-4 control-label">Название</label>
+            <div class="col-xs-7 tax-type-change">
+            <input name="filial_name" formControlName="nameFilial" class="form-control filial_name" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="filial_adress" class="col-xs-4 control-label">Адрес</label>
+            <div class="col-xs-7 tax-type-change">
+            <input name="filial_adress" formControlName="adressFilial" class="form-control filial_adress" type="text">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" (click)="confirm(item, type)">Изменить</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="close()">{{closeBtnName}}</button>
+</div>

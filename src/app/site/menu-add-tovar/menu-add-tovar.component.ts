@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
 import { DbService } from '../../shared/services/db.service';
 import { categoriesInterface } from '../../shared/services/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
@@ -19,11 +21,13 @@ export class MenuAddTovarComponent extends HomeComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public db: DbService,
-    public settingsService: SettingsService 
+    public settingsService: SettingsService,
+    public store: Store 
   ) { 
     super(
       db,
-      settingsService
+      settingsService,
+      store
     )
   }
 

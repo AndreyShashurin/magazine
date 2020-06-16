@@ -33,7 +33,7 @@
             <span *ngIf="!item.payment"  class="billNotPay">Не оплачен</span>
           </td>
           <td *ngIf="item.type == 3" class="status" style="text-align: left; font-weight: bold;"><span style="background: {{item.statusColor}}">{{item.statusName}}</span></td>
-          <td><div>Изменить</div></td> 
+          <td><div (click)="updateModal(item, 2)" >Изменить</div></td> 
           <td><div (click)="openModal(item, 'bill')">Удалить</div></td>  
         </tr> 
       </tbody>
