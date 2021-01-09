@@ -1,29 +1,18 @@
 import {Action} from '@ngrx/store';
+import { personsInterface } from '../../shared/services/interface.service';
 
-export enum PersonsActions {
-    LoadPersons = '[Persons Page] LoadPersonss',
+export enum EPersonsActions {
+    GetPersons = '[Persons Page] GetPersons',
     DeletePersons = '[Persons Page] DeletePersons'
 }
-    
-export interface Persons{
-    access: number, 
-    email: string, 
-    filial: number,
-    level?: any,
-    filial_name: string,
-    id: number,  
-    login: string,  
-    name: string, 
-}
 
-export class LoadPersons implements Action{
-    readonly type = PersonsActions.LoadPersons;
-    
-    constructor(public payload: {persons: Persons}){}
+export class GetPersons implements Action{
+    readonly type = EPersonsActions.GetPersons;
+    constructor(public payload: personsInterface[]){}
 }
     
 export class DeletePersons implements Action{
-    readonly type = PersonsActions.DeletePersons;
+    readonly type = EPersonsActions.DeletePersons;
 }
     
-export type PersonsUnion = LoadPersons | DeletePersons;
+export type PersonsActions = GetPersons | DeletePersons;

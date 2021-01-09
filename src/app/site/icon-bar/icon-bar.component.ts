@@ -7,7 +7,7 @@ import { SpaConfigService } from '../../shared/services/config.service';
 })
 export class IconBarComponent implements OnInit {
   showLoader: boolean;
-  constructor(private spaConfigService: SpaConfigService) { }
+  constructor(public spaConfigService: SpaConfigService) { }
 
   ngOnInit() {
   }

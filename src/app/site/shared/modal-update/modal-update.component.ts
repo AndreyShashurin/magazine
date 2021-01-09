@@ -43,8 +43,8 @@ export class ModalUpdateComponent implements OnInit {
       typeBill: new FormControl(''),
       payBill: new FormControl(''),
       commentBill: new FormControl(''),
-      nameFilial: new FormControl(''),
-      adressFilial: new FormControl('')
+      nameFilial: new FormControl((this.item && this.item.name) || ''),
+      adressFilial: new FormControl((this.item && this.item.adress) || '')
     });
   }
 
@@ -53,7 +53,6 @@ export class ModalUpdateComponent implements OnInit {
 
   confirm(data, type){
     if(type === 2) {
-      console.log(data)
       this.form.value.id = data.id
       this.form.value.price = data.price
       this.form.value.sale_price_margin = data.sale_price_margin
@@ -72,21 +71,31 @@ export class ModalUpdateComponent implements OnInit {
       ) */
 
     } else if (type === 5) {
-      const dataUpdate = {
-        id: data.id,
-        name: data.name,
-        adress: data.adress,
+      const dataresponce = {
+        id: (data && data.id) || '',
+        name: this.form.value.nameFilial,
+        adress: this.form.value.adressFilial
       }
-      this.db.updateFilial(dataUpdate).subscribe(
+      console.log(dataresponce)
+      if(dataresponce.id) {
+        this.db.updateFilial(dataresponce).subscribe(
+            (responce) => {
+              this.alert.success('Информация о заведении изменена')
+            },
+            (error) => {
+              this.alert.error('Ошибка изменения')
+            }
+        ) 
+      } else {
+        this.db.addFilial(dataresponce).subscribe(
           (responce) => {
-              console.log(responce)
-              this.alert.success('Информация о пользователе изменена')
+            this.alert.success('Заведение добавлено')
           },
           (error) => {
-            console.error(error)
-              this.alert.error('Ошибка изменения')
+            this.alert.error('Ошибка изменения')
           }
       ) 
+      }
     }
     this.modalService.hide();
   }

@@ -16,7 +16,7 @@ export class TerminalHeaderComponent implements OnInit {
   @Input() openSmena: boolean;
   
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     private authService: AuthService,
     private settingsService: SettingsService,
     private modalService: BsModalService

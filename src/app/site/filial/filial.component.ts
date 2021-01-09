@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit  } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Subscription } from 'rxjs';
 import { SettingsService } from '../../shared/services/settings.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { ModalUpdateComponent } from '../shared/modal-update/modal-update.component';
@@ -10,18 +10,16 @@ import { ModalUpdateComponent } from '../shared/modal-update/modal-update.compon
   templateUrl: './filial.component.html',
   styleUrls: ['./filial.component.sass']
 })
-export class FilialComponent implements OnInit {
-  @ViewChild(CdkVirtualScrollViewport)ж
-  public viewPort: CdkVirtualScrollViewport;
+export class FilialComponent implements OnInit, OnDestroy {
 
   bsModalRef: BsModalRef;
   constructor(
     public settings: SettingsService,
     private modalService: BsModalService
-  ) { }
-
-  ngOnInit() {
-  }
+  ) {
+   }
+  
+  ngOnInit(): void {}
 
   deleteModal(item, type) {
     const initialState = {
@@ -46,5 +44,8 @@ export class FilialComponent implements OnInit {
     this.bsModalRef = this.modalService.show(ModalUpdateComponent, {initialState});
     this.bsModalRef.content.type = type;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
+  }
+
+  ngOnDestroy(): void {
   }
 }

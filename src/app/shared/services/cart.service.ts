@@ -14,6 +14,7 @@ export class CartService {
   breadcrumbs: any[] = [];
   count: number = 0;
   price: number = 0;
+  priceSale: number = 0;
 
   onSelected(data) {
     this.data.tovar.push(data);

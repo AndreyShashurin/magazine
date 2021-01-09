@@ -17,10 +17,6 @@ import { HomeComponent } from '../../home.component';
   styleUrls: ['./bill.component.scss']
 })
 export class BillComponent extends HomeComponent implements OnInit {
-  @ViewChild(CdkVirtualScrollViewport)
-
-  public viewPort: CdkVirtualScrollViewport;
-
   bill: any;
   bsModalRef: BsModalRef;
   subscription: SubscriptionLike;
@@ -37,6 +33,7 @@ export class BillComponent extends HomeComponent implements OnInit {
     )
   }
 
+  
   ngOnInit() {
     this.getBill()
   }

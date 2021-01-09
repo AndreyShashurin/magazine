@@ -1,101 +1,94 @@
-<div [formGroup]="form">
-  <table class="table sortable structure-table">
-    <thead>
-        <tr>
-            <th>Участие в скидках</th>
-            <th>Весовой товар</th>
-            <th>Товар</th>
-            <th>Категория</th>
-            <th>Ед. измерения</th>
-            <th>Налог</th>
-            <th>Цена</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr class="noprint">
-            <td class="noprint" colspan="10">
-                <a class="btn-link add_new_menu" (click)="addForm()">Добавить позицию</a>
-            </td>
-            <td class="noprint-cell"></td>
-        </tr>
-    </tfoot>
-    <tbody>
-      <ng-container formArrayName="tovar">
-        <tr *ngFor="let control of tovar.controls; let i = index; trackBy:trackByFn">
-          <ng-container [formGroupName]="i">
-              <td>
-               <mat-checkbox formControlName="sale"></mat-checkbox>
-              </td>
-              <td class="weight_flag">
-                <mat-checkbox formControlName="weight"></mat-checkbox>
-              </td>
-              <td class="product_name">
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="" formControlName="name">
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-label>Категория</mat-label>
-                  <mat-select formControlName="category">
-                    <mat-option *ngFor="let item of categories" [value]="item.id">
-                      {{item.name}}
-                    </mat-option>    
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field formControlName="ed">
-                  <mat-label>Единица измерения</mat-label>
-                  <mat-select>
-                    <mat-option>миллилитры</mat-option>
-                    <mat-option>литр</mat-option>
-                    <mat-option>грамм</mat-option>
-                    <mat-option>килограмм</mat-option>
-                    <mat-option>шт</mat-option>   
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-label>Налог</mat-label>
-                  <mat-select formControlName="nalog">
-                    <mat-option *ngFor="let item of categories" [value]="item.id">
-                      {{item.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="">
-                </mat-form-field>
-              </td>
-              <td style="vertical-align: middle;">
-                <a class="delete-new-tovar" tabindex="-1" (click)="remove(i)">×</a>
-              </td> 
-            </ng-container>       
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-  <div class="row">
-    <div class="col-2 self-center">
-      <label for="product_name" class="control-label">Заведение для привязки</label>
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body">
+    <div [formGroup]="form">
+      <table class="table sortable structure-table" formArrayName="tovar">
+        <thead>
+            <tr>
+                <th>Участие в скидках</th>
+                <th>Весовой товар</th>
+                <th>Товар</th>
+                <th>Категория</th>
+                <th>Ед. измерения</th>
+                <th>Налог</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="noprint">
+                <td class="noprint" colspan="10">
+                    <a class="btn-link add_new_menu" (click)="addForm()">Добавить позицию</a>
+                </td>
+                <td class="noprint-cell"></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr *ngFor="let control of tovar.controls; let i = index; trackBy:trackByFn">
+              <ng-container >
+                  <td>
+                  <mat-checkbox [formControl]="control.controls['sale']"></mat-checkbox>
+                  </td>
+                  <td class="weight_flag">
+                    <mat-checkbox [formControl]="control.controls['weight']"></mat-checkbox>
+                  </td>
+                  <td class="product_name">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="" [formControl]="control.controls['name']">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Категория</mat-label>
+                      <mat-select [formControl]="control.controls['category']">
+                        <mat-option *ngFor="let item of settings.categoriesResponse | async" [value]="item.id">
+                          {{item.name}}
+                        </mat-option>    
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field [formControl]="control.controls['ed']">
+                      <mat-label>Единица измерения</mat-label>
+                      <mat-select>
+                        <mat-option *ngFor="let item of keys(ingredietnsTypeName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Налог</mat-label>
+                      <mat-select [formControl]="control.controls['nalog']">
+                        <mat-option *ngFor="let item of categories" [value]="item.id">
+                          {{item.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a class="delete-new-tovar" tabindex="-1" (click)="remove(i)">×</a>
+                  </td> 
+                </ng-container>       
+            </tr>
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col-2 self-center">
+          <label for="product_name" class="control-label">Заведение для привязки</label>
+        </div>
+        <div class="col-6">
+          <mat-form-field >
+              <mat-label>Филиал</mat-label>
+              <mat-select formControlName="filial">
+                <mat-option *ngFor="let item of settings.filialResponse | async" [value]="item.id">
+                  {{item.name}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="controls">
+        <button  class="btn btn-success btn-sm" type="submit" [disabled]="!form.valid" (click)="save()">Сохранить</button>
+      </div>
     </div>
-    <div class="col-6">
-      <mat-form-field >
-          <mat-label>Филиал</mat-label>
-          <mat-select formControlName="filial">
-            <mat-option *ngFor="let item of filial" [value]="item.id">
-              {{item.name}}
-            </mat-option>
-          </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="controls">
-    <button  class="btn btn-success btn-sm" type="submit" [disabled]="!form.valid" (click)="save()">Сохранить</button>
   </div>
 </div>

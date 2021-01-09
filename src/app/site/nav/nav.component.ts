@@ -3,7 +3,7 @@ import { MenuItem } from '../../shared/services/interface.service';
 import { MenuService } from '../../shared/services/menu.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { SettingsService } from '../../shared/services/settings.service';
-import { DbService } from 'src/app/shared/services/db.service';
+import { DbService } from '../../shared/services/db.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class NavComponent implements OnInit {
   stat: any = []
   
   constructor(
-    private menuService: MenuService,
+    public menuService: MenuService,
     private authService: AuthService,
     public db: DbService,
     private settingsService: SettingsService
@@ -27,7 +27,6 @@ export class NavComponent implements OnInit {
     this.db.getUser(localStorage.getItem('SJid')).subscribe(
       (val) => {
         this.stat = val[1];
-        console.log(this.stat);
       },
       (error) => {
         console.log(error);

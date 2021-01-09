@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { discardIntarface } from '../../../shared/services/interface.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { discardIntarface, DiscardTypeName } from '../../../shared/services/interface.service';
 import { DbService } from '../../../shared/services/db.service';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-discard',
@@ -9,6 +10,7 @@ import { DbService } from '../../../shared/services/db.service';
 })
 export class DiscardComponent implements OnInit {
   discard: discardIntarface[] = [];
+  discardName = DiscardTypeName;
 
   constructor(
     public db: DbService
@@ -23,6 +25,10 @@ export class DiscardComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  compareDiscardId(id: number | string): string {
+    return Object.keys(this.discardName)[id];
   }
 
 }

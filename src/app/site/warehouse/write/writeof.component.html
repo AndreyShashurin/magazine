@@ -1,51 +1,67 @@
-<div [formGroup]="writeOf" (submit)="sendForm()">
-  <div class="form-group">
-    <label for="promo_name" class="col-xs-3 control-label">Причина списания</label>
-    <div class="col-xs-6">
-      <select class="browser-default custom-select" formControlName="reason" >
-        <option></option>
-        <option value="Просрочка">Просрочка</option>
-        <option value="Порча товаара">Порча товра</option>
-      </select> 
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="reason_new" class="col-xs-3 control-label">Своя причина</label>
-    <div class="col-xs-5">
-      <input type="text" class="form-control" id="reason_new" name="reason_new">
-    </div>                            
-  </div>
-  <div class="form-group">
-    <label for="comment" class="col-xs-3 control-label">Коментарии</label>
-    <div class="col-xs-6">
-      <textarea class="form-control" formControlName="comment" autosize></textarea>
-    </div>
-  </div>
-  <div class="gray-wrapper">
-    <table class="table sortable structure-table">
-        <thead>
-            <tr>
-                <th>Товар</th>
-                <th>Колличество</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr class="noprint">
-                <td class="noprint" colspan="4">
-                  <a class="btn-link add-write-off" data-type="add-write-off">Добавить позицию</a>
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body">
+    <div [formGroup]="form">
+      <div class="form-group">
+        <mat-form-field class="col-12">
+            <mat-label>Причина списания</mat-label>
+            <mat-select formControlName="reason" required>   
+              <mat-option  *ngFor="let item of keys(discardName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="col-12">
+          <mat-label>Своя причина</mat-label>
+          <input matInput>
+        </mat-form-field>                         
+      </div>
+      <div class="form-group">  
+        <mat-form-field class="col-12">
+          <mat-label>Коментарии</mat-label>
+          <textarea matInput formControlName="comment" autosize></textarea>
+        </mat-form-field>
+      </div>
+      <div class="gray-wrapper" formArrayName="tovars">
+        <table class="table sortable structure-table">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Колличество</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr class="noprint">
+                    <td class="noprint" colspan="4">
+                      <a class="btn-link add-write-off" data-type="add-write-off" (click)="addTovarArray()">Добавить позицию</a>
+                    </td>
+                    <td class="noprint-cell"></td>
+                </tr>
+            </tfoot>
+            <tbody>
+              <tr *ngFor="let tovar of tovars.controls; let i = index">
+                <td class="tovar">
+                  <mat-form-field style="width: 100%">
+                    <input type="text" matInput [formControl]="tovar.controls['name']" [matAutocomplete]="auto" required >
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let item of sklads" [value]="item.tovar" (click)="selectedItem(item, i)">
+                            {{item.tovar}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
                 </td>
-                <td class="noprint-cell"></td>
-            </tr>
-        </tfoot>
-        <tbody>
-            <tr class="write-off" id="write-off">
-                <td class="ingredient">
-                    <input class="form-control write-off" name="write-off"  type="text">
+                <td>
+                  <mat-form-field style="width: 100%">
+                    <input matInput type="text" [formControl]="tovar.controls['quantity']" (keyup)="onChange($event, i)"  required>
+                  </mat-form-field>
                 </td>
-        </tbody>
-    </table> 
-    <div class="noprint">
-        <div><b>Итого: <span class="price_itog">0</span></b></div>
-    </div>  
+                <td class="noprint"><a class="delete-red-ingredient" (click)="removeIngredient(i)">×</a></td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="controls">
+            <button type="submit" class="btn btn-success btn-sm" [disabled]="!form.valid" (click)="sendForm()">Списать</button>
+        </div> 
+      </div>
+    </div>
   </div>
 </div>

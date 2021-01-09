@@ -139,6 +139,10 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
         this.createForm();     
     }
 
+    trackByFn(index, item) {
+        return index
+    }
+
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe()

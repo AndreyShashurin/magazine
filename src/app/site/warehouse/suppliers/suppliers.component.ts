@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DbService } from '../../../shared/services/db.service';
 import { suppliersIntarface } from '../../../shared/services/interface.service';
 

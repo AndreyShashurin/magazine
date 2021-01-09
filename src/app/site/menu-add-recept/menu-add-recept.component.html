@@ -1,163 +1,172 @@
-<form [formGroup]="form">
-  <div class="stats-wrapper">
-      <div class="form-horizontal recept">
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Название</label>
-              <div class="col-sm-10">
-                <mat-form-field class="col-8">
-                  <input matInput placeholder="" formControlName="name">
-                </mat-form-field>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Объем</label>
-              <div class="col-sm-10">
-                <mat-form-field class="col-8">
-                  <input matInput placeholder="" formControlName="output">
-                </mat-form-field>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Категория</label>
-              <div class="col-sm-9">
-                <mat-form-field class="col-6">
-                    <mat-label>Категория</mat-label>
-                    <mat-select formControlName="categories">
-                      <mat-option *ngFor="let item of filial" [value]="item.id">
-                        {{item.name}}
-                      </mat-option>    
-                    </mat-select>
-                  </mat-form-field>                  
-              </div>
-          </div>      
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Весовой товар </label>
-              <div class="col-sm-9">
-                <mat-checkbox formControlName="weight" class="col-sm-2"></mat-checkbox>               
-              </div>
-          </div> 
-          <div class="form-group row">
-              <label class="col-sm-2 col-form-label">Участие в скидках</label>
-              <div class="col-sm-9">
-                <mat-checkbox formControlName="sale" class="col-sm-2"></mat-checkbox>               
-              </div>
-          </div> 
-          <form id="process" formArrayName="process">
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body">
+    <form [formGroup]="form">
+      <div class="stats-wrapper">
+          <div class="form-horizontal recept">
               <div class="form-group row">
-                  <label for="item-process" class="col-sm-2 col-form-label">Процесс приготовления:</label>
+                  <label class="col-sm-2 col-form-label">Название</label>
+                  <div class="col-sm-10">
+                    <mat-form-field class="col-8">
+                      <mat-label>Название</mat-label>
+                      <input matInput placeholder="" formControlName="name" required>
+                    </mat-form-field>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Объем</label>
+                  <div class="col-sm-10">
+                    <mat-form-field class="col-8">
+                      <input matInput placeholder="" formControlName="volume">
+                    </mat-form-field>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Категория</label>
                   <div class="col-sm-9">
-                      <ng-container *ngFor="let control of form.get('process').controls; let i = index; trackBy:trackByFn" >
-                          <div [formGroupName]="i" class="col-sm-12 mb-3" style="display: flex;">
-                              <input class="form-control item-process-number" name="item-process-number" [value]="i+1" formControlName="id" hidden>
-                              <input class="form-control item-process" name="item-process" [id]="i+1" value="" formControlName="value">
-                          </div>
-                      </ng-container>
-                      <a class="btn-link add-process" (click)="addFormProcess()">Добавить</a>
+                    <mat-form-field class="col-6">
+                        <mat-label>Категория</mat-label>
+                        <mat-select formControlName="categories" required>
+                          <mat-option *ngFor="let item of settings.categoriesResponse | async" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>    
+                        </mat-select>
+                      </mat-form-field>                  
+                  </div>
+              </div>      
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Весовой товар </label>
+                  <div class="col-sm-9">
+                    <mat-checkbox formControlName="weight" class="col-sm-2"></mat-checkbox>               
+                  </div>
+              </div> 
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Участие в скидках</label>
+                  <div class="col-sm-9">
+                    <mat-checkbox formControlName="sale" class="col-sm-2"></mat-checkbox>               
+                  </div>
+              </div> 
+              <form id="process" formArrayName="process">
+                  <div class="form-group row">
+                      <label for="item-process" class="col-sm-2 col-form-label">Процесс приготовления:</label>
+                      <div class="col-sm-9">
+                          <ng-container *ngFor="let control of form.get('process').controls; let i = index; trackBy:trackByFn" >
+                              <div [formGroupName]="i" class="col-sm-12 mb-3" style="display: flex;">
+                                  <input class="form-control item-process-number" name="item-process-number" [value]="i+1" formControlName="id" hidden>
+                                  <input class="form-control item-process" name="item-process" [id]="i+1" value="" formControlName="value">
+                              </div>
+                          </ng-container>
+                          <a class="btn-link add-process" (click)="addFormProcess()">Добавить</a>
+                      </div>
+                  </div>
+              </form>
+              <div class="form-group row">
+                  <label for="nalog" class="col-sm-2  col-form-label">Налог:</label>
+                  <div class="col-sm-9">
+                    <mat-form-field class="col-6">
+                        <mat-label>Налог</mat-label>
+                        <mat-select formControlName="nalog">
+                          <mat-option *ngFor="let item of filial" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>    
+                        </mat-select>
+                    </mat-form-field>  
                   </div>
               </div>
-          </form>
+              <div class="form-group row">
+                  <label for="filial_name" class="col-sm-2  col-form-label">Заведение для привязки</label>
+                  <div class="col-sm-9">
+                    <mat-form-field class="col-6">
+                        <mat-label>Филиал</mat-label>
+                        <mat-select formControlName="filial" required>
+                          <mat-option *ngFor="let item of settings.filialResponse | async" [value]="item.id">
+                            {{item.name}}
+                          </mat-option>    
+                        </mat-select>
+                      </mat-form-field>  
+                  </div>
+              </div>
+          </div>
+          <div class="flexBox" formArrayName="ingredient">
+              <div class="blue-wrapper ingredients">
+                <form id="ingredienty">
+                  <table class="table sortable structure-table">
+                      <thead>
+                          <th style="width:300px">Ингредиент</th>
+                          <th>Цена</th>
+                          <th>Вес</th>
+                          <th>Себестоимость</th>
+                          <th></th>
+                      </thead>
+                      <tbody>    
+                          <tr *ngFor="let tovar of ingredient.controls; let i = index">
+                              <td>
+                                <mat-form-field style="width: 100%">
+                                  <input type="text" matInput [formControl]="tovar.controls['value']" [matAutocomplete]="auto">
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let item of ingredientsTypes" [value]="item.title" (click)="selectedItem(item, i)">
+                                      {{item.title}}
+                                    </mat-option>
+                                  </mat-autocomplete>
+                                </mat-form-field>
+                              </td>
+                              <td>{{tovar.controls['price'].value}}</td>
+                              <td>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" [formControl]="tovar.controls['weight']" (keyup)="onChange($event, i)">
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">{{tovar.controls.type.value}}</span>
+                                    </div>
+                                </div>
+                              </td>
+                              <td class="price">
+                                  <input type="text" class="form-control" [formControl]="tovar.controls['costPrice']">
+                              </td>
+                              <td class="noprint"><a class="delete-red-ingredient" (click)="removeIngredient(i)">×</a></td>
+                          </tr>
+                      </tbody>
+                      <tfoot>
+                          <tr class="noprint">
+                              <td class="noprint" colspan="7">
+                                  <a class="btn-link add-ingredient" (click)="addIngredient()">Добавить ингредиент</a>
+                              </td>
+                          </tr>
+                          <tr class="noprint">
+                              <td class="output-weight" colspan="3"><b>Выход: 
+                                {{this.form.value.output}}</b></td>
+                          </tr>
+                      </tfoot>
+                  </table>
+                </form>
+              </div>
+        </div>
+        <div class="operation-total">
           <div class="form-group row">
-              <label for="nalog" class="col-sm-2  col-form-label">Налог:</label>
-              <div class="col-sm-9">
-                <mat-form-field class="col-6">
-                    <mat-label>Налог</mat-label>
-                    <mat-select formControlName="nalog">
-                      <mat-option *ngFor="let item of filial" [value]="item.id">
-                        {{item.name}}
-                      </mat-option>    
-                    </mat-select>
-                </mat-form-field>  
+              <label class="col-sm-2 col-form-label">Себестоимость</label>
+              <div class="col-sm-10">
+                {{this.form.value.cost}}
               </div>
           </div>
           <div class="form-group row">
-              <label for="filial_name" class="col-sm-2  col-form-label">Заведение для привязки</label>
-              <div class="col-sm-9">
-                <mat-form-field class="col-6">
-                    <mat-label>Филиал</mat-label>
-                    <mat-select formControlName="filial">
-                      <mat-option *ngFor="let item of filial" [value]="item.id">
-                        {{item.name}}
-                      </mat-option>    
-                    </mat-select>
-                  </mat-form-field>  
+              <label class="col-sm-2 col-form-label">Цена продажи</label>
+              <div class="col-sm-10">
+                <mat-form-field class="col-12">
+                    <mat-label>Цена</mat-label>
+                    <input matInput placeholder="" (keyup)="onChangePrice($event)" formControlName="salePrice" value="{{data ? data.price: ''}}" required>
+                  </mat-form-field>
               </div>
           </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Процент наценки</label>
+              <div class="col-sm-10">
+                <div id="calc-extra">{{data ? data.margin : this.form.value.markUp}}</div>
+                <div id="calc-profit" style="display:none">{{data ? data.profit : this.form.value.markUpPercent}}</div>
+              </div>
+          </div>
+        </div>
+        <div class="controls">
+            <button type="submit" class="btn btn-success btn-sm" [disabled]="!form.valid" (click)="save()">Сохранить</button>
+        </div>
       </div>
-       <div class="flexBox" formArrayName="ingredient">
-          <div class="blue-wrapper ingredients">
-          <form id="ingredienty">
-          <table class="table sortable structure-table">
-              <thead>
-                  <th style="width:300px">Ингредиент</th>
-                  <th>Вес</th>
-                  <th class="text-center">Себестоимость</th>
-                  <th>Цена</th>
-                  <th></th>
-              </thead>
-              <tbody>    
-                  <tr *ngFor="let tovar of ingredient.controls; let i = index">
-                      <td>
-                          <custom-select [options]="contactTypes" [formControl]="tovar.controls['title']"></custom-select>
-                      </td>
-                      <td>
-                          <div class="input-group">
-                              <input type="text" class="form-control" (keyup)="onKeyUp($event)">
-                              <div class="input-group-append">
-                                <span class="input-group-text">{{tovar.controls.ed}}</span>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="price">
-                          <input type="text" class="form-control" [formControl]="tovar.controls['price']">
-                      </td>
-                      <td class="price2">
-                          <span class="price-amount2"></span>
-                          <span class="price-currency">
-                          <i class="fa fa-"></i></span>
-                      </td>
-                      <td class="noprint"><a class="delete-red-ingredient" (click)="removeContact(i)">×</a></td>
-                  </tr>
-              </tbody>
-              <tfoot>
-                  <tr class="noprint">
-                      <td class="noprint" colspan="7">
-                          <a class="btn-link add-ingredient" (click)="addIngredient()">Добавить ингредиент</a>
-                      </td>
-                  </tr>
-                  <tr class="noprint">
-                      <td class="output-weight" colspan="3"><b>Выход: <span></span></b></td>
-                  </tr>
-              </tfoot>
-          </table>
-          </form>
-          </div>
-          <div class="operation-total">
-          <fieldset class="cost-cell calc-value">
-              <legend>Себестоимость</legend>
-              <div class="text-center">
-              <span class="cost">{{data ? data.cost: ''}}</span> <span class="price-currency-ingredient"></span>
-                              </div>
-          </fieldset>
-          <div class="plus math-operation text-center">+</div>
-          <fieldset>
-              <legend>Цена</legend>
-              <div class="input-group mb-3">
-                  <input type="text" value="{{data ? data.price: ''}}" class="form-control letters" aria-describedby="basic-addon2">
-                  <div class="input-group-append">
-                      <span class="input-group-text" id="basic-addon2"><i class="fa fa-rub"></i></span>
-                  </div>
-              </div>
-          </fieldset>
-          <div class="math-operation equal text-center">=</div>
-          <fieldset>
-              <legend>Процент наценки</legend>
-              <div id="calc-extra" class="text-center">{{data ? data.margin: ''}}</div>
-              <div id="calc-profit" class="text-center" style="display:none">{{data ? data.profit: ''}}</div>
-          </fieldset>
-          </div>
-    </div>
-    <div class="controls">
-        <button type="submit" class="btn btn-success btn-sm" (click)="save()">Сохранить</button>
-    </div>
+    </form>
   </div>
-</form>
+</div>

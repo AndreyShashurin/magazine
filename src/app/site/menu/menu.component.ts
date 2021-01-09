@@ -3,12 +3,13 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { SubscriptionLike, Subject } from 'rxjs';
-import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, skladIntarface } from '../../shared/services/interface.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { ModalDetailComponent } from '../shared/modal-detail/modal-detail.component';
+import { Router } from '@angular/router';
+import { SettingsService } from 'src/app/shared/services/settings.service';
 
 @Component({
   selector: 'app-menu',
@@ -16,9 +17,6 @@ import { ModalDetailComponent } from '../shared/modal-detail/modal-detail.compon
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  @ViewChild(CdkVirtualScrollViewport)
-
-  public viewPort: CdkVirtualScrollViewport;
   bsModalRef: BsModalRef;
   menu: menuIntarface[] = [];
   sklad: skladIntarface[] =[];
@@ -36,19 +34,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   constructor(
     private db: DbService,
     private modalService: BsModalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public settings: SettingsService,
+    private router: Router, 
   ) {
     this.ingredientForm = this.fb.group({
       ingredient: fb.array([])
     });
-  }
-
-  public get inverseOfTranslation(): string {
-    if (!this.viewPort || !this.viewPort["_renderedContentOffset"]) {
-      return "-0px";
-    }
-    let offset = this.viewPort["_renderedContentOffset"];
-    return `-${offset}px`;
   }
 
   public get ingredient(): FormArray {
@@ -70,7 +62,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
    updateForm(i: any): void {
-     console.log(i);
      this.ingredientForm.value.ingredient = {title: i.title, price: i.price};
   }
 
@@ -131,7 +122,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     let structureArray = [];
     let processArray = [];
     let sum = 0;
-    data.structure.forEach(function(value, key) {
+    data.ingredient.forEach(function(value, key) {
       sum = sum + parseFloat(value[3].split('=')[1]);
       structureArray.push({
         "name": value[0].split('=')[1],
@@ -177,9 +168,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   update(data){
-    this.menuForm = false;
+    this.router.navigate(['/dashboard/addrecept'], {
+      queryParams: {
+        id : data.id
+      }})
+    /*this.menuForm = false;
     this.data = data;
-    this.checked = data.nodiscountFlag;
+    this.checked = data.nodiscountFlag;*/
   }
 
   addBlock(){
@@ -196,7 +191,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy');
     if (this.subscription) {
       this.subscription.unsubscribe();
       this.subscription = null;

@@ -11,6 +11,7 @@ export class FilterComponent implements OnInit {
   @Input() warehouse: boolean = false; //Кнопки склада
   @Input() addPersonal: boolean = false; //Добавить нового сотрудника
   @Input() menu: boolean = false; //Добавить нового сотрудника
+  @Input() addFilial: boolean = false; //Добавить нового сотрудника
 
   constructor() { }
 

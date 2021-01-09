@@ -27,12 +27,12 @@ export class MenuService {
             name: 'finance',
             submenu: [
                 {text: 'Оплаты', route:'bill'},
-                {text: 'Отчет', route:'finanсe'},
+                {text: 'Отчет', route:'finance'},
                 {text: 'Транзакции', route:'transactions'},
                 {text: 'Смены', route:'сhange'},
-                {text: 'Счета', route:'balance'},
+                {text: 'Счета', route:'accounts'},
                 {text: 'Налоги', route:'taxes'},
-                {text: 'Категории', route:'category'}
+                {text: 'Категории', route:'categories'}
             ]
         },{
             text: 'Склад',
@@ -54,7 +54,7 @@ export class MenuService {
             name: 'menu',
             submenu: [
                 {text: 'Меню', route:'menu'},
-                {text: 'Категории', route:'categories'}
+                {text: 'Категории', route:'category'}
             ]
         },{
             text: 'Заведения',

@@ -1,23 +1,14 @@
-import {PersonsUnion, PersonsActions, Persons} from '../actions/persons.actions';
-    
-export interface State{
-    persons: {},
-    count: number;
-}
+import { PersonsActions, EPersonsActions} from '../actions/persons.actions';
+import { initialPersonsState } from '../state/persons.state';
 
-const initialState: State = {
-    persons: {},
-    count: 0
-};
-
-export function personsReducer(state: State = initialState, action: PersonsUnion){
+export function personsReducer(state = initialPersonsState, action: PersonsActions){
  switch(action.type){
-   case PersonsActions.LoadPersons:
+   case EPersonsActions.GetPersons:
      return {
        ...state,
-       persons: action.payload.persons
+       persons: []
      };
-   case PersonsActions.DeletePersons:
+   case EPersonsActions.DeletePersons:
      return {
        ...state,
        persons: []

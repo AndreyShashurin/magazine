@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@ang
 import { Store } from '@ngrx/store';
 
 import { DbService } from '../../shared/services/db.service';
-import { categoriesInterface } from '../../shared/services/interface.service';
+import { categoriesInterface, IngredietnsTypeName } from '../../shared/services/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { HomeComponent } from '../home.component';
 
@@ -15,31 +15,25 @@ import { HomeComponent } from '../home.component';
 export class MenuAddTovarComponent extends HomeComponent implements OnInit {
 
   form: FormGroup;
-  categories: categoriesInterface[] = [];
   filial: any;
+  ingredietnsTypeName: any;
+  keys = Object.keys;
   
   constructor(
     public fb: FormBuilder,
     public db: DbService,
-    public settingsService: SettingsService,
+    public settings: SettingsService,
     public store: Store 
   ) { 
     super(
       db,
-      settingsService,
+      settings,
       store
     )
   }
 
   ngOnInit() {
-    this.db.getCategories().subscribe(val => {
-      this.categories = val;
-    })    
-    this.settingsService.filialResponse.subscribe(
-      (data) => {
-        this.filial = data
-      }
-    )
+    this.ingredietnsTypeName = IngredietnsTypeName;
     this.form = this.fb.group({
       tovar: this.fb.array([]),
       filial: new FormControl(null, Validators.required)
@@ -70,5 +64,9 @@ export class MenuAddTovarComponent extends HomeComponent implements OnInit {
     this.db.saveDelivery(this.form.value).subscribe(data=> {
       console.log(data)
     });
+  }
+
+  trackByFn(index, item) {
+    return index
   }
 }

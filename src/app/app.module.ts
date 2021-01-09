@@ -1,7 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule } from '@angular/material';
+import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { StoreModule } from '@ngrx/store';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
@@ -35,7 +39,7 @@ import { StaffComponent } from './site/reports/staff/staff.component';
 import { IngredientsComponent } from './site/reports/ingredients/ingredients.component';
 import { BillComponent } from './site/finance/bill/bill.component';
 import { TransactionsComponent } from './site/finance/transactions/transactions.component';
-import { FinanсeComponent } from './site/finance/finanсe.component';
+import { FinanсeComponent } from './site/finance/finance.component';
 import { ParamsModel } from './shared/services/params.model';
 import { ReceptComponent } from './site/recept/recept.component';
 import { PersonalComponent } from './site/personal/personal.component';
@@ -68,8 +72,17 @@ import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { AccessComponent } from './site/access/access.component';
 import { MenuAddTovarComponent } from './site/menu-add-tovar/menu-add-tovar.component';
 import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.component';
-import { StoreModule } from '@ngrx/store';
-import {reducers} from './store/index';
+import { appReducers } from './store/index';
+import { SeriesModule } from './site/series/series.module';
+import { MenuModule } from './site/menu/menu.module';
+import { SettingsEffects } from './store/effects/settings.effcets';
+import { EffectsModule } from '@ngrx/effects';
+import { AddFilialComponent } from './site/filial/add-filial/add-filial.component';
+import { CategoryComponent } from './site/category/category.component';
+import { ChangeComponent } from './site/finance/change/change.component';
+import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
+import { TaxesComponent } from './site/finance/taxes/taxes.component';
+import { CategoriesComponent } from './site/finance/categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +133,13 @@ import {reducers} from './store/index';
     TerminalHeaderComponent,
     SingTerminalComponent,
     FilialComponent,
-    AccessComponent
+    AccessComponent,
+    AddFilialComponent,
+    CategoryComponent,
+    ChangeComponent,
+    AccoutnsComponent,
+    TaxesComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -134,8 +153,15 @@ import {reducers} from './store/index';
     MatCheckboxModule,
     MatSelectModule,    
     MatInputModule,
+    MatAutocompleteModule,
     ModalModule.forRoot(),
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([SettingsEffects]),
+    SeriesModule,
+    MenuModule,
+    MatTreeModule,
+    MatIconModule,
+    MatProgressBarModule
   ],
   providers: [
     MenuService, 

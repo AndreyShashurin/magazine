@@ -21,6 +21,7 @@ export class SettingsService implements OnInit {
   public openSmena: boolean = false;
   visibleFilter: boolean = true;
   public filialResponse = new Subject<any>();
+  public categoriesResponse = new Subject<any>();
   filialSubscriber = this.filialResponse.asObservable();
 
   constructor(
@@ -28,9 +29,11 @@ export class SettingsService implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getFilial();
+    this.getCategories();
   }
 
-  getUser() {
+  getUser(): void {
     this.db.getUser(localStorage.getItem('SJTerminalid')).subscribe(
       (val) => {
         this.activeUser = val;
@@ -41,7 +44,13 @@ export class SettingsService implements OnInit {
     )  
   }
 
-  getSetting() {
+  getCategories(): void {
+    this.db.getCategories().subscribe(val => {
+      this.categoriesResponse.next(val);
+    })
+  }
+
+  getSetting(): void {
     this.db.getSettings().subscribe(
       (val) => {
         this.settings = val;    
@@ -53,7 +62,7 @@ export class SettingsService implements OnInit {
     )
   }
 
-  getFilial() {   
+  getFilial(): void {   
     this.db.getFilial().subscribe(
       (val) => {
         this.filial = val;        
@@ -63,7 +72,11 @@ export class SettingsService implements OnInit {
     )
   }
 
-  getSmena() { 
+  getFilialResponse(): Observable<any> {
+    return this.filialResponse.asObservable();
+  }
+
+  getSmena(): void { 
     this.db.getSmena(this.activefilial).subscribe(
       (val) => {
         this.activeSmena = val;  
@@ -75,7 +88,7 @@ export class SettingsService implements OnInit {
 
   }
 
-  getPromo() {    
+  getPromo(): void {    
     this.db.getPromo().subscribe(
       (val) => {
         this.promo = val;  
@@ -86,7 +99,7 @@ export class SettingsService implements OnInit {
     )
   }
 
-  getPayment() { 
+  getPayment(): void { 
     this.db.getPayment().subscribe(
       (val) => {
         this.payments = val;  
@@ -97,15 +110,15 @@ export class SettingsService implements OnInit {
     )
   }
 
-  visibleMenu(data: number) {
+  visibleMenu(data: number): void {
     this.menu = data;
   }    
 
-  visibleFilterDunc(data: boolean) {
+  visibleFilterDunc(data: boolean): void {
     this.visibleFilter = data;
   }  
 
-  setSmena(data: boolean) {
+  setSmena(data: boolean): void {
     this.openSmena = data;
   }  
 

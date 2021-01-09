@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  url: 'http://shashurin.beget.tech/dashboard/api/',
+  token: ''
 };

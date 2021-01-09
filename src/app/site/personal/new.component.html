@@ -1,53 +1,52 @@
-<div class="pg-header">
-    <h4 class="pg-title"><span class="title-icon icons"><i class="icon-people"></i></span>Добавить нового сотрудника</h4>
+<div class="sj-panel sj-panel-fh">
+    <div class="sj-panel-body">
+        <form class="row" [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group row">
+                <div class="col-md-4 mb-10">
+                    <label for="name">Имя сотрудника</label>
+                    <input class="form-control" id="name" formControlName="name" placeholder="Имя" type="text">
+                </div>
+                <div class="col-md-4 mb-10">
+                    <label for="access">Уровень доступа</label>
+                    <select class="form-control custom-select d-block w-100" id="access" formControlName="access">
+                        <option *ngFor="let access of accesses; trackBy: trackByFn" value="{{access.access}}">{{access.value}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-10">
+                    <label for="filial">Заведение для привязки</label>
+                    <select class="form-control custom-select d-block w-100" id="filial" formControlName="filial">
+                        <option *ngFor="let filial of filials; trackBy: trackByFn" value="{{filial.id}}">{{filial.name}}</option>
+                    </select>
+                </div>
+            </div> 
+            <hr>      
+            <div class="form-group row">
+                <div class="col-md-6 mb-10">
+                    <label for="pass">Пароль для входа в админ панель</label>
+                    <input class="form-control"  id="pass" type="password" formControlName="password">
+                </div>
+                <div class="col-md-6 mb-10">
+                    <label for="pin">PIN для входа в терминал</label>
+                    <input class="form-control" id="pin" type="password" formControlName="pin">
+                </div>
+            </div>  
+            <hr>     
+            <div class="form-group row">
+                <label class="col-sm-3 control-label">Права доступа</label>
+                <div class="col-sm-9 custom-control custom-checkbox" formArrayName="level">
+                    <ng-template ngFor let-category [ngForOf]="form.controls.level.controls" let-i="index">
+                        <div formGroupName="{{ i }}" class="mb-15">
+                            <input class="custom-control-input" id="same-address{{ i }}" type="checkbox"  formControlName="checked" [checked]="categories[i].checked">
+                            <label class="custom-control-label" for="same-address{{ i }}">{{ categories[i].name }}</label>
+                        </div>
+                    </ng-template> 
+                </div>
+            </div>
+            <div class="control-group the-submit">
+                <div class="max-width-wrapper">
+                    <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">Сохранить</button>
+                </div>
+            </div>
+        </form> 
+    </div>
 </div>
-<section class="sec-wrapper">
-    <form class="row" [formGroup]="form" (ngSubmit)="save()">
-        <div class="form-group row">
-            <div class="col-md-4 mb-10">
-                <label for="name">Имя сотрудника</label>
-                <input class="form-control" id="name" formControlName="name" placeholder="Имя" type="text">
-            </div>
-            <div class="col-md-4 mb-10">
-                <label for="access">Уровень доступа</label>
-                <select class="form-control custom-select d-block w-100" id="access" formControlName="access">
-                    <option *ngFor="let access of accesses; trackBy: trackByFn" value="{{access.access}}">{{access.value}}</option>
-                </select>
-            </div>
-            <div class="col-md-4 mb-10">
-                <label for="filial">Заведение для привязки</label>
-                <select class="form-control custom-select d-block w-100" id="filial" formControlName="filial">
-                    <option *ngFor="let filial of filials; trackBy: trackByFn" value="{{filial.id}}">{{filial.name}}</option>
-                </select>
-            </div>
-        </div> 
-        <hr>      
-        <div class="form-group row">
-            <div class="col-md-6 mb-10">
-                <label for="pass">Пароль для входа в админ панель</label>
-                <input class="form-control"  id="pass" type="password" formControlName="password">
-            </div>
-            <div class="col-md-6 mb-10">
-                <label for="pin">PIN для входа в терминал</label>
-                <input class="form-control" id="pin" type="password" formControlName="pin">
-            </div>
-        </div>  
-        <hr>     
-        <div class="form-group row">
-            <label class="col-sm-3 control-label">Права доступа</label>
-            <div class="col-sm-9 custom-control custom-checkbox" formArrayName="level">
-                <ng-template ngFor let-category [ngForOf]="form.controls.level.controls" let-i="index">
-                    <div formGroupName="{{ i }}" class="mb-15">
-                        <input class="custom-control-input" id="same-address{{ i }}" type="checkbox"  formControlName="checked" [checked]="categories[i].checked">
-                        <label class="custom-control-label" for="same-address{{ i }}">{{ categories[i].name }}</label>
-                    </div>
-                </ng-template> 
-            </div>
-        </div>
-        <div class="control-group the-submit">
-            <div class="max-width-wrapper">
-                <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">Сохранить</button>
-            </div>
-        </div>
-    </form> 
-</section>

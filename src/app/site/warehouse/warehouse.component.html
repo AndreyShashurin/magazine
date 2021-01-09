@@ -1,20 +1,20 @@
-<div class="stats-wrapper">
-  <cdk-virtual-scroll-viewport class="table-viewport" [itemSize]="20">
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body">
     <table class="full-list table">
       <thead>
         <tr>
-          <th [style.top]="inverseOfTranslation" style="width: 50px;"></th>
-          <th [style.top]="inverseOfTranslation">Название</th>
-          <th [style.top]="inverseOfTranslation">Категория</th>
-          <th [style.top]="inverseOfTranslation">Единица измерения</th>
-          <th [style.top]="inverseOfTranslation">Остаток на складе</th>
-          <th [style.top]="inverseOfTranslation">Себестоимость</th>
-          <th [style.top]="inverseOfTranslation">Сумма остатка</th>
-          <th [style.top]="inverseOfTranslation" style="width: 100px;">Действия</th>
+          <th style="width: 50px;"></th>
+          <th >Название</th>
+          <th>Категория</th>
+          <th>Единица измерения</th>
+          <th>Остаток на складе</th>
+          <th>Себестоимость</th>
+          <th>Сумма остатка</th>
+          <th>Действия</th>
         </tr>
       </thead>
       <tbody>
-        <tr *cdkVirtualFor="let sklad of sklads" class="item" cdkFixedHeader>
+        <tr *ngFor="let sklad of sklads" class="item">
           <td>
             <a class="fa fa-area-chart delivery-area-chart" href="#myModal" data-toggle="modal" data-name="Chupa chups"></a>
           </td>
@@ -31,6 +31,6 @@
           </td>
         </tr>
       </tbody>
-    </table>
-  </cdk-virtual-scroll-viewport>        
+    </table>  
+</div>
 </div>

@@ -3,7 +3,7 @@
         background: white;
         font-weight: bold;
         text-align: center;
-        width: calc(10.2%);
+        width: calc(11.6%);
         float: left;
         font-size: 12px;
         cursor: pointer;
@@ -13,11 +13,11 @@
         padding: 0px;
 }
 .tovar {
-        height: 150px;
+        min-height: 111px;
         background: white;
         font-weight: bold;
         text-align: center;
-        width: calc(10.2%);
+        width: calc(11.6%);
         float: left;
         display: flex;
         flex-direction: column;
@@ -40,6 +40,20 @@
         .tovar-character {
                 font-size: 11px;
                 padding: 2px; 
+        }
+        .icon {
+                top: -10px;
+                color: #060606;
+                float: right;
+                position: absolute;
+                background: #ff8d00;
+                border-radius: 50%;
+                display: flex;
+                right: 6px;
+                align-items: center;
+                height: 20px;
+                width: 20px;
+                justify-content: center;
         }
 }
 .process:hover {

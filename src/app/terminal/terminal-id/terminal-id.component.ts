@@ -58,7 +58,7 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
       } else {
         this.categories = [];
       }
-      this.db.getMenuByID(item.id).subscribe(val => {
+      this.db.getMenuByCategoryID(item.id).subscribe(val => {
         this.promo =[];
         this.menu = val;
       })

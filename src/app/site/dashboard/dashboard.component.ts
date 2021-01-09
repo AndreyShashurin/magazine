@@ -95,12 +95,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   public popularTovar: any = {
     chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
+        renderTo: 'popular',
         type: 'pie',
-        height:"250px"
     },
+    colors: ['#FAD331', '#96D5DF', '#1BA8BB', '#C5D930', '#C1A0C5'],
     title: {
         text: ''
     },
@@ -108,31 +106,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
         pointFormat: '<b>{point.percentage:.1f}%</b>'
     },
     legend: {
-        enabled: false
-    },   
+      enabled: true,
+      floating: false,
+      borderWidth: 0,
+      align: 'right', 
+      layout: 'vertical',
+      verticalAlign: 'middle',
+      itemMarginTop: 5,
+      itemMarginBottom: 5,
+      itemStyle: {
+        lineHeight: "40px"
+      },
+      useHTML: true,
+      labelFormatter: function() {
+        return '<span style="display:block; margin-top:-10px; position:relative; width:210px;">&nbsp<span style="font-weight:normal; vertical-align:super;">' + this.name + ' </span><span style="font-weight:normal; vertical-align:super; position:absolute; right:0px;">' + this.y + '<br/></span></span>'; // right:0px; pulls the number to the right and keeps the text to the left
+      }
+    },
     plotOptions: {
         pie: {
-            colors: [
-              '#ff453c', 
-              '#fdc5c3', 
-              '#ffbf36', 
-              '#20c997', 
-              '#64E572', 
-              '#FF9655'
-            ],
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: false
-            },
-            showInLegend: true,            
-            innerSize: 30,
+          center: [60, 100],
+          shadow: false,
         }
     },
     series: [{
-        name: '',
-        colorByPoint: true,
-        data: []
+        data: [],
+        size: '80%',
+        innerSize: '85%',
+        showInLegend: true,
+        dataLabels: {
+          enabled: false
+        }
     }]
   }
 

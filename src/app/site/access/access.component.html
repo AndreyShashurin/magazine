@@ -1,21 +1,20 @@
-<div class="listing">
-  <div class="pg-header">
-      <h4 class="pg-title small-icons"><span class="title-icon icons"><i class="icon-people"></i></span> Группы пользователей</h4>
-  </div>
-  <div class="table-container table-list">
-    <table class="table">
-      <thead class="false">
-        <tr>
-          <th>Права</th>
-          <th>Уровень доступа</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of accesses">
-          <td>{{item.value}}</td>
-          <td width="120px">{{item.access}}</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body">
+    <div class="table-container table-list">
+      <table class="table">
+        <thead class="false">
+          <tr>
+            <th>Права</th>
+            <th>Уровень доступа</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of accesses">
+            <td>{{item.value}}</td>
+            <td width="120px">{{item.access}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

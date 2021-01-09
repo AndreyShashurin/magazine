@@ -41,6 +41,12 @@ export class DbService implements OnDestroy  {
     return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
   }
 
+  getTovarById(id: string) {
+    return this.http.get(this.apiURL + 'tovars', {
+      params: new HttpParams().set('id', id)
+    });
+  }
+
   // Акции
   getPromo(): Observable<promoInterface[]> {
     return this.http.get<promoInterface[]>(this.apiURL + 'promo');
@@ -65,10 +71,11 @@ export class DbService implements OnDestroy  {
     });
   }
 
-  postWriteOf(data: any): Observable<any> {
-    return this.http.post(this.apiURL + 'warehouse', data, {
-      params: new HttpParams().set('writeOf', '1')
-    });
+  postWriteOf(id, data: any): Observable<any> {
+    return this.http.post(this.apiURL + 'warehouse', {
+      id,
+      data
+    })
   }
 
   // Информация о комбо наборе
@@ -105,7 +112,6 @@ export class DbService implements OnDestroy  {
   }
 
   updateUser(user: personsInterface) {
-
     return this.http.put<personsInterface[]>(this.apiURL + 'users', user, {
       params: new HttpParams().set('update', 'update')
     })
@@ -151,9 +157,8 @@ export class DbService implements OnDestroy  {
 
   getDeleteTovar(data){
     const options = {
-          id: data
-      };
-
+      id: data
+    };
     return this.http.put(this.apiURL + 'tovars', options).subscribe(
         (val) => {
           this.modalService.hide(1);
@@ -166,9 +171,15 @@ export class DbService implements OnDestroy  {
     return this.http.get<menuIntarface[]>(this.apiURL + 'menu');
   }
 
-  getMenuByID(id: any) {
+  getMenuById(id: any) {
     return this.http.get<menuIntarface[]>(this.apiURL + 'menu', {
       params: new HttpParams().set('id', id)
+    });
+  }
+
+  getMenuByCategoryID(id: any) {
+    return this.http.get<menuIntarface[]>(this.apiURL + 'menu', {
+      params: new HttpParams().set('categoryId', id)
     });
   }
 
@@ -184,6 +195,17 @@ export class DbService implements OnDestroy  {
           this.modalService.hide(1);
         }
     );
+  }
+
+  saveMenu(data: menuIntarface) {
+    return this.http.post<menuIntarface>(this.apiURL + 'menu', data);
+  }
+
+  updateMenu(id: number, data: menuIntarface): Observable<any> {
+    return this.http.put<menuIntarface>(this.apiURL + 'menu', {
+      id,
+      data
+    });
   }
 
 
@@ -205,6 +227,10 @@ export class DbService implements OnDestroy  {
   // Финансы
   getBill() {
     return this.http.get(this.apiURL + 'bill')
+  }
+
+  getFinance() {
+    return this.http.get(this.apiURL + 'finance')
   }
 
   // Обновляем счет
@@ -249,6 +275,10 @@ export class DbService implements OnDestroy  {
     })
   }
 
+  addFilial(data) {
+    return this.http.post(this.apiURL + 'filial', data);
+  }
+
   getFilial() {
     return this.http.get(this.apiURL + 'filial');
   }
@@ -256,6 +286,7 @@ export class DbService implements OnDestroy  {
   updateFilial(data) {
      return this.http.put(this.apiURL + 'filial', data)
   }
+
   deleteFilial(data){
     let options = {
       headers: new HttpHeaders({

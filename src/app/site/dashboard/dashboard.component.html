@@ -1,113 +1,79 @@
-<div class="chart-wrapper"> 
-    <div class="sj-row">
-        <div class="col-lg-4">
-            <div class="card card-sm">
-                <div class="card-body">
-                    <div class="sj-legend-wrap mb-10">
-                        <div class="sj-legend">
-                            <span>Популярные товары</span>
-                        </div>
+<div class="row"> 
+    <div class="col-xl-3 col-lg-3 col-md-3 br-lg-r" *ngFor="let status of statuses; let i = index"
+    [ngClass]="{'br-active': typeStats === i}" 
+    (click)="toggleChart(i, typePeriod)">
+        <div class="sj-card ms-widget">
+            <div class="chartjs-size-monitor">
+                <span class="sj-chart-label bg-black"><i class="fa fa-long-arrow-down"></i>{{ status.percent }}</span>
+                 <div class="sj-card-body media">
+                    <div class="media-body">
+                        <span class="black-text"><strong>{{ status.name }}</strong></span>
+                        <h2>{{ status.value }}<i class="fa fa-rub"></i></h2>
                     </div>
                 </div>
-                <div class="popular-chart" id="popular-chart"></div>
-                <div class="popular-table">
-                    <table class="table table-overflow">
-                        <thead>
-                            <tr>
-                                <th>Товар</th>
-                                <th>Продаж</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let tovar of tovars">
-                                <td>{{tovar.name}}</td>
-                                <td>{{tovar.sold}}</td>
-                            </tr>                                 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <div class="sj-row">
-                <div class="col-lg-6" *ngFor="let status of statuses; let i = index">
-                    <div class="card card-sm maxHeight-151 minHeight-151" 
-                        [ngClass]="{'br-active': typeStats === i}" 
-                        (click)="toggleChart(i, typePeriod)"
-                    >
-                        <div class="card-body pa-0">
-                            <div class="pa-15 mb-10">
-                                <span class="d-block font-14 font-weight-500 text-dark">{{ status.name }}</span>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="display-5 font-weight-400 text-dark">{{ status.value }}<i class="fa fa-rub"></i></div>
-                                    <div class="font-13 font-weight-500">
-                                        <span>{{ status.percent }}%</span>
-                                        <i class="ion ion-md-arrow-down text-danger ml-5"></i>
+            </div> 
+        </div>    
+    </div> 
+    <div class="col-md-12 chart-wrapper"> 
+        <div class="sj-row">
+            <div class="col-lg-8">
+                <div class="sj-row">
+                    <div class="col-lg-12">    
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="sj-legend-wrap mb-10">
+                                    <div class="sj-legend">
+                                        <span>Продажи по часам</span>
                                     </div>
                                 </div>
-                            </div>      
-                            <div id="sparkline_1"><canvas width="233" height="50" style="display: inline-block; width: 233.766px; height: 50px; vertical-align: top;"></canvas></div>
+                            </div>               
+                            <div id="wrap-container"></div> 
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="sj-row">
-                <div class="col-lg-12">    
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="sj-legend-wrap mb-10">
-                                <div class="sj-legend">
-                                    <span>Продажи по часам</span>
-                                </div>
-                            </div>
-                        </div>               
-                        <div id="wrap-container"></div> 
+        </div>        
+            <div class="wrap-stat">
+                <span>
+                    <button type="button"  class="btn btn-stat h_week" [ngClass]="{'active': activeStats === 0}" (click)="toggleChart(typeStats, 0)">Неделя</button>
+                    <button type="button" class="btn btn-stat h_month" [ngClass]="{'active': activeStats === 1}"  (click)="toggleChart(typeStats, 1)">Месяц</button>
+                </span>
+                <div id="container_chart" style="height: 300px; margin: 0 auto"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="sj-panel sj-panel-fh">
+                <div class="sj-panel-header">
+                    <h6>Популярные товары</h6>
+                </div>
+                <div class="sj-panel-body flexItem">
+                    <div class="popular-chart" id="popular-chart" style="width: 500px; margin: 0 auto"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="sj-panel sj-panel-fh">
+                <div class="sj-panel-header">
+                    <h6>Сотрудники</h6>
+                </div>
+                <div class="sj-panel-body flexItem">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Сотрудник</th>
+                                    <th>Доход</th>
+                                    <th>Прибыль</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let person of persons">
+                                    <td>{{person.name}}</td>
+                                    <td></td>
+                                    <td><i class="fa fa-rub"></i></td>
+                                </tr>        
+                            </tbody>
+                        </table> 
                     </div>
                 </div>
-            </div>
         </div>
-    </div>       
-    <div class="stats-container"> 
-            <div class="col-xs-12 br-lg-r"
-             *ngFor="let status of statuses; let i = index" 
-             [ngClass]="{'br-active': typeStats === i}" 
-             (click)="toggleChart(i, typePeriod)"
-            >
-                <div class="col-sm-8">
-                    <h4>{{ status.name }} <span>{{ status.value }}<i class="fa fa-rub"></i></span></h4>
-                </div>
-                <div class="col-sm-4">                        
-                    <span class="measure persantage"><sup>{{ status.percent }}</sup></span>
-                </div>
-            </div>
-        </div>     
-        <div class="wrap-stat">
-            <span>
-                <button type="button"  class="btn btn-stat h_week" [ngClass]="{'active': activeStats === 0}" (click)="toggleChart(typeStats, 0)">Неделя</button>
-                <button type="button" class="btn btn-stat h_month" [ngClass]="{'active': activeStats === 1}"  (click)="toggleChart(typeStats, 1)">Месяц</button>
-            </span>
-            <div id="container_chart" style="height: 300px; margin: 0 auto"></div>
-        </div>
-    <div class="index-bottom"> 
-        <div class="wrap-users wrap-container">
-                <h2>Сотрудники</h2>
-                <div class="flexItem">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Сотрудник</th>
-                                <th>Доход</th>
-                                <th>Прибыль</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let person of persons">
-                                <td>{{person.name}}</td>
-                                <td></td>
-                                <td><i class="fa fa-rub"></i></td>
-                            </tr>        
-                        </tbody>
-                    </table> 
-                </div>
-            </div>
     </div>

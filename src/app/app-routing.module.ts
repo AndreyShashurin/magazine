@@ -12,7 +12,7 @@ import { StaffComponent } from './site/reports/staff/staff.component';
 import { IngredientsComponent } from './site/reports/ingredients/ingredients.component';
 import { TransactionsComponent } from './site/finance/transactions/transactions.component';
 import { BillComponent } from './site/finance/bill/bill.component';
-import { FinanсeComponent } from './site/finance/finanсe.component';
+import { FinanсeComponent } from './site/finance/finance.component';
 import { NewsfeedComponent } from './site/reports/newsfeed/newsfeed.component';
 import { SettingsComponent } from './site/settings/settings.component';
 import { WarehouseComponent } from './site/warehouse/warehouse.component';
@@ -33,6 +33,12 @@ import { FilialComponent } from './site/filial/filial.component';
 import { AccessComponent } from './site/access/access.component';
 import { MenuAddTovarComponent } from './site/menu-add-tovar/menu-add-tovar.component';
 import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.component';
+import { AddFilialComponent } from './site/filial/add-filial/add-filial.component';
+import { CategoryComponent } from './site/category/category.component';
+import { TaxesComponent } from './site/finance/taxes/taxes.component';
+import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
+import { ChangeComponent } from './site/finance/change/change.component';
+import { CategoriesComponent } from './site/finance/categories/categories.component';
 
 const routes: Routes = [
     {path: '', component: SingInComponent},
@@ -52,11 +58,12 @@ const routes: Routes = [
                 { path: "finance", component: FinanсeComponent},
                 { path: "bill", component: BillComponent},
                 { path: "transactions", component: TransactionsComponent},
-                { path: "сhange", component: DashboardComponent},
-                { path: "balance", component: DashboardComponent},
-                { path: "taxes", component: DashboardComponent},
-                { path: "category", component: DashboardComponent},
+                { path: "сhange", component: ChangeComponent},
+                { path: "accounts", component: AccoutnsComponent},
+                { path: "taxes", component: TaxesComponent},
+                { path: "categories", component: CategoriesComponent},
                 { path: "filial", component: FilialComponent},
+                { path: "addFilial", component: AddFilialComponent},
                 { path: "settings", component: SettingsComponent, data: { roles: ["admin"] }},
                 { path: "group", component: AccessComponent},
                 { path: "personal", component: PersonalComponent},
@@ -69,6 +76,7 @@ const routes: Routes = [
                     { path: 'discard', component: DiscardComponent},  
                     { path: 'write', component: WriteOfComponent},
                 { path: "menu", component: MenuComponent},
+                { path: "category", component: CategoryComponent},
                 { path: "addtovar", component: MenuAddTovarComponent},
                 { path: "addrecept", component: MenuAddReceptComponent}
             ]

@@ -81,7 +81,7 @@ export interface menuIntarface {
   cost: number;
   count?: number;
   filial?: number;
-  filial_id: number;
+  filial_id?: number;
   nalog?: number;
   id: number;
   margin: number;
@@ -91,7 +91,6 @@ export interface menuIntarface {
   nodiscountFlag: boolean;
   output: number;
   price: number;
-  process?: any;
   structure?: any;
   profit?: any;
   sold?: any;
@@ -99,8 +98,15 @@ export interface menuIntarface {
   combo?: string;
   weight_flag: string;
   totalCounter?: number;
+  volume?: string,
+  ingredient: ingredientsInterface[],
+  process?: processIntarface[]
 }
 
+export interface processIntarface {
+  id: number,
+  value: string
+}
 export interface settingsIntarface {
   Tax: string, 
   access: number, 
@@ -129,6 +135,7 @@ export interface settingsIntarface {
   time: string,
   type: number
 }
+
 export interface suppliersIntarface {
   name: string, 
   adress: string, 
@@ -180,13 +187,44 @@ export interface promoInterface {
   time_start: string,
   time_end: string
 }
+
+export interface ingredientsInterface  {
+  costPrice?:  string | number,
+  maxValue: string | number,
+  output?: string,
+  price?: number,
+  title: string, 
+  type: string | number,
+  weight?: string | number,
+}
+
+export interface filialInterface  {
+  id: number, 
+  name: string,
+  adress: string,
+  price?: string,
+  profit?: string,
+  email?: string,
+  avg_price?: string,
+  phone?: string
+}
+
+export enum IngredietnsTypeName {
+  'litre' = 'л.',
+  'milliliters' = 'мл.',
+  'gram' = 'гр.',
+  'piece' = 'шт.',
+  'kilogram' = 'кг.'
+}
+
+export enum DiscardTypeName {
+  'Просрочка' = 'Просрочка',
+  'Порча товара' = 'Порча товара'
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class InterfaceService {
-  constructor(
-    id: number, 
-    name: string, 
-    sold: number
-  ) { }
+  constructor() { }
 }
