@@ -49,3 +49,16 @@ div.blue-wrapper {
   overflow: auto;
   height: 200px;
 }
+.dataTables_filter input {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: auto;
+}
+.dataTables_filter input {
+    border-radius: 25px;
+    padding: 11px 14px;
+    font-size: 14px;
+}
+.dataTables_filter--right {
+    text-align: right;
+}

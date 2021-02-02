@@ -1,4 +1,7 @@
 <div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-header">
+    <app-filter [warehouse]="true"></app-filter>
+  </div>
   <div class="sj-panel-body">
     <table class="full-list table">
       <thead>
@@ -25,9 +28,9 @@
           <td>{{sklad.price}} <i class="fa fa-rub"></i></td>                            
           <td>{{sklad.price_itog}} <i class="fa fa-rub"></i></td>
           <td>
-              <a (click)="ngEdit(sklad)" class="mr-25" data-toggle="tooltip" data-original-title="Редактировать"> <i class="icon-pencil"></i></a>  
-              <a (click)="ngWriteOff(sklad)" class="mr-25" data-toggle="tooltip" data-original-title="Списать"> <i class="icon-action-redo icons"></i> </a>       
-              <a (click)="openModal(sklad.id, sklad.tovar, 'sklad')" class="mr-25" data-toggle="tooltip" data-original-title="Удалить"> <i class="icon-trash txt-danger"></i> </a>       
+            <a [routerLink]="['/dashboard', 'addSklad']" [queryParams]="{id: sklad.id}" class="mr-25" data-toggle="tooltip" data-original-title="Редактировать"> <i class="icon-pencil"></i></a>
+            <a (click)="ngWriteOff(sklad)" class="mr-25" data-toggle="tooltip" data-original-title="Списать"> <i class="icon-action-redo icons"></i> </a>       
+            <a (click)="openModal(sklad.id, sklad.tovar, 'sklad')" class="mr-25" data-toggle="tooltip" data-original-title="Удалить"> <i class="icon-trash txt-danger"></i> </a>       
           </td>
         </tr>
       </tbody>

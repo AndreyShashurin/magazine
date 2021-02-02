@@ -5,7 +5,7 @@
         <mat-form-field class="col-12">
             <mat-label>Причина списания</mat-label>
             <mat-select formControlName="reason" required>   
-              <mat-option  *ngFor="let item of keys(discardName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
+              <mat-option *ngFor="let item of keys(discardName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
             </mat-select>
           </mat-form-field>
       </div>

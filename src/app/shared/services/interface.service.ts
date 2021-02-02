@@ -74,6 +74,11 @@ export interface newUser {
   filial: number
 }
 
+export interface responseIntarface {
+  data: any,
+  total: string,
+}
+
 export interface menuIntarface {
   categories?: number;
   categories_id?: number;

@@ -5,8 +5,8 @@
 .plus, .minus, .flag_minus, .flag_plus {
     color: rgba(248, 63, 55, 1);
     font-weight: normal;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
     font-size: 19px;
     padding-bottom: 3px;
     cursor: pointer;
@@ -14,7 +14,6 @@
 td.calc-count {
     display: flex;
     input {
-        width: 50px;
         height: 28px;
         text-align: center;
     }

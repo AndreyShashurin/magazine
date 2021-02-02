@@ -1,13 +1,13 @@
-<terminal-header [openSmena]="settingsService.openSmena"></terminal-header>
+<terminal-header [openSmena]="settingsService.isOpenSmena | async"></terminal-header>
 <div class="row main-container">
   <div class="col-8 barista-container">
     <div class="barista-box">
       <terminal-id class="width100" [promo]="promo"></terminal-id>
     </div>
       <div class="barista-promo">
-        <ng-container *ngFor="let item of promo">
+        <ng-container *ngFor="let item of promo; let i = index">
           <span class="modal_pay btn promo" 
-            *ngIf="!item.combo" 
+            *ngIf="item.combo == 0 && item.id" 
             (click)="onSelectItem(item)" 
             [class.active]="item === activeItem"
           >
@@ -17,7 +17,7 @@
       </div>
   </div>
   <div class="col-4 side-bill">
-    <terminal-bill [openSmena]="settingsService.openSmena"></terminal-bill>  
+    <terminal-bill [openSmena]="settingsService.isOpenSmena | async"></terminal-bill>  
   </div>
 </div>
 <app-alert></app-alert>

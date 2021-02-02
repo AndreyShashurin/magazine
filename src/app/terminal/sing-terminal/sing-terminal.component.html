@@ -3,17 +3,20 @@
       SmarJoin
   </a>
 </header>
-<div class="container-fluid">
+<div class="container-fluid" >
   <div class="row">
       <div class="col-xl-5 pa-0">
           <div class="auth-cover-img overlay-wrap"></div>
       </div>
       <div class="col-xl-7 pa-0">
-          <div class="terminal login-form">
+          <div class="terminal login-form" [formGroup]="form">
             <div class="alert alert-danger" *ngIf="error || message">
                   {{ error || message }}
             </div>
-            <input class="form-control" type="number" name="pin" placeholder="Введите пин" autofocus [value]="currentNumber" (input)="onValueChange($event)">
+            <ng-container *ngIf="_form.invalid && (_form.touched || _form.dirty)">
+              <div class="alert alert-danger" *ngIf="_form.errors.pattern">Разрешаются только цифры</div>
+            </ng-container>
+            <input class="form-control" type="text" formControlName="pin" placeholder="Введите пин" autofocus>
             <div class="mt-4 mb-5 row">
               <div class="number" (click)="getNumber('1')">1</div>
               <div class="number" (click)="getNumber('2')">2</div>
@@ -24,9 +27,9 @@
               <div class="number" (click)="getNumber('7')">7</div>
               <div class="number" (click)="getNumber('8')">8</div>
               <div class="number" (click)="getNumber('9')">9</div>
-              <div class="delete" (click)="getDeleteOperation()">X</div>
+              <div class="delete" (click)="deletePinField()">X</div>
               <div class="number" (click)="getNumber('0')">0</div>
-              <div class="replace" (click)="getReplaceOperation()"><</div>
+              <div class="replace" (click)="replacePinField()"><</div>
             </div>
             <div class="form-group mt-4 row">
               <button class="btn btn-danger btn-block" type="submit" (click)="singIn()">Войти</button>

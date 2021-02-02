@@ -16,8 +16,7 @@ import { settingsIntarface } from '../../shared/services/interface.service';
 export class PaymentComponent extends HomeComponent implements OnInit {
 
   subscription: SubscriptionLike;
-  private ngUnsubscribe = new Subject();
-  public settings: settingsIntarface[] = [];
+  settings: settingsIntarface[] = [];
   
   constructor(
     public db: DbService,

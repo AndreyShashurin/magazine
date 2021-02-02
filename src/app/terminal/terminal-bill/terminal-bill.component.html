@@ -1,9 +1,8 @@
-<div class="cart">
-  <table class="table table-condensed table-zakaz">
+<div class="cart"[formGroup]="cartService.cartForm">
+  <table class="table table-condensed table-zakaz" >
     <thead>
       <tr>
         <th>Наименование</th>
-        <th></th>
         <th>Цена</th>
         <th>Кол-во</th>
         <th>Итого</th>
@@ -11,8 +10,8 @@
       </tr>
     </thead>            
     <tbody>    
-      <ng-container *ngFor="let items of cartService.data.combo; let key = index;">
-        <tr>
+      <ng-container formArrayName="combo">
+        <tr *ngFor="let items of cartService.data.combo; let key = index;">
           <td colspan="5">
             <div class="flex flex__center">
               <div class="flex__20">
@@ -26,18 +25,17 @@
           <td colspan="1" (click)="deleteCombo(items.zakazLength, key, items.price)"><a class="delete-tovar">x</a></td> 
         </tr>
       </ng-container>
-      <ng-container>
-      <tr *ngFor="let item of cartService.data.tovar; let key = index; trackBy: trackByFn">
-        <td class="name">{{item.name}}</td>
-        <td>{{item.size}}</td>
-        <td class="price">{{item.price}}</td>
+      <ng-container formArrayName="tovars">
+      <tr *ngFor="let tovar of cartService.tovars.controls; let i = index">
+        <td class="name">{{tovar.controls['name'].value}}</td>
+        <td class="price">{{tovar.controls['price'].value}}</td>
         <td class="calc-count">
-          <span class="minus" (click)="setIncrement(key, item, item.price)">-</span>
-          <span class="count"><input type="text" [value]="item.totalCounter || 1"> </span>
-          <span class="plus" (click)="setDecrement(key, item, item.price)">+</span>
+          <span class="minus" (click)="setIncrement(tovar, i)">-</span>
+          <span class="count"><input type="text" class="form-control" [formControl]="tovar.controls['count']"> </span>
+          <span class="plus" (click)="setDecrement(tovar, i)">+</span>
         </td>
-        <td class="price-new">{{item.price * (item.totalCounter || 1)}}</td>
-        <td class="delete-tovar" (click)="deleteCart(key, coutner, item.price * coutner)">
+        <td class="price-new">{{tovar.controls['priceWeight'].value}}</td>
+        <td class="delete-tovar" (click)="deleteCart(i)">
           <a class="delete-tovar">x</a>
         </td>
       </tr>  
@@ -67,14 +65,14 @@
         <td class="price-cell no-wrap">{{cartService.price}}</td>
       </tr>
       <tr class="bg-grey last-product">
-        <td>Итого со скидкой <b></b></td>
+        <td>Итого со скидкой <b *ngIf="cartService.sale">{{cartService.sale}} %</b></td>
         <td class="right-cell no-wrap" id="itog_plus_sale"><b></b></td>
         <td class="price-cell-sale no-wrap">{{cartService.priceSale}}</td>
       </tr>
     </tbody>
   </table>    
-  <div class="opensmena" [ngClass]="{'cancel-opacity': !openSmena}">                       
-    <span class="btn btn-danger btn-bill" >Отмена заказа</span>
+  <div class="opensmena" [ngClass]="{'cancel-opacity': openSmena}">                       
+    <span class="btn btn-danger btn-bill">Отмена заказа</span>
     <span class="btn btn-success btn-bill" (click)="buy()">Оплата заказа</span>
   </div>  
 </div>

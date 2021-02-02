@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DbService } from '../../shared/services/db.service';
-import { menuIntarface, categoriesInterface, promoInterface } from '../../shared/services/interface.service';
+import { menuIntarface, categoriesInterface, promoInterface, responseIntarface } from '../../shared/services/interface.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ModalTerminalComponent } from '../modal-terminal/modal-terminal/modal-terminal.component';
-import { validateConfig } from '@angular/router/src/config';
 import { TerminalComponent } from '../terminal.component';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 
@@ -14,66 +15,73 @@ import { SettingsService } from 'src/app/shared/services/settings.service';
   templateUrl: './terminal-id.component.html',
   styleUrls: ['./terminal-id.component.scss']
 })
-export class TerminalIdComponent extends TerminalComponent implements OnInit {
+export class TerminalIdComponent implements OnInit, OnDestroy {
   @Input() items: categoriesInterface[];
   @Input() promo: promoInterface[];
   menu: menuIntarface[] = [];
-  menuAll: menuIntarface[] = [];
+  menuAll: responseIntarface[] = [];
   categories: categoriesInterface[] = [];
   categoriesChilde: categoriesInterface[] = [];
   bsModalRef: BsModalRef;
+  notifier = new Subject();
   
   constructor(
     private route: ActivatedRoute,
     public db: DbService,
     public settingsService: SettingsService,
-    private cartService: CartService,
+    public cartService: CartService,
     private router: Router,
     private modalService: BsModalService
   ) {
-    super(
-      db,
-      settingsService
-    )
   }
 
   ngOnInit() {
-    this.db.getMenu().subscribe(val => {
+    this.db.getMenu().pipe(takeUntil(this.notifier)).subscribe(val => {
       this.menuAll = val;
     })
-    this.db.getCategories().subscribe(val => {
+    this.db.getCategories().pipe(takeUntil(this.notifier)).subscribe(val => {
       this.categories = val;
     })
   }
 
   getChildren(item: any) {
     this.cartService.onBreadcrumbs(item) // Строим хлебные крошки
-
     if (item) {
       if (item.childe) {
-        this.db.getCategoriesChilde(item.childe).subscribe(val => {
+        this.db.getCategoriesChilde(item.childe).pipe(takeUntil(this.notifier)).subscribe(val => {
           this.categoriesChilde = val;
           this.categories = [];
         })
       } else {
         this.categories = [];
       }
-      this.db.getMenuByCategoryID(item.id).subscribe(val => {
+      this.db.getMenuByCategoryID(item.id).pipe(takeUntil(this.notifier)).subscribe(val => {
         this.promo =[];
         this.menu = val;
       })
     }
   } 
 
-  getZakaz(data: menuIntarface[]) {
-    this.cartService.onSelected(data);
-    this.cartService.updateCount(data, 1);
-    this.cartService.updatePrice(+data['price'])
+  getZakaz(data: menuIntarface) {
+    if(data.weight_flag) {
+      const initialState = {
+        "type": 4,
+        data
+      };
+      this.bsModalRef = this.modalService.show(ModalTerminalComponent, {initialState});
+      this.bsModalRef.content.ModalBody = '';
+      this.bsModalRef.content.closeBtnName = 'Закрыть';
+      this.bsModalRef.content.confirmBtnName = 'Выбрать';
+     // this.bsModalRef.content.confirmDeleteGet = type;*/
+
+    }
+    this.cartService.addCartGroup(data)
   }
 
   openModal(data) {
-    let unserializeCombo = this.unserialize(data.categories);
-    let chunk = this.array_chunk(unserializeCombo, 3, false);
+    let unserializeCombo = this.unserialize(data.childe);
+    console.log(data)
+   /* let chunk = this.array_chunk(data.childe, 3, false);
     let structureArray = [];
     let combo1 = [];
     let combo2 = [];
@@ -111,7 +119,7 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
     this.bsModalRef.content.ModalBody = '';
     this.bsModalRef.content.closeBtnName = 'Закрыть';
     this.bsModalRef.content.confirmBtnName = 'Выбрать';
-   // this.bsModalRef.content.confirmDeleteGet = type;
+   // this.bsModalRef.content.confirmDeleteGet = type;*/
   }
   
   openModalRecept(data): void {
@@ -126,7 +134,8 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
 
-   unserialize (data) {
+   unserialize(data) {
+     console.log(data)
     let that = this,
       utf8Overhead = function (chr) {
         var code = chr.charCodeAt(0);
@@ -306,4 +315,9 @@ export class TerminalIdComponent extends TerminalComponent implements OnInit {
   
     return n
   }  
+
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
+  }
 }

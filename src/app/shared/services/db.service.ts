@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { map, tap } from 'rxjs/operators';
 
-import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface, promoInterface } from './interface.service';
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface, promoInterface, responseIntarface } from './interface.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -39,6 +39,10 @@ export class DbService implements OnDestroy  {
 
   getSklad() {
     return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
+  }  
+  
+  postSklad(data) {
+    return this.http.post<skladIntarface[]>(this.apiURL + 'tovars', data);
   }
 
   getTovarById(id: string) {
@@ -110,6 +114,12 @@ export class DbService implements OnDestroy  {
       )
    );    
   }
+  
+  getUserTerminal(data) {
+    return this.http.get(this.apiURL + 'users', {
+      params: new HttpParams().set('terminalId', data)
+    })  
+  }
 
   updateUser(user: personsInterface) {
     return this.http.put<personsInterface[]>(this.apiURL + 'users', user, {
@@ -167,8 +177,11 @@ export class DbService implements OnDestroy  {
   }
 
   // Меню  
-  getMenu() {
-    return this.http.get<menuIntarface[]>(this.apiURL + 'menu');
+  getMenu(data?) {
+    let params = new HttpParams()
+    .set('limit', data.limit)
+    .set('offset', data.offset);
+    return this.http.get<responseIntarface[]>(this.apiURL + 'menu', {params});
   }
 
   getMenuById(id: any) {
@@ -280,7 +293,10 @@ export class DbService implements OnDestroy  {
   }
 
   getFilial() {
-    return this.http.get(this.apiURL + 'filial');
+    return forkJoin(
+      this.http.get(this.apiURL + 'filial'),
+      this.http.get(this.apiURL + 'account')
+   );  
   }
 
   updateFilial(data) {
@@ -318,6 +334,11 @@ export class DbService implements OnDestroy  {
 
   //  Сохраняем поставку
   saveDelivery(data) {
+    return this.http.put(this.apiURL + 'warehouse', data)
+  }
+
+  //  Счета
+  accoutnts(data) {
     return this.http.put(this.apiURL + 'warehouse', data)
   }
 }

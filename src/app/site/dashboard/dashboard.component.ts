@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
-import { SubscriptionLike } from 'rxjs';
+import { Subject, SubscriptionLike } from 'rxjs';
 
 import { DbService } from '../../shared/services/db.service';
 import { personsInterface, tovarInterface } from '../../shared/services/interface.service';
 import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -22,11 +23,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   activeTab: boolean = true;
   activeStats: boolean = true;
   visibleFilter: boolean = false;
-  persons: personsInterface[] =[];
+  persons: personsInterface[] = [];
+  ngUnsubscribe = new Subject();
   typeStats: number = 0; // Выручка-Средний чек
   typePeriod: number = 0; // неделя/месяц
-  tovars: tovarInterface[] =[];
-  subscription: SubscriptionLike;
+  tovars: tovarInterface[] = [];
   statuses = [
       {
         id: 0,
@@ -203,7 +204,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.activeStats = val[1]
     const statusesFilter = this.statuses.filter(id => id.id === val[0])
                
-    this.subscription = this.db.getHightcharsResponse(val[1]).subscribe(
+    this.db.getHightcharsResponse(val[1]).pipe(
+        takeUntil(this.ngUnsubscribe)
+      ).subscribe(
         (response: Response) => { 
             this.options.series[0]['data'] = response['value'];
             this.options.xAxis.categories = response['key'];   
@@ -223,13 +226,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
             Highcharts.chart('container_chart', this.containerChart);
         },
         (error) => {console.log(error);
-        () => this.subscription.unsubscribe()
         }
     )
   }
 
   ngOnInit() {  
-    this.subscription = this.db.getUsers().subscribe(
+    this.db.getUsers().pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(
         (response) => { 
             this.persons = response
         },
@@ -238,7 +242,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     )
 
-    this.subscription = this.db.getTovars().subscribe(
+    this.db.getTovars().pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(
         (response) => { 
             this.tovars = response
         },
@@ -251,10 +257,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
  
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-      this.subscription = null;
-    }
-      
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

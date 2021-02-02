@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { DbService } from 'src/app/shared/services/db.service';
 import { DiscardTypeName, IngredietnsTypeName, skladIntarface } from 'src/app/shared/services/interface.service';
@@ -10,8 +12,9 @@ import { DiscardTypeName, IngredietnsTypeName, skladIntarface } from 'src/app/sh
   templateUrl: './writeof.component.html',
   styleUrls: ['./writeof.component.sass']
 })
-export class WriteOfComponent implements OnInit {
+export class WriteOfComponent implements OnInit, OnDestroy {
   form: FormGroup;
+  notifier = new Subject();
   sklads: skladIntarface[] = [];
   id: string;
   discardName = DiscardTypeName;
@@ -24,7 +27,7 @@ export class WriteOfComponent implements OnInit {
     private alert: AlertService
   ) {
     this.id = this.activatedRoute.snapshot.queryParams.id;
-    db.getSklad().subscribe(
+    db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
       (data) => { this.sklads = data; },
       (error) => { console.log(error); }
      )  
@@ -40,7 +43,7 @@ export class WriteOfComponent implements OnInit {
     });
     
     if(this.id) {
-      this.db.getTovarById(this.id).subscribe(
+      this.db.getTovarById(this.id).pipe(takeUntil(this.notifier)).subscribe(
         (data) => { this.addTovarArray(data); },
         (error) => {console.log(error);}
        )  
@@ -121,7 +124,7 @@ export class WriteOfComponent implements OnInit {
     const controls = this.form.get('tovars')['controls'];
     let array = [];
     controls.forEach(element => {
-      let type =element.get('type').value;
+      let type = element.get('type').value;
       if(type === IngredietnsTypeName.piece){
         array.push(element.get('price').value * value)
       } else if(type === IngredietnsTypeName.kilogram){
@@ -138,11 +141,16 @@ export class WriteOfComponent implements OnInit {
     this.form.get('price').setValue(result.toFixed(2));
   }
 
-  sendForm() {
+  sendForm(): void {
     this.form.value.tovars = this.serializeObj(this.form.value.tovars);
     this.db.postWriteOf(this.id, this.form.value).subscribe(
       (responce) => {this.alert.success('Информация обновлена')},
       (error) => {this.alert.error('Ошибка')}
     );
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

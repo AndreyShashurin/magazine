@@ -20,8 +20,8 @@
   </div>
   <div class="right-nav col">
     <ul>
-      <li *ngIf="!openSmena"><a class="item" (click)="openModal()">Начать смену</a></li>
-      <ng-container *ngIf="openSmena">
+      <li *ngIf="openSmena; else closeSmena"><a class="item" (click)="openModal()">Начать смену</a></li>
+      <ng-template #closeSmena>
         <li class="dropdown"><i class="fa fa-bars detail_bill"></i>
           <div class="dropdown-content">
             <a class="dropdown-item">Статистика</a>
@@ -31,8 +31,8 @@
         </li>
         <li><a class="smena_close">Закрыть смену</a></li>
         <li><a (click)="logout()" alt="Выход"><span class="glyphicon glyphicon-off"></span> Выйти</a></li>
-      </ng-container>
-      <li class="user_id"><a>Имя</a></li>
+      </ng-template>
+      <li class="user_id"><a>{{settingsService.terminalUserName | async}}</a></li>
     </ul>    
   </div>
 </header>

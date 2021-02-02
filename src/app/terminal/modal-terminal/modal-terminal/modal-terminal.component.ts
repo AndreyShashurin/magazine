@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment_ from 'moment';
 import { CartService } from '../../../shared/services/cart.service';
 import { DbService } from '../../../shared/services/db.service';
 import { SettingsService } from '../../../shared/services/settings.service';
-import { TerminalComponent } from '../../terminal.component';
+import { menuIntarface } from 'src/app/shared/services/interface.service';
 const moment = moment_;
 
 @Component({
@@ -13,10 +13,11 @@ const moment = moment_;
   templateUrl: './modal-terminal.component.html',
   styleUrls: ['./modal-terminal.component.scss']
 })
-export class ModalTerminalComponent extends TerminalComponent implements OnInit {
+export class ModalTerminalComponent implements OnInit {
   form: FormGroup;
   price: number;
   date: Date;
+  formWeight: FormGroup;
   Form: any = {
     price: ''
   };
@@ -27,18 +28,30 @@ export class ModalTerminalComponent extends TerminalComponent implements OnInit 
     public settingsService: SettingsService,
     public cartService: CartService
   ) {
-    super (
-      db,
-      settingsService
-    )
    }
 
   ngOnInit() {
+    this.formWeight = new FormGroup({
+      weight: new FormControl('', Validators.required),
+    });  
 
     this.form = new FormGroup({
-      combo1: new FormControl(Validators.required),
-      combo2: new FormControl(Validators.required)
+      combo1: new FormControl('', Validators.required),
+      combo2: new FormControl('', Validators.required)
     });    
+  } 
+  
+  getNumber(v: string){
+    this.formWeight.get('weight').setValue(this.formWeight.get('weight').value + v)
+  }
+
+  changeCount(data: menuIntarface): void {
+    this.cartService.cartForm.get('tovars')['controls'].forEach(el => {
+      if(el.get('id').value === data.id) {
+        el.get('count').setValue(this.formWeight.get('weight').value)
+        el.get('priceWeight').setValue((this.formWeight.get('weight').value / 1000) * el.get('price').value)
+      }
+    });
   }
 
   getCombo(data, item) {

@@ -1,3 +1,114 @@
-<p>
-  add-warehous works!
-</p>
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body">
+    <div [formGroup]="form">
+      <div class="form-group">
+        <mat-form-field class="col-12">
+          <mat-label>Заведение для привязки</mat-label>
+          <mat-select formControlName="filial" required>
+            <mat-option *ngFor="let item of settings.filialResponse | async" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="col-12">
+          <mat-label>Поставщик</mat-label>
+          <mat-select formControlName="supplier" required>   
+            <mat-option *ngFor="let item of suppliers" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>                      
+      </div>
+      <div class="form-group">  
+        <mat-form-field class="col-12">
+          <mat-label>Счет для списания</mat-label>
+          <mat-select formControlName="account" required>   
+            <mat-option *ngFor="let item of settings.accountResponse | async" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field class="col-12">
+          <mat-label>Дата поставки</mat-label>
+          <input matInput type="date" formControlName="date" required>
+        </mat-form-field>                         
+      </div>
+      <div class="form-group">
+        <label for="file">Фоторгафия</label>
+        <input 
+            formControlName="file"
+            id="file" 
+            type="file" 
+            class="form-control"
+            (change)="onFileChange($event)">     
+      </div>
+      <div formArrayName="tovars">
+        <table class="table sortable structure-table">
+          <thead>
+            <tr>
+              <th>Товар</th>
+              <th>Прежняя цена</th>
+              <th>Фасовка</th>
+              <th>Колличество</th>
+              <th>Цена за ед.</th>
+              <th>Сумма</th>
+            </tr>
+          </thead>
+          <tfoot>
+                <tr class="noprint">
+                    <td class="noprint" colspan="5">
+                      <a class="btn-link add-write-off" data-type="add-write-off" (click)="addTovarArray()">Добавить позицию</a>
+                    </td>
+                    <td class="noprint-cell"></td>
+                </tr>
+            </tfoot>
+            <tbody>
+              <tr *ngFor="let tovar of tovars.controls; let i = index">
+                <td class="tovar">
+                  <mat-form-field style="width: 100%">
+                    <input type="text" matInput [formControl]="tovar.controls['name']" [matAutocomplete]="auto" required >
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let item of sklads" [value]="item.tovar" (click)="selectedItem(item, i)">
+                            {{item.tovar}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </td>
+                <td>
+                  {{tovar.controls['markUpPercent'].value || percent }}
+                  {{tovar.controls['priceOld'].value}}
+                </td>
+                <td>
+                  <mat-form-field style="width: 100%" [formControl]="tovar.controls['type']">
+                    <mat-select>
+                      <mat-option *ngFor="let item of keys(ingredietnsTypeName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field style="width: 100%">
+                    <input matInput type="text" [formControl]="tovar.controls['quantity']" required>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field style="width: 100%">
+                    <input matInput type="text" [formControl]="tovar.controls['priceNews']" (keyup)="onChange($event, i)" required>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field style="width: 100%">
+                    <input matInput type="text" [formControl]="tovar.controls['summ']" required>
+                  </mat-form-field>
+                </td>
+                <td class="noprint"><a class="delete-red-ingredient" (click)="removeTovarField(i)">×</a></td>
+              </tr>
+            </tbody>
+        </table>
+        <b>Сумма поставки: {{ summed }}</b>
+        <div class="controls">
+            <button type="submit" class="btn btn-success btn-sm" (click)="sendForm()">Сохранить</button>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>

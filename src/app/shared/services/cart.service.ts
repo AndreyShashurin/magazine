@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { menuIntarface } from './interface.service';
 
 @Injectable({
@@ -14,10 +15,71 @@ export class CartService {
   breadcrumbs: any[] = [];
   count: number = 0;
   price: number = 0;
-  priceSale: number = 0;
+  priceSale: string;
+  sale: string;
+  cartForm: FormGroup;
 
-  onSelected(data) {
-    this.data.tovar.push(data);
+  constructor(
+    public fb: FormBuilder
+  ) {
+    this.cartForm = this.fb.group({
+      tovars: this.fb.array([]),
+      combo: this.fb.array([]),
+    });
+    this.cartForm.get('tovars').valueChanges.subscribe(value => {
+      const ctrl = <FormArray>this.cartForm.controls['tovars'];
+      let arrayCount = [];
+      let arrayPrice = [];
+      let arraySalePrice = [];
+      ctrl.controls.forEach(element => {
+        if(element.get('weightFlag')) {
+          arrayCount.push(1)
+        } else {
+          arrayCount.push(element.get('count').value)
+        }
+      });
+      ctrl.controls.forEach(element => {
+        if(element.get('weightFlag')) {
+          arrayPrice.push(element.get('priceWeight').value )
+        } else {
+          arrayPrice.push(element.get('price').value * element.get('count').value )
+        }
+      });
+      ctrl.controls.forEach(element => {
+        arraySalePrice.push(element.get('salePrice').value)
+      });
+      this.count = arrayCount.reduce((sum, current) => {
+        return +sum + +current;
+      }, 0);
+      this.price = arrayPrice.reduce((sum, current) => {
+        return +sum + +current;
+      }, 0);
+      this.priceSale = arraySalePrice.reduce((sum, current) => {
+        return +sum + +current;
+      }, 0);
+    })
+  }
+
+  public get tovars(): FormArray {
+    return <FormArray>this.cartForm.get('tovars');
+  }
+  public get combo(): FormArray {
+    return <FormArray>this.cartForm.get('combo');
+  }
+  addCartGroup(data?) {
+    return (<FormArray>this.cartForm.get('tovars')).push(
+      this.fb.group({
+        id: [data.id],
+        name: [data.name],
+        size: [],
+        count: [1],
+        price: [data.price],
+        sale: [data.nodiscountFlag],
+        salePrice: [],
+        weightFlag: [data.weight_flag],
+        priceWeight: [data.price]
+      })
+    )
   }
 
   onSelectedArray(data, id) {
@@ -43,7 +105,6 @@ export class CartService {
 
   decrementCounter(key: any, item: any){
     this.data.tovar.map(val => val['id'] === item.id ? item.totalCounter++ : null)
-    console.log(this.data.tovar)
   }
 
   incrementCounter(key: any, item: any){
@@ -57,11 +118,37 @@ export class CartService {
     this.breadcrumbs.push(data);
   }
 
-  deleteCart(index: number) {
-    this.data.tovar = this.data.tovar.filter((arr, i) => i !== index)
+  deleteCart(index: number): void {
+    (<FormArray>this.cartForm.get('tovars')).removeAt(index);
   }  
 
   deleteCombo(index: number) {
     this.data.combo = this.data.combo.filter((arr, i) => i !== index)
+  }
+  
+  setSale(data): void {
+    Object.values(data.childe).forEach(el => {
+      if(el['cat']) {
+        this.getSale(data, el['cat'].split(','))
+      }
+    });
+  }
+
+  getSale(array: any, child: string[]) {
+    this.cartForm.get('tovars').value.forEach((form, i) => {
+      if(child.some(el => {return +el === form.id})) {
+        let percent = array.sale / 100 * form.price;
+        this.cartForm.get('tovars.0').get('salePrice').setValue(form.price - percent)
+      }
+    })
+  }
+
+  setPriceCount(tovar) {
+    if(tovar.controls.weightFlag.value) {
+      return 0
+    } else {
+      return tovar.controls.price.value * tovar.controls.count.value
+    }
+
   }
 }

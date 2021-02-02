@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -8,15 +8,18 @@ import { skladIntarface } from '../../shared/services/interface.service';
 import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']
 })
-export class WarehouseComponent extends HomeComponent implements OnInit {
+export class WarehouseComponent extends HomeComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   sklads: skladIntarface[] = [];
+  notifier = new Subject();
   items = [];
   constructor(
     public db: DbService,
@@ -30,7 +33,7 @@ export class WarehouseComponent extends HomeComponent implements OnInit {
       settingsService,
       store
     );
-    db.getSklad().subscribe(
+    db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
       (response) => { 
         this.sklads = response;
       },
@@ -65,6 +68,11 @@ export class WarehouseComponent extends HomeComponent implements OnInit {
     this.router.navigate(['/dashboard/write'], {
       queryParams: {
         id : data.id
-      }})
+    }})
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

@@ -13,7 +13,7 @@
     <hr>
   </ng-container> 
   <ng-container *ngFor="let item of promo"> 
-    <div class="combo sec-wrapper" *ngIf="!!item.combo" (click)='openModal(item)'>
+    <div class="combo sec-wrapper" *ngIf="item.combo == 1 && item.id" (click)='openModal(item)'>
       <img src="../assets/images/no_foto.jpg">
       <span class="name">{{item.name}}</span>
     </div>  
@@ -30,7 +30,7 @@
         </span>
         Цена: <b>{{item.price}} <i class="fa fa-rub"></i></b><br>          
         <br>
-        <div class="icon">
+        <div class="icon" *ngIf="item.weight_flag || !item.nodiscount">
             <span *ngIf="item.weight_flag"><i class="fa fa-balance-scale"></i></span>
             <span *ngIf="!item.nodiscount"><i class="fa fa-percent"></i></span>
         </div>

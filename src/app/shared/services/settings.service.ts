@@ -1,17 +1,16 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, OnDestroy} from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DbService } from './db.service';
 import { settingsIntarface, promoInterface } from './interface.service';
-import { BehaviorSubject, Observable, forkJoin, Subject } from 'rxjs';
-import { validateConfig } from '@angular/router/src/config';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService implements OnInit {
+export class SettingsService implements OnInit, OnDestroy {
   public settings: settingsIntarface[] = [];
   public menu: number;
-  public activeSmena;
   public activeUser;
   public activefilial;
   public filial: any = [];
@@ -20,9 +19,15 @@ export class SettingsService implements OnInit {
   public md5 = new Md5(); 
   public openSmena: boolean = false;
   visibleFilter: boolean = true;
+  public activeSmena = new Subject<any>();
+  public isOpenSmena = new Subject<boolean>();
   public filialResponse = new Subject<any>();
+  public terminalUser = new Subject<any>();
+  public terminalUserName = new Subject<string>();
+  public accountResponse = new Subject<any>();
   public categoriesResponse = new Subject<any>();
   filialSubscriber = this.filialResponse.asObservable();
+  notifier = new Subject();
 
   constructor(
     public db: DbService
@@ -31,6 +36,7 @@ export class SettingsService implements OnInit {
   ngOnInit() {
     this.getFilial();
     this.getCategories();
+    this.getSmena();
   }
 
   getUser(): void {
@@ -65,8 +71,9 @@ export class SettingsService implements OnInit {
   getFilial(): void {   
     this.db.getFilial().subscribe(
       (val) => {
-        this.filial = val;        
-        this.filialResponse.next(val);
+        this.filial = val[0];        
+        this.filialResponse.next(val[0]);
+        this.accountResponse.next(val[1]);
         this.activefilial = this.filial.filter(val => +val.id === +localStorage.getItem('SJTerminalid'));
       }
     )
@@ -77,9 +84,10 @@ export class SettingsService implements OnInit {
   }
 
   getSmena(): void { 
-    this.db.getSmena(this.activefilial).subscribe(
+    this.db.getSmena(+localStorage.getItem('SJTerminalid')).subscribe(
       (val) => {
-        this.activeSmena = val;  
+        this.activeSmena.next(val);
+        this.isOpenSmena.next(!val);
       },
       (error) => {
         console.log(error);
@@ -110,6 +118,18 @@ export class SettingsService implements OnInit {
     )
   }
 
+  getUserTerminal(): void { 
+    this.db.getUserTerminal(localStorage.getItem("SJTerminalid")).pipe(takeUntil(this.notifier)).subscribe(
+      (val) => {
+        this.terminalUser.next(val);
+        this.terminalUserName.next(val['name']);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+
   visibleMenu(data: number): void {
     this.menu = data;
   }    
@@ -124,5 +144,10 @@ export class SettingsService implements OnInit {
 
   returnPromo() {
     return this.promo
+  }
+
+  ngOnDestroy() {
+    this.notifier.next();
+    this.notifier.complete();
   }
 }

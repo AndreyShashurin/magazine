@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { StoreModule } from '@ngrx/store';
@@ -83,6 +84,7 @@ import { ChangeComponent } from './site/finance/change/change.component';
 import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
 import { TaxesComponent } from './site/finance/taxes/taxes.component';
 import { CategoriesComponent } from './site/finance/categories/categories.component';
+import { PaginatorComponent } from './site/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -139,7 +141,8 @@ import { CategoriesComponent } from './site/finance/categories/categories.compon
     ChangeComponent,
     AccoutnsComponent,
     TaxesComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,
@@ -154,6 +157,7 @@ import { CategoriesComponent } from './site/finance/categories/categories.compon
     MatSelectModule,    
     MatInputModule,
     MatAutocompleteModule,
+    MatPaginatorModule,
     ModalModule.forRoot(),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([SettingsEffects]),
