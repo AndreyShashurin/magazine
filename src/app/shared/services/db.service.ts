@@ -265,8 +265,8 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'bill', {params})
   }
 
-  setBill(data) {
-    return this.http.post(this.apiURL + 'bill', data);
+  setBill(data, smena) {
+    return this.http.post(this.apiURL + 'bill', [data, smena]);
   }
 
   getFinance() {
@@ -344,6 +344,10 @@ export class DbService implements OnDestroy  {
   openSmena(smena) {
     return this.http.post(this.apiURL + 'smena', smena)
   }  
+  // Закрцть смену
+  closeSmena(smena) {
+    return this.http.put(this.apiURL + 'smena', smena)
+  }  
 
   // Активная смена
   getSmena(data) {
@@ -354,7 +358,7 @@ export class DbService implements OnDestroy  {
 
   ngOnDestroy() {
     if (this.subscription) {
-        this.subscription.unsubscribe();
+      this.subscription.unsubscribe();
     }
   }
 

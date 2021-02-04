@@ -2,6 +2,7 @@
 <div class="modal-header">
   <h4 class="modal-title pull-left">
     {{type === 1 ? 'Открыть смену': ''}}
+    {{type === 5 ? 'Закрыть смену': ''}}
     {{type === 2 ? data.name: ''}}
     {{type === 3 ? 'Рецепт': ''}}
   </h4>
@@ -11,11 +12,11 @@
 </div>
   <div class="modal-body">
     <div class="row">        
-      <ng-container *ngIf="type === 1">
-        <div style="flex:100%;"  *ngIf="price.invalid && (price.dirty || price.touched)">
+      <ng-container *ngIf="type === 1 || type === 5">
+        <div style="flex:100%;" *ngIf="price.invalid && (price.dirty || price.touched)">
           <div class="alert alert-danger"*ngIf="price.errors.required">
             Поле не должно быть пустым
-          </div>        
+          </div>
         </div>   
 
         <div class="col-4" style="align-self: flex-end;"> 
@@ -59,7 +60,7 @@
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 2" (click)="getCombo(structureArray, data)" [disabled]="!form.touched">{{confirmBtnName}}</button>
-    <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 1" (click)="saveModal()">{{confirmBtnName}}</button>
+    <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 1 || type === 5" (click)="saveModal(type, smena)">{{confirmBtnName}}</button>
     <button type="button" class="btn btn-sm btn-primary" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
   </div>
 </ng-container>

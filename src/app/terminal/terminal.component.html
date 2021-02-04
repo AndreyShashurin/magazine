@@ -1,4 +1,4 @@
-<terminal-header [openSmena]="settingsService.isOpenSmena | async"></terminal-header>
+<terminal-header [openSmena]="settingsService.isOpenSmena | async" [smena]="settingsService.activeSmena | async"></terminal-header>
 <div class="row main-container">
   <div class="col-8 barista-container">
     <div class="barista-box">
@@ -17,7 +17,7 @@
       </div>
   </div>
   <div class="col-4 side-bill">
-    <terminal-bill [openSmena]="settingsService.isOpenSmena | async"></terminal-bill>  
+    <terminal-bill [openSmena]="settingsService.isOpenSmena | async" [smena]="settingsService.activeSmena | async"></terminal-bill>  
   </div>
 </div>
 <app-alert></app-alert>

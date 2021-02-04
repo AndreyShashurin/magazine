@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChange } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -13,7 +13,9 @@ import { SettingsService } from 'src/app/shared/services/settings.service';
 export class TerminalHeaderComponent implements OnInit {
 
   bsModalRef: BsModalRef;
+  smenaActive: string;
   @Input() openSmena: boolean;
+  @Input() smena: boolean;
   
   constructor(
     public cartService: CartService,
@@ -23,7 +25,12 @@ export class TerminalHeaderComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    
+  }
+
+  ngOnChanges(e: SimpleChange) {
+    if(e['smena'] && e['smena'].currentValue) {
+      this.smenaActive = e['smena'].currentValue.id
+    }
   }
 
   logout() {
@@ -39,6 +46,19 @@ export class TerminalHeaderComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Закрыть';
     this.bsModalRef.content.confirmBtnName = 'Открыть смену';
    // this.bsModalRef.content.confirmDeleteGet = type;
+  }
+
+  closeSmenaFunc() {
+    const initialState = {
+      "type": 5,
+      'smena': this.smenaActive
+    };
+    this.bsModalRef = this.modalService.show(ModalTerminalComponent, {initialState});
+    this.bsModalRef.content.ModalBody = '';
+    this.bsModalRef.content.closeBtnName = 'Закрыть';
+    this.bsModalRef.content.confirmBtnName = 'Закрыть смену';
+   // this.bsModalRef.content.confirmDeleteGet = type;
+
   }
 
   clickbreadcump() {

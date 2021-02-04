@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
+import * as moment_ from 'moment';
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, TypePay } from '../../shared/services/interface.service';
 import { CartService } from '../../shared/services/cart.service';
-import { TerminalComponent } from '../terminal.component';
 import { SettingsService } from 'src/app/shared/services/settings.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
+const moment = moment_;
 @Component({
   selector: 'terminal-bill',
   templateUrl: './terminal-bill.component.html',
@@ -16,6 +16,7 @@ export class TerminalBillComponent implements OnInit {
   selectedTovar: menuIntarface[];
   coutner: number = 1;
   count: number = 0;
+  date: Date;
   price: number = 0;
   priceSale: number = 0;
   typePay: any;
@@ -23,6 +24,7 @@ export class TerminalBillComponent implements OnInit {
   item: string;
   activeItem: string;
   @Input() openSmena: boolean;
+  @Input() smena: boolean;
 
 
   constructor(
@@ -35,7 +37,6 @@ export class TerminalBillComponent implements OnInit {
 
   ngOnInit() {
     this.typePay =  TypePay;
-    console.log(this.typePay)
   }
 
   setIncrement(data: menuIntarface, index: number): void {
@@ -85,10 +86,17 @@ export class TerminalBillComponent implements OnInit {
   }
 
   buy() {
-    this.db.setBill(this.cartService.cartForm.value).subscribe(el => {
-      
-    console.log(el)
+    const smena = [
+      localStorage.getItem('SJTerminalid'), 
+      this.settingsService.activefilial[0].id,
+      moment(this.date).format('DD.MM.YYYY'), 
+      moment(this.date).format('YYYY-MM-DD h:mm:ss'),
+      this.smena['id'],
+      this.cartService.price,
+      this.cartService.priceSale
+    ]
+    this.db.setBill(this.cartService.cartForm.value, smena).subscribe(el => {
+      console.log(el)
     })
-    
   }
 }

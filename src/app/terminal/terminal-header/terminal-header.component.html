@@ -29,7 +29,7 @@
             <a class="dropdown-item">Инкасация</a>
           </div>
         </li>
-        <li><a class="smena_close">Закрыть смену</a></li>
+        <li><a class="smena_close" (click)="closeSmenaFunc()">Закрыть смену</a></li>
         <li><a (click)="logout()" alt="Выход"><span class="glyphicon glyphicon-off"></span> Выйти</a></li>
       </ng-template>
       <li class="user_id"><a>{{settingsService.terminalUserName | async}}</a></li>
