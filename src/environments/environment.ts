@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   url: 'http://shashurin.beget.tech/dashboard/api/',
+  ws: 'ws://localhost:8080',
   token: ''
 };
 

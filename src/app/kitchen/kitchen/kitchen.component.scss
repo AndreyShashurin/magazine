@@ -1,0 +1,36 @@
+.kitchen {
+    width: 100%;
+    .box {
+        background: white;
+        font-weight: bold;
+        text-align: center;
+        width: calc(22.9%);
+        float: left;
+        padding: 0;
+        color: #5f6a75;
+        cursor: pointer;
+        margin: 1%;
+        margin-top: 5px;
+        .kitchen-header {
+            padding: 12px;
+            background: white;
+            border-bottom: solid 1px #f2f2f2;
+        }
+    }    
+}
+.kitchen .box button.btn-danger {
+    background: #d9534f;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.kitchen .box button {
+    display: block;
+    width: 100%;
+    padding-left: 14px !important;
+    padding: 9px;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+}

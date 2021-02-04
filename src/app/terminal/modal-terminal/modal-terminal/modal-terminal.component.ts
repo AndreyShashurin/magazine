@@ -74,19 +74,18 @@ export class ModalTerminalComponent implements OnInit {
   }
 
   saveModal() {
-
     let smena = [
       localStorage.getItem('SJTerminalid'), 
-      localStorage.getItem('SJTerminalid'), 
+      this.settingsService.activefilial[0].id,
       moment(this.date).format('DD.MM.YYYY'), 
       moment(this.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
       +this.Form.price, 
       moment(this.date).format('YYYY-MM-DD h:mm:ss')     
     ]
-    this.db.setOpenSmena(smena).subscribe(
+    this.db.openSmena(smena).subscribe(
       val => {
+        this.settingsService.isOpenSmena.next(false);
         this.bsModalRef.hide();
-        this.settingsService.setSmena(true)
       }
     )
   }

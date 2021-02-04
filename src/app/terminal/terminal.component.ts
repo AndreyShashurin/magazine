@@ -45,10 +45,12 @@ export class TerminalComponent implements OnInit, OnDestroy {
   public onSelectItem(item: any): void {
     if (!this.activeItem) {
       this.activeItem = item;
+      this.cartService.activeItemSales = item;
       this.cartService.sale = item.sale;
       this.cartService.setSale(item)
     } else {
       this.activeItem = '';
+      this.cartService.activeItemSales = '';
       this.cartService.sale = '';
     }
   }  

@@ -16,6 +16,7 @@ export class CartService {
   count: number = 0;
   price: number = 0;
   priceSale: string;
+  activeItemSales: string | number;
   sale: string;
   cartForm: FormGroup;
 
@@ -25,6 +26,7 @@ export class CartService {
     this.cartForm = this.fb.group({
       tovars: this.fb.array([]),
       combo: this.fb.array([]),
+      typePay: []
     });
     this.cartForm.get('tovars').valueChanges.subscribe(value => {
       const ctrl = <FormArray>this.cartForm.controls['tovars'];
@@ -33,16 +35,14 @@ export class CartService {
       let arraySalePrice = [];
       ctrl.controls.forEach(element => {
         if(element.get('weightFlag')) {
-          arrayCount.push(1)
-        } else {
-          arrayCount.push(element.get('count').value)
-        }
-      });
-      ctrl.controls.forEach(element => {
-        if(element.get('weightFlag')) {
           arrayPrice.push(element.get('priceWeight').value )
         } else {
           arrayPrice.push(element.get('price').value * element.get('count').value )
+        }
+        if(element.get('weightFlag')) {
+          arrayCount.push(1)
+        } else {
+          arrayCount.push(element.get('count').value)
         }
       });
       ctrl.controls.forEach(element => {
@@ -57,6 +57,20 @@ export class CartService {
       this.priceSale = arraySalePrice.reduce((sum, current) => {
         return +sum + +current;
       }, 0);
+      /*if(this.activeItemSales) {
+        Object.values(this.activeItemSales['childe']).forEach(el => {
+          if(el['cat']) {
+            let child =  el['cat'].split(',');
+            ctrl.controls.forEach(element => {
+              if(child.some(el => {return +el === element.get('id').value})) {
+                console.log(element)
+                let percent = this.activeItemSales['sale'] / 100 * element.get('price').value;
+                element.get('salePrice').setValue(element.get('price').value - percent)
+              }
+            });
+          }
+        });
+      }*/
     })
   }
 
@@ -76,6 +90,7 @@ export class CartService {
         price: [data.price],
         sale: [data.nodiscountFlag],
         salePrice: [],
+        structure: [data.structure],
         weightFlag: [data.weight_flag],
         priceWeight: [data.price]
       })

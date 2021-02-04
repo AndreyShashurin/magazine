@@ -10,6 +10,7 @@ import { SettingsService } from '../../shared/services/settings.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 
 @Component({
   selector: 'app-warehouse',
@@ -19,7 +20,8 @@ import { takeUntil } from 'rxjs/operators';
 export class WarehouseComponent extends HomeComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   sklads: skladIntarface[] = [];
-  notifier = new Subject();
+  limit = 15;
+  ngUnsubscribe = new Subject();
   items = [];
   constructor(
     public db: DbService,
@@ -33,31 +35,40 @@ export class WarehouseComponent extends HomeComponent implements OnInit, OnDestr
       settingsService,
       store
     );
-    db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
-      (response) => { 
-        this.sklads = response;
+  }
+
+  ngOnInit() {
+    this.request()
+  }
+
+  request(data?: LimitInterface): void {
+    const params = {
+      limit: data ? data.limit : this.limit,
+      offset: data ? data.offset : 0
+    }
+    this.db.getSklad(params).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(
+      (res) => { 
+        this.sklads = res['data'];
+        this.sklads['total'] = res['total'];
       },
       (error) => {console.log(error);}
      )  
   }
 
-  ngOnInit() {
+  setPaginatorParams(params: LimitInterface): void {
+    this.request(params)
   }
 
-  openModal(id, tovar, link) {
+  openModal(id: number, tovar: string, link: string): void {
     const initialState = {
-     /* list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],*/
       confirmDeleteParam: id,
       confirmDeleteGet: link,
       title: 'Удалить ингредиент со склада'
     };
     this.bsModalRef = this.modalService.show(ModalContentComponent, {initialState});
-    this.bsModalRef.content.ModalBody = `Вы действительно хотите удалить ингредиент `+tovar+'?';
+    this.bsModalRef.content.ModalBody = `Вы действительно хотите удалить ${tovar}?`;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
     this.bsModalRef.content.confirmBtnName = 'Удалить';
     this.bsModalRef.content.confirmDeleteParam = id;
@@ -72,7 +83,7 @@ export class WarehouseComponent extends HomeComponent implements OnInit, OnDestr
   }
 
   ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

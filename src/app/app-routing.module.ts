@@ -39,6 +39,7 @@ import { TaxesComponent } from './site/finance/taxes/taxes.component';
 import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
 import { ChangeComponent } from './site/finance/change/change.component';
 import { CategoriesComponent } from './site/finance/categories/categories.component';
+import { KitchenComponent } from './kitchen/kitchen/kitchen.component';
 
 const routes: Routes = [
     {path: '', component: SingInComponent},
@@ -87,6 +88,7 @@ const routes: Routes = [
         component: SingTerminalComponent,
         //canActivate: [GuardTerminal],
     },
+    {path: 'kitchen', component: KitchenComponent},
     {path: 'terminal/index', component: TerminalComponent},
     {path: 'terminal/index/:id', component: TerminalIdComponent}   
  // {path: '**', component: PageNotFoundComponent}

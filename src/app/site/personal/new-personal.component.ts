@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { SettingsService } from 'src/app/shared/services/settings.service';
 
 @Component({
   selector: 'app-newpersonal',
@@ -38,7 +39,8 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
         private db: DbService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private alert: AlertService
+        private alert: AlertService,
+        private settings: SettingsService
     ) {}
 
     createForm() {
@@ -126,16 +128,7 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
             (error) => {
                 console.log(error)
             }
-        )        
-        this.subscription2 = this.db.getFilial().subscribe(
-            (responce) => {
-              this.filials = responce
-            },
-            (error) => {
-                console.log(error)
-            }
-        )
-        
+        )  
         this.createForm();     
     }
 

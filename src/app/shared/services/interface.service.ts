@@ -227,6 +227,16 @@ export enum DiscardTypeName {
   'Порча товара' = 'Порча товара'
 }
 
+export enum TypeName {
+  'primary',
+  'success'
+}
+
+export enum TypePay {
+  'Безналичными' = 'Безналичными',
+  'Наличными' = 'Наличными'
+}
+
 @Injectable({
   providedIn: 'root'
 })

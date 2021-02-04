@@ -38,5 +38,11 @@
         </tr> 
       </tbody>
     </table>
+    <sj-paginator *ngIf="bill.length" 
+    [length]="bill.total"
+    [array]="bill"
+    [limit]="limit"
+    (params)="setPaginatorParams($event)"
+    ></sj-paginator> 
   </div>
 </div>

@@ -33,12 +33,19 @@ export class DbService implements OnDestroy  {
 
   getTovars(): Observable<tovarInterface[]> {
     return this.http.get<tovarInterface[]>(this.apiURL + 'tovars', {
-      params: new HttpParams().set('limit', '6')
+      params: new HttpParams().set('count', '6')
     });
   }
 
-  getSklad() {
-    return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
+  getSklad(data?) {
+    if(data) {
+    let params = new HttpParams()
+    .set('limit', data.limit)
+    .set('offset', data.offset);
+      return this.http.get<skladIntarface[]>(this.apiURL + 'tovars', {params});
+    } else {
+      return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
+    }
   }  
   
   postSklad(data) {
@@ -69,10 +76,12 @@ export class DbService implements OnDestroy  {
     });
   }
 
-  getDiscard(): Observable<discardIntarface[]> {
-    return this.http.get<discardIntarface[]>(this.apiURL + 'warehouse', {
-      params: new HttpParams().set('discard', '1')
-    });
+  getDiscard(data): Observable<skladIntarface[]> {
+    let params = new HttpParams()
+    .set('limit', data.limit)
+    .set('offset', data.offset)
+    .set('discard', '1')
+    return this.http.get<skladIntarface[]>(this.apiURL + 'warehouse', {params});
   }
 
   postWriteOf(id, data: any): Observable<any> {
@@ -178,10 +187,15 @@ export class DbService implements OnDestroy  {
 
   // Меню  
   getMenu(data?) {
-    let params = new HttpParams()
-    .set('limit', data.limit)
-    .set('offset', data.offset);
-    return this.http.get<responseIntarface[]>(this.apiURL + 'menu', {params});
+    if(data) {
+      let params = new HttpParams()
+      .set('limit', data.limit)
+      .set('offset', data.offset);
+      return this.http.get<responseIntarface[]>(this.apiURL + 'menu', {params});
+    } else {
+       return this.http.get<responseIntarface[]>(this.apiURL + 'menu');
+    }
+      
   }
 
   getMenuById(id: any) {
@@ -237,9 +251,22 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'reports')
   }
 
-  // Финансы
-  getBill() {
-    return this.http.get(this.apiURL + 'bill')
+  // Финансы/ Оплаты
+  getBill(data?) {
+    let params = new HttpParams()
+    .set('limit', data.limit)
+    .set('offset', data.offset);
+    return this.http.get(this.apiURL + 'bill', {params})
+  }
+
+  getBillKitchen() {
+    let params = new HttpParams()
+    .set('kitchen', '1')
+    return this.http.get(this.apiURL + 'bill', {params})
+  }
+
+  setBill(data) {
+    return this.http.post(this.apiURL + 'bill', data);
   }
 
   getFinance() {
@@ -313,12 +340,11 @@ export class DbService implements OnDestroy  {
     return this.http.delete(this.apiURL + 'filial', options)
   }
 
-  // Смена
-
   // Открыть смену
-  setOpenSmena(smena) {
+  openSmena(smena) {
     return this.http.post(this.apiURL + 'smena', smena)
   }  
+
   // Активная смена
   getSmena(data) {
     return this.http.get(this.apiURL + 'smena', {

@@ -18,24 +18,30 @@ export class DynamicFlatNode {
 @Injectable({providedIn: 'root'})
 export class DynamicDatabase {
   dataMap = new Map<string, string[]>([
-    ['Fruits', ['Apple', 'Orange', 'Banana']],
+    ['Кофе ', ['Apple', 'Orange', 'Banana']],
     ['Vegetables', ['Tomato', 'Potato', 'Onion']],
     ['Apple', ['Fuji', 'Macintosh']],
     ['Onion', ['Yellow', 'White', 'Purple']]
   ]);
 
-  rootLevelNodes: string[] = ['Fruits', 'Vegetables'];
+  rootLevelNodes: string[] = ['Кофе', 'Vegetables'];
   dynamicFlatNode = [];
   constructor(
     public settings: SettingsService
   ) { 
     this.settings.categoriesResponse.subscribe(items => {
       this.dynamicFlatNode = items.map(item => item.name);
+      console.log(this.dynamicFlatNode)
     })
   }
 
   initialData(): DynamicFlatNode[] {
-    return this.rootLevelNodes.map(name => new DynamicFlatNode(name, 0, true));
+    this.settings.categoriesResponse.subscribe(items => {
+      return this.rootLevelNodes = items.map(item => new DynamicFlatNode(item.name, 0, true));
+    })
+    return
+
+    //return this.rootLevelNodes.map(name => new DynamicFlatNode(name, 0, true));
   }
 
   getChildren(node: string): string[] | undefined {
@@ -128,11 +134,10 @@ export class DynamicDataSource implements DataSource<DynamicFlatNode> {
 export class CategoryComponent implements OnInit {
 
   constructor(database: DynamicDatabase) {
-    console.log(this.getLevel)
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new DynamicDataSource(this.treeControl, database);
-
     this.dataSource.data = database.initialData();
+console.log(this.dataSource)
   }
 
   ngOnInit() {

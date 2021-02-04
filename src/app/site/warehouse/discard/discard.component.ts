@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { discardIntarface, DiscardTypeName } from '../../../shared/services/interface.service';
 import { DbService } from '../../../shared/services/db.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { LimitInterface } from 'src/app/shared/services/paginationInterface';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-discard',
@@ -10,25 +13,46 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 })
 export class DiscardComponent implements OnInit {
   discard: discardIntarface[] = [];
+  limit = 10;
   discardName = DiscardTypeName;
+  ngUnsubscribe = new Subject();
 
   constructor(
     public db: DbService
     ) {
-      db.getDiscard().subscribe(
-        (response) => { 
-          this.discard = response;
-          console.log(response)
-        },
-        (error) => {console.log(error);}
-       ) 
   }
 
   ngOnInit() {
+    this.request()
+  }
+
+  request(data?: LimitInterface): void {
+    const params = {
+      limit: data ? data.limit : this.limit,
+      offset: data ? data.offset : 0
+    }
+    this.db.getDiscard(params).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(
+      (res) => { 
+        this.discard = res['data'];
+        this.discard['total'] = res['total'];
+      },
+      (error) => {console.log(error);}
+     )  
+  }
+
+  setPaginatorParams(params: LimitInterface): void {
+    this.request(params)
   }
 
   compareDiscardId(id: number | string): string {
     return Object.keys(this.discardName)[id];
+  }
+ 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

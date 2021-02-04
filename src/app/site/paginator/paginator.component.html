@@ -1,5 +1,4 @@
-<mat-paginator 
-#paginator
+<mat-paginator
 *ngIf="filteredArray.page$ | async as page"
 [length]="page.length"
 [pageSize]="page.size"

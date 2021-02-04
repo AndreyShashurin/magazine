@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { DbService } from 'src/app/shared/services/db.service';
 import { PaginatedDataSource, PaginationService } from 'src/app/shared/services/pagination.service';
 import { NodeStructureInterface, QueryInterface } from 'src/app/shared/services/paginationInterface';

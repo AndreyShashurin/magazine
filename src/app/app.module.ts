@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { StoreModule } from '@ngrx/store';
@@ -85,6 +85,10 @@ import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
 import { TaxesComponent } from './site/finance/taxes/taxes.component';
 import { CategoriesComponent } from './site/finance/categories/categories.component';
 import { PaginatorComponent } from './site/paginator/paginator.component';
+import { getDutchPaginatorIntl } from './shared/paginatorIntl';
+import { KitchenComponent } from './kitchen/kitchen/kitchen.component';
+import { WebsocketModule } from './websocket/websocket.module';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -142,7 +146,8 @@ import { PaginatorComponent } from './site/paginator/paginator.component';
     AccoutnsComponent,
     TaxesComponent,
     CategoriesComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    KitchenComponent
   ],
   imports: [
     BrowserModule,
@@ -165,7 +170,10 @@ import { PaginatorComponent } from './site/paginator/paginator.component';
     MenuModule,
     MatTreeModule,
     MatIconModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    WebsocketModule.config({
+        url: environment.ws
+    })
   ],
   providers: [
     MenuService, 
@@ -185,7 +193,8 @@ import { PaginatorComponent } from './site/paginator/paginator.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

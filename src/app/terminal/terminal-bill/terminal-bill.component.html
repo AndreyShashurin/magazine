@@ -48,7 +48,7 @@
   <table class="table detail-transaction pay_bill">
     <tbody>
       <tr class="bg-grey">
-        <td *ngFor="let item of list"><span class="pay_beznal btn" (click)="onSelectItem(item)" [class.active]="item === activeItem">{{item}}</span></td>
+        <td *ngFor="let item of keys(typePay) | keyvalue"><span class="pay_beznal btn" (click)="onSelectItem(item.key)" [class.active]="item.key === activeItem">{{item.value}}</span></td>
       </tr>
     </tbody>
   </table>

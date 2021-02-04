@@ -28,5 +28,11 @@
           </tr>
         </tbody>
       </table>
+      <sj-paginator *ngIf="discard.length" 
+      [length]="discard.total"
+      [array]="discard"
+      [limit]="limit"
+      (params)="setPaginatorParams($event)"
+      ></sj-paginator> 
     </div>      
 </div>

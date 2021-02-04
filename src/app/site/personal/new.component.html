@@ -15,7 +15,7 @@
                 <div class="col-md-4 mb-10">
                     <label for="filial">Заведение для привязки</label>
                     <select class="form-control custom-select d-block w-100" id="filial" formControlName="filial">
-                        <option *ngFor="let filial of filials; trackBy: trackByFn" value="{{filial.id}}">{{filial.name}}</option>
+                        <option *ngFor="let filial of settings.filialResponse | async; trackBy: trackByFn" value="{{filial.id}}">{{filial.name}}</option>
                     </select>
                 </div>
             </div> 

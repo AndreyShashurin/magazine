@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { SubscriptionLike, of } from 'rxjs';
+import { SubscriptionLike, of, Subject } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Store } from '@ngrx/store';
 
@@ -10,6 +10,8 @@ import { ModalContentComponent } from '../../shared/modal-content/modal-content.
 import { ModalDetailComponent } from '../../shared/modal-detail/modal-detail.component';
 import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
 import { HomeComponent } from '../../home.component';
+import { LimitInterface } from 'src/app/shared/services/paginationInterface';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bill',
@@ -19,7 +21,8 @@ import { HomeComponent } from '../../home.component';
 export class BillComponent extends HomeComponent implements OnInit {
   bill: any;
   bsModalRef: BsModalRef;
-  subscription: SubscriptionLike;
+  limit = 15;
+  ngUnsubscribe = new Subject();
   constructor(
     public db: DbService,
     private modalService: BsModalService,
@@ -35,26 +38,31 @@ export class BillComponent extends HomeComponent implements OnInit {
 
   
   ngOnInit() {
-    this.getBill()
+    this.request()
   }
 
-  getBill() {
-    this.subscription = this.db.getBill().subscribe(
-      (response: Response) => { 
-          this.bill = response;
-      } ,
+  request(data?: LimitInterface): void {
+    const params = {
+      limit: data ? data.limit : this.limit,
+      offset: data ? data.offset : 0
+    }
+    this.db.getBill(params).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(
+      (res) => { 
+        this.bill = res['data'];
+        this.bill['total'] = res['total'];
+      },
       (error) => {console.log(error);}
-    )  
+     )  
+  }
+
+  setPaginatorParams(params: LimitInterface): void {
+    this.request(params)
   }
 
   openModal(item, type) {
     const initialState = {
-     /* list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],*/
       title: 'Удалить счет'
     };
     this.bsModalRef = this.modalService.show(ModalContentComponent, {initialState});
@@ -68,6 +76,7 @@ export class BillComponent extends HomeComponent implements OnInit {
   openDetail(item){
     let structureArray = [];
     let sum = 0;
+    console.log(item)
     item.tovar[0].forEach(function(value, key) {
       sum = sum +	parseFloat(value[8].split('=')[1]);
       structureArray.push({
@@ -106,10 +115,8 @@ export class BillComponent extends HomeComponent implements OnInit {
   }
  
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-      this.subscription = null;
-    }   
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
