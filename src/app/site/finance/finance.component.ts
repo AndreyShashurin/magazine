@@ -1,23 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DbService } from 'src/app/shared/services/db.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.scss']
 })
-export class FinanсeComponent implements OnInit {
+export class FinanсeComponent implements OnInit, OnDestroy {
   finance: any;
   form: FormGroup;
+  ngUnsubscribe = new Subject();
   constructor(
     private bd: DbService,
     private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.bd.getFinance().subscribe(el => {
+    this.bd.getFinance().pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(el => {
       this.finance = el;
-      console.log(el)
     })
     this.form = new FormGroup({
       cost: new FormControl(0),
@@ -37,5 +42,10 @@ export class FinanсeComponent implements OnInit {
       return +sum + +current;
     }, 0);
     return +result
+  }
+  
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

@@ -90,6 +90,7 @@ export class TerminalBillComponent implements OnInit {
       localStorage.getItem('SJTerminalid'), 
       this.settingsService.activefilial[0].id,
       moment(this.date).format('DD.MM.YYYY'), 
+      moment(this.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
       moment(this.date).format('YYYY-MM-DD h:mm:ss'),
       this.smena['id'],
       this.cartService.price,

@@ -38,7 +38,7 @@
         </tr> 
       </tbody>
     </table>
-    <sj-paginator *ngIf="bill.length" 
+    <sj-paginator *ngIf="bill && bill.length" 
     [length]="bill.total"
     [array]="bill"
     [limit]="limit"

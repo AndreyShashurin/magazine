@@ -1590,3 +1590,9 @@ i.detail_bill {
   height: 100%;
   padding: 1.5rem;
 }
+i {
+  cursor: pointer;
+}
+.mat-form-field-disabled {
+  display: none;
+}

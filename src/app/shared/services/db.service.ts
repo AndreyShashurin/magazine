@@ -39,9 +39,9 @@ export class DbService implements OnDestroy  {
 
   getSklad(data?) {
     if(data) {
-    let params = new HttpParams()
-    .set('limit', data.limit)
-    .set('offset', data.offset);
+      let params = new HttpParams()
+      .set('limit', data.limit)
+      .set('offset', data.offset);
       return this.http.get<skladIntarface[]>(this.apiURL + 'tovars', {params});
     } else {
       return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
@@ -273,6 +273,40 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'finance')
   }
 
+  getTransaction(type: string, data: any) {
+    let params = new HttpParams()
+    .set('type', type)
+    .set('limit', data.limit)
+    .set('offset', data.offset);
+    return this.http.get(this.apiURL + 'finance', {params})
+  }
+
+  postTransaction(type: string, data: any, datetime: any) {
+    return this.http.post(this.apiURL + 'finance', [type, data, datetime])
+  }
+
+  postFinance(type: string, payload: any) {
+    return this.http.post(this.apiURL + 'finance', [type, payload])
+  }
+
+  putFinance(type: string, payload: any) {
+    return this.http.put(this.apiURL + 'finance', [type, payload])
+  }
+
+  deleteFinance(data: any) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    };
+    this.http.delete(this.apiURL + 'finance', options).subscribe(
+      (val) => {
+        this.modalService.hide(1);
+      }
+  );
+  }
+
   // Обновляем счет
   updateBill(data) {
     return this.http.put(this.apiURL + 'bill', data)
@@ -350,10 +384,17 @@ export class DbService implements OnDestroy  {
   }  
 
   // Активная смена
-  getSmena(data) {
+  getSmenaUser(data) {
     return this.http.get(this.apiURL + 'smena', {
       params: new HttpParams().set('user', data)
     })
+  }  
+  
+  getSmenaList(data) {
+    let params = new HttpParams()
+    .set('limit', data.limit)
+    .set('offset', data.offset);
+    return this.http.get(this.apiURL + 'smena', {params})
   }  
 
   ngOnDestroy() {

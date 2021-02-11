@@ -1,0 +1,42 @@
+mat-radio-group {
+    display: flex;
+    margin-top: 20px;
+    .mat-radio-button {
+        flex: 1
+    }
+}
+
+.mat-dialog-actions {
+    margin-top: 30px;
+}
+.type_pane {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    .mat-radio-button {
+        border: dashed 2px #2f7ed8;
+        padding: 6px;
+        color: black;
+        cursor: pointer;
+        width: 31%;
+        margin-bottom: 5%;
+        text-align: center;
+        margin: 0.9%;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 14px;
+        &.active {
+            background: #15b3f0;
+            color: white;
+            border: none;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            display: none;
+        }
+    }
+}
+.mat-form-field-disabled {
+  display: none;
+}

@@ -1,3 +1,49 @@
-<p>
-  change works!
-</p>
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-header">
+    <button mat-button  (click)="openModal(4)"class="btn btn-sm btn-add">Открыть смену</button>
+  </div>
+  <div class="sj-panel-body">
+    <mat-expansion-panel hideToggle *ngFor="let item of smena">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{item.date}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{item.id}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <table class="full-list table">
+        <thead>
+          <tr>
+            <th>Тип операции</th>
+            <th>Время</th>
+            <th>Сумма</th>
+            <th>Автор</th>
+            <th>Коммент</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of item.transaction | keyvalue">
+            <td>{{t.value.type}}</td>
+            <td>{{t.value.date}}</td>
+            <td>{{t.value.price}}</td>
+            <td>{{t.value.user}}</td>
+            <td>{{t.value.comment}}</td>
+          </tr>
+        </tbody>
+      </table>      
+      <div class="flex">
+        <div class="btn-dotted">Поставка</div>
+        <ng-container *ngFor="let item of type.values(); let i = index">
+          <div class="btn-dotted" *ngIf="i <= 2" (click)="openModal(i+1, item.date)">{{item}}</div>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+    <sj-paginator *ngIf="smena.length" 
+    [length]="smena.total"
+    [array]="smena"
+    [limit]="limit"
+    (params)="setPaginatorParams($event)"
+    ></sj-paginator> 
+  </div>
+</div>

@@ -5,6 +5,9 @@ import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { StoreModule } from '@ngrx/store';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
@@ -89,6 +92,9 @@ import { getDutchPaginatorIntl } from './shared/paginatorIntl';
 import { KitchenComponent } from './kitchen/kitchen/kitchen.component';
 import { WebsocketModule } from './websocket/websocket.module';
 import { environment } from 'src/environments/environment';
+import { ModalComponent } from './site/finance/categories/modal/modal.component';
+import { CurrencyFormatterDirective } from './directives/currency.directive';
+import { ModalChangeComponent } from './site/finance/change/modal-change/modal-change.component';
 
 @NgModule({
   declarations: [
@@ -147,7 +153,10 @@ import { environment } from 'src/environments/environment';
     TaxesComponent,
     CategoriesComponent,
     PaginatorComponent,
-    KitchenComponent
+    KitchenComponent,
+    ModalComponent,
+    CurrencyFormatterDirective,
+    ModalChangeComponent
   ],
   imports: [
     BrowserModule,
@@ -163,6 +172,7 @@ import { environment } from 'src/environments/environment';
     MatInputModule,
     MatAutocompleteModule,
     MatPaginatorModule,
+    MatExpansionModule,
     ModalModule.forRoot(),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([SettingsEffects]),
@@ -170,7 +180,9 @@ import { environment } from 'src/environments/environment';
     MenuModule,
     MatTreeModule,
     MatIconModule,
+    MatDialogModule,
     MatProgressBarModule,
+    MatRadioModule,
     WebsocketModule.config({
         url: environment.ws
     })
@@ -201,7 +213,9 @@ import { environment } from 'src/environments/environment';
     ModalContentComponent,
     ModalDetailComponent,
     ModalTerminalComponent,
-    ModalUpdateComponent
+    ModalUpdateComponent,
+    ModalComponent,
+    ModalChangeComponent
   ]
 })
 export class AppModule { }

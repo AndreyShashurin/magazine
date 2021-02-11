@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { DbService } from '../../../shared/services/db.service';
 import { AlertService } from '../../../shared/services/alert.service';
@@ -14,7 +14,7 @@ export class ModalContentComponent implements OnInit {
   constructor(
     private db: DbService,
     private alert: AlertService,
-    private modalService: BsModalService,
+    private modalService: BsModalRef,
   ) {}
  
   ngOnInit() {
@@ -36,11 +36,13 @@ export class ModalContentComponent implements OnInit {
             this.alert.error('Ошибка удаленияю Попробуйте снова')            
         }
       )
+    } else if(link === 'category'){
+      this.db.deleteFinance(data);
     }
-    this.modalService.hide(1);
+    this.modalService.hide();
   }
 
   ngOnDestroy() {
-    this.confirmDelete(1, 2);
+    //this.confirmDelete(1, 2);
   }
 }

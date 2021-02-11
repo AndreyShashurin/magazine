@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit  } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subscription } from 'rxjs';
+import { filialInterface } from 'src/app/shared/services/interface.service';
 import { SettingsService } from '../../shared/services/settings.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { ModalUpdateComponent } from '../shared/modal-update/modal-update.component';
@@ -17,18 +17,13 @@ export class FilialComponent implements OnInit, OnDestroy {
     public settings: SettingsService,
     private modalService: BsModalService
   ) {
+    this.settings.getFilial()
    }
   
   ngOnInit(): void {}
 
-  deleteModal(item, type) {
+  deleteModal(item: filialInterface, type: string): void {
     const initialState = {
-     /* list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],*/
       title: 'Удалить филиал'
     };
     this.bsModalRef = this.modalService.show(ModalContentComponent, {initialState});
@@ -39,7 +34,7 @@ export class FilialComponent implements OnInit, OnDestroy {
     this.bsModalRef.content.confirmDeleteGet = type;
   }
 
-  updateModal(item, type){
+  updateModal(item: filialInterface, type: number): void{
     const initialState = {item};
     this.bsModalRef = this.modalService.show(ModalUpdateComponent, {initialState});
     this.bsModalRef.content.type = type;

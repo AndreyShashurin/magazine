@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h4 class="modal-title pull-left">{{title}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -10,7 +10,7 @@
             <label for="type_bill" class="col-xs-3 control-label">Тип оплаты</label>
             <div class="col-xs-8">
                 <select name="type_bill" class="form-control" id="type_bill" formControlName="typeBill">
-                    <option *ngFor="let payment of payments" selected="{{payment.id == item.type_biill ? 'selected' : ''}}" value="{{payment.id}}">{{payment.name}}</option>
+                    <option *ngFor="let payment of payments" [value]="payment.id">{{payment.name}}</option>
                  </select>
             </div>
         </div>

@@ -1,0 +1,50 @@
+<mat-dialog-content class="mat-typography" [formGroup]="data.formGroup">
+  <mat-form-field class="col-12">
+      <mat-label>Счет пополнения</mat-label>
+      <mat-select formControlName="accountIn" required>
+        <mat-option *ngFor="let item of data.account; let i = index" [value]="item.id">
+          {{ item.name }}
+        </mat-option>    
+      </mat-select>
+  </mat-form-field>  
+    <mat-form-field class="col-12">
+        <mat-label>Заведение</mat-label>
+        <mat-select formControlName="filial" required>
+          <mat-option *ngFor="let item of data.filial; let i = index" [value]="item.id">
+            {{ item.name }}
+          </mat-option>    
+        </mat-select>
+    </mat-form-field>   
+    <mat-form-field class="col-12">
+      <mat-label>Дата смены</mat-label>
+      <input matInput placeholder="" type="date" formControlName="date" required>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <mat-label>Категория</mat-label>
+      <mat-select formControlName="category" required>
+        <mat-option *ngFor="let item of data.category; let i = index" [disabled]="setDisabled(item)" [value]="item.id">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="col-12">
+      <mat-label>Автор</mat-label>
+      <mat-select formControlName="user" required>
+        <mat-option *ngFor="let item of data.persons; let i = index" [value]="item.id">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="col-12">
+      <mat-label>Сумма</mat-label>
+      <input matInput  formControlName="price" required>
+    </mat-form-field>  
+    <mat-form-field  class="col-12">
+      <mat-label>Комментарий</mat-label>
+      <textarea matInput formControlName="comment"></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close class="close-button btn">Отмена</button>
+  <button mat-flat-button color="primary" class="btn btn-sm btn-add"  (click)="save()">Сохранить</button>
+</mat-dialog-actions>

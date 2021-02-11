@@ -1,3 +1,55 @@
-<p>
-  transactions works!
-</p>
+
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-header row">
+      <div class="col-sm-12 col-md-6">
+          <div class="dataTables_filter">
+              <input type="search" class="form-control form-control-sm" placeholder="Поиск">
+          </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <button mat-button (click)="openModal()" class="btn btn-sm btn-add">Добавить категорию</button>
+      </div>
+  </div>
+  <div class="sj-panel-body">
+      <div class="stats-wrapper">
+        <mat-expansion-panel hideToggle *ngFor="let item of data">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{item.date}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{item.id}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <table class="table table detail-transaction">
+            <thead>
+              <tr class="bg-grey">
+                <th>Дата</th>
+                <th>Категория</th>
+                <th>Счет</th>
+                <th>Сумма прихода</th>
+                <th>Сумма расхода</th>
+                <th>Коммент</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of item.transaction | keyvalue">
+                <td>{{t.value.date}}</td>
+                <td>{{t.value.type}}</td>
+                <td>{{t.value.account}}</td>
+                <td style="font-weight: bold;">{{t.value.operation == 0 ? t.value.price  : 0}}</td>
+                <td style="font-weight: bold;">{{t.value.operation == 1 ? t.value.price : 0}}</td>
+                <td style="width:300px">{{t.value.comment}}</td>
+              </tr>                                         
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+      </div>
+      <sj-paginator *ngIf="data.length" 
+      [length]="data.total"
+      [array]="data"
+      [limit]="limit"
+      (params)="setPaginatorParams($event)"
+      ></sj-paginator>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 const WebSocketServer = require('ws').Server;
-const wss = new WebSocketServer({ port: 6759 });
+const wss = new WebSocketServer({ port: 8080 });
 
 const messages = [
     {

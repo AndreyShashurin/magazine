@@ -6,13 +6,11 @@ import { DbService } from '../../shared/services/db.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { SettingsService } from '../../shared/services/settings.service';
 
-
 @Component({
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-
   settingsForm: FormGroup;
   selectType: number;
   settings: settingsIntarface[] = [];
@@ -95,5 +93,4 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
     this.serviceObservable.unsubscribe()
   }
-
 }

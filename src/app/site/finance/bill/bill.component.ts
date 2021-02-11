@@ -75,22 +75,19 @@ export class BillComponent extends HomeComponent implements OnInit {
 
   openDetail(item){
     let structureArray = [];
-    let sum = 0;
-    console.log(item)
     item.tovar[0].forEach(function(value, key) {
-      sum = sum +	parseFloat(value[8].split('=')[1]);
       structureArray.push({
-        "name": value[5].split('=')[1],
-        "size": value[6].split('=')[1],
-        "price": value[8].split('=')[1],
-        "nds": value[11].split('=')[1]
+        "name": value.name,
+        "count": value.count,
+        //"size": value.name,
+        "price": item.price,
       });
     });
     const initialState = {
       structureArray,
-      sum:sum,
+      sum:item.price,
       sale : item.sale,
-      sale_price: sum - item.sale_price,
+      sale_price: +item.salePrice,
       comment: item.comment
     };
     this.bsModalRef = this.modalService.show(ModalDetailComponent, {initialState});

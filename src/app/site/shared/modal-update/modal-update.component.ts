@@ -30,17 +30,16 @@ export class ModalUpdateComponent implements OnInit {
       }
     )  
   }
+
   ngOnChanges() {
-    console.log(this.payments)
   }
   
   ngOnInit() {
-    console.log(this.item)
     this.form = new FormGroup({
       id: new FormControl(''),
       price: new FormControl(''), // Цена продажи
       sale_price_margin: new FormControl(''), // Прибыль
-      typeBill: new FormControl(''),
+      typeBill: new FormControl((this.item && this.item.type_biill) || ''),
       payBill: new FormControl(''),
       commentBill: new FormControl(''),
       nameFilial: new FormControl((this.item && this.item.name) || ''),
@@ -48,10 +47,7 @@ export class ModalUpdateComponent implements OnInit {
     });
   }
 
-  ngAfterContentChecked() {
-  }
-
-  confirm(data, type){
+  confirm(data, type: number): void {
     if(type === 2) {
       this.form.value.id = data.id
       this.form.value.price = data.price
@@ -76,31 +72,22 @@ export class ModalUpdateComponent implements OnInit {
         name: this.form.value.nameFilial,
         adress: this.form.value.adressFilial
       }
-      console.log(dataresponce)
       if(dataresponce.id) {
         this.db.updateFilial(dataresponce).subscribe(
-            (responce) => {
-              this.alert.success('Информация о заведении изменена')
-            },
-            (error) => {
-              this.alert.error('Ошибка изменения')
-            }
+          res => this.alert.success('Информация о заведении изменена'),
+          error => this.alert.error('Ошибка изменения')
         ) 
       } else {
         this.db.addFilial(dataresponce).subscribe(
-          (responce) => {
-            this.alert.success('Заведение добавлено')
-          },
-          (error) => {
-            this.alert.error('Ошибка изменения')
-          }
-      ) 
+          res => this.alert.success('Заведение добавлено'),
+          error =>  this.alert.error('Ошибка изменения')
+        ) 
       }
     }
     this.modalService.hide();
   }
 
-  close() {
+  close(): void {
     this.modalService.hide();
   }
 

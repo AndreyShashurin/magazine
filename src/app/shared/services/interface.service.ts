@@ -4,12 +4,28 @@ export interface User {
   login: string,
   password: string
 }
-
-export interface categoryInterface {
-  id?: number,
-  value: string,
+export interface filialIntarface {
+  id: string,
   name: string,
-  checked: number | boolean
+  adress: string,
+  avg_price: string,
+  count: string,
+  price: string,
+  profit: string,
+  sale_price: string
+}
+export interface accountIntarface {
+  id: string,
+  balance: string,
+  name: string
+}
+export interface categoryInterface {
+  id: number,
+  name: string,
+  operation:string,
+  rent: string,
+  smena: string,
+  sum: string
 }
 
 export interface personsInterface {
@@ -173,6 +189,8 @@ export interface discardIntarface {
 export interface categoriesInterface {
   id?: number,
   name: string, 
+  checked?: boolean,
+  value?: string,
   childe?: string, 
   parent?: string,
   images?: string
@@ -210,6 +228,8 @@ export interface filialInterface  {
   price?: string,
   profit?: string,
   email?: string,
+  sale_price?: string,
+  count?: string,
   avg_price?: string,
   phone?: string
 }
@@ -233,8 +253,17 @@ export enum TypeName {
 }
 
 export enum TypePay {
-  'Безналичными' = 'Безналичными',
-  'Наличными' = 'Наличными'
+  'Безналичными' = 'Расход',
+  'Наличными' = 'Доход'
+}
+
+export enum CategoryType {
+  'Расход',
+  'Доход',
+  'Инкасация',
+  'Перевод',
+  'Открытие смены',
+  'Закрытие смены',
 }
 
 @Injectable({
@@ -242,4 +271,11 @@ export enum TypePay {
 })
 export class InterfaceService {
   constructor() { }
+}
+export namespace CategoryType {
+  export function values() {
+    return Object.keys(CategoryType).filter(
+      (type) => isNaN(<any>type) && type !== 'values'
+    );
+  }
 }

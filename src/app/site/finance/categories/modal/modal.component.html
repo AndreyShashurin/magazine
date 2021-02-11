@@ -1,0 +1,75 @@
+<mat-dialog-content class="mat-typography" [formGroup]="data.formGroup">
+  <ng-container *ngIf="data.type !== 2">
+    <mat-form-field class="col-12">
+      <mat-label>Название</mat-label>
+      <input matInput placeholder="" formControlName="name" required>
+    </mat-form-field>
+    <div class="col-sm-12">
+      <mat-radio-group formControlName="type">
+        <mat-radio-button value="1">Доход</mat-radio-button>
+        <mat-radio-button value="0">Расход</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="data.type === 2">
+    <div class="type_pane">
+      <ng-container *ngFor="let item of type.values(); let i = index" >
+        <label class="mat-radio-button" *ngIf="i <= 1 || i === 3"[class.active]="i+1 == data.formGroup.value.type">
+          <input type="radio" formControlName="type" [value]="i+1">{{item}}
+        </label>
+      </ng-container>
+    </div>
+    <mat-form-field class="col-12">
+      <mat-label>Название</mat-label>
+      <input matInput placeholder="" formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <mat-label>Дата</mat-label>
+      <input matInput placeholder="" formControlName="date" required>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <mat-label>Категория</mat-label>
+      <mat-select formControlName="category" required>
+        <mat-option *ngFor="let item of data.category; let i = index" [value]="item.id">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="col-12">
+        <mat-label>Заведение</mat-label>
+        <mat-select formControlName="filial" required>
+          <mat-option *ngFor="let item of data.filial; let i = index" [value]="item.id">
+            {{ item.name }}
+          </mat-option>    
+        </mat-select>
+    </mat-form-field>    
+    <mat-form-field class="col-12">
+      <mat-label>Счет списания</mat-label>
+      <mat-select formControlName="accountOut" required>
+        <mat-option *ngFor="let item of data.account; let i = index" [value]="item.id" >
+          {{ item.name }}
+        </mat-option>    
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="col-12">
+        <mat-label>Счет пополнения</mat-label>
+        <mat-select formControlName="accountIn" required>
+          <mat-option *ngFor="let item of data.account; let i = index" [value]="item.id">
+            {{ item.name }}
+          </mat-option>    
+        </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="col-12">
+      <mat-label>Сумма</mat-label>
+      <input matInput placeholder="" formControlName="price" required>
+    </mat-form-field>  
+    <mat-form-field  class="col-12">
+      <mat-label>Комментарий</mat-label>
+      <textarea matInput  formControlName="comment"></textarea>
+    </mat-form-field>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close class="close-button btn">Отмена</button>
+  <button mat-flat-button color="primary" class="btn btn-sm btn-add"  (click)="save()">Сохранить</button>
+</mat-dialog-actions>

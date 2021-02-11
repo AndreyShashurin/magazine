@@ -18,7 +18,7 @@ export class SettingsService implements OnInit, OnDestroy {
   public promo: promoInterface[] = [];
   public md5 = new Md5(); 
   public openSmena: boolean = false;
-  visibleFilter: boolean = true;
+  public visibleFilter: boolean = true;
   public activeSmena = new Subject<any>();
   public isOpenSmena = new Subject<boolean>();
   public filialResponse = new Subject<any>();
@@ -36,11 +36,11 @@ export class SettingsService implements OnInit, OnDestroy {
   ngOnInit() {
     this.getFilial();
     this.getCategories();
-    this.getSmena();
+    this.getSmenaUser();
   }
 
   getUser(): void {
-    this.db.getUser(localStorage.getItem('SJTerminalid')).subscribe(
+    this.db.getUser(localStorage.getItem('SJTerminalid')).pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.activeUser = val;
       },
@@ -51,13 +51,13 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getCategories(): void {
-    this.db.getCategories().subscribe(val => {
+    this.db.getCategories().pipe(takeUntil(this.notifier)).subscribe(val => {
       this.categoriesResponse.next(val);
     })
   }
 
   getSetting(): void {
-    this.db.getSettings().subscribe(
+    this.db.getSettings().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.settings = val;    
         this.menu = +val['type'];
@@ -69,7 +69,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getFilial(): void {   
-    this.db.getFilial().subscribe(
+    this.db.getFilial().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.filial = val[0];        
         this.filialResponse.next(val[0]);
@@ -83,8 +83,8 @@ export class SettingsService implements OnInit, OnDestroy {
     return this.filialResponse.asObservable();
   }
 
-  getSmena(): void { 
-    this.db.getSmena(+localStorage.getItem('SJTerminalid')).subscribe(
+  getSmenaUser(): void { 
+    this.db.getSmenaUser(+localStorage.getItem('SJTerminalid')).pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.activeSmena.next(val);
         this.isOpenSmena.next(!val);
@@ -93,11 +93,10 @@ export class SettingsService implements OnInit, OnDestroy {
         console.log(error);
       }
     )
-
   }
 
   getPromo(): void {    
-    this.db.getPromo().subscribe(
+    this.db.getPromo().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.promo = val;  
       },
@@ -108,7 +107,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getPayment(): void { 
-    this.db.getPayment().subscribe(
+    this.db.getPayment().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.payments = val;  
       },

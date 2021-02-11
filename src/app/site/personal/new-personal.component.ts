@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DbService } from 'src/app/shared/services/db.service';
-import { categoryInterface } from 'src/app/shared/services/interface.service';
+import { categoriesInterface } from 'src/app/shared/services/interface.service';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 
@@ -22,17 +22,17 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
     paramsId: number
     accesses: any
     filials: any
-    categories: categoryInterface[] = [
-        { id: 1, name: 'Статистика', value: 'stat', checked: 0 },
-        { id: 2, name: 'Меню', value: 'menu', checked: 0 },
-        { id: 3, name: 'Финансы', value: 'finance', checked: 0 },
-        { id: 4, name: 'Склад', value: 'sklad', checked: 0 },
-        { id: 5, name: 'Настройки', value: 'settings', checked: 0 },
-        { id: 6, name: 'Маркетинг', value: 'promo', checked: 0 },
-        { id: 7, name: 'Управление персоналом', value: 'personal', checked: 0 },
-        { id: 8, name: 'Предприятия', value: 'filial', checked: 0 },
-        { id: 9, name: 'Терминал', value: 'terminal', checked: 0 },
-        { id: 10, name: 'Кухня', value: 'kitchen', checked: 0 }
+    categories: categoriesInterface[] = [
+        { id: 1, name: 'Статистика', value: 'stat', checked: false },
+        { id: 2, name: 'Меню', value: 'menu', checked: false },
+        { id: 3, name: 'Финансы', value: 'finance', checked: false },
+        { id: 4, name: 'Склад', value: 'sklad', checked: false },
+        { id: 5, name: 'Настройки', value: 'settings', checked: false },
+        { id: 6, name: 'Маркетинг', value: 'promo', checked: false },
+        { id: 7, name: 'Управление персоналом', value: 'personal', checked: false },
+        { id: 8, name: 'Предприятия', value: 'filial', checked: false },
+        { id: 9, name: 'Терминал', value: 'terminal', checked: false },
+        { id: 10, name: 'Кухня', value: 'kitchen', checked: false }
     ];
 
     constructor(
@@ -57,7 +57,7 @@ export class newPersonalComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     patch(): void {
-        this.categories.forEach((category: categoryInterface) => {
+        this.categories.forEach((category: categoriesInterface) => {
            this.addFormArray(category.id, category.name, category.value, category.checked)
         })
     }
