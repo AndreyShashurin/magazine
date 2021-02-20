@@ -27,7 +27,35 @@ export interface categoryInterface {
   smena: string,
   sum: string
 }
+export interface smenaInterface {
+  id: string,
+  beznal: number,
+  date: string,
+  dateClose: string,
+  dateOpen: string,
+  encashment: number,
+  expense: number,
+  income: number,
+  nal: number,
+  summClose: number,
+  summOpen: number,
+  suppliers: number,
+  takeMoney: number,
+  transaction: transactionInterface[]
+}
 
+export interface transactionInterface {
+  account: number,
+  comment: string,
+  date: string,
+  operationIn: number,
+  operationOut: number,
+  price: number,
+  transferUser: number,
+  type: string,
+  typeId: number,
+  user: string
+}
 export interface personsInterface {
   access: number, 
   email: string, 
@@ -121,7 +149,7 @@ export interface menuIntarface {
   totalCounter?: number;
   volume?: string,
   ingredient: ingredientsInterface[],
-  process?: processIntarface[]
+  process?: processArray
 }
 
 export interface processIntarface {
@@ -221,6 +249,17 @@ export interface ingredientsInterface  {
   weight?: string | number,
 }
 
+export interface structureArray  {
+  name: string,
+  size: string,
+  price: string;
+}
+
+export interface processArray  {
+  number: string,
+  process: string
+}
+
 export interface filialInterface  {
   id: number, 
   name: string,
@@ -235,11 +274,11 @@ export interface filialInterface  {
 }
 
 export enum IngredietnsTypeName {
-  'litre' = 'л.',
-  'milliliters' = 'мл.',
-  'gram' = 'гр.',
-  'piece' = 'шт.',
-  'kilogram' = 'кг.'
+  'л.' = 'л.',
+  'мл.' = 'мл.',
+  'гр.' = 'гр.',
+  'шт.' = 'шт.',
+  'кг.' = 'кг.'
 }
 
 export enum DiscardTypeName {

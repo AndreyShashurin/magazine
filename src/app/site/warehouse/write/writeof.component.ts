@@ -125,12 +125,12 @@ export class WriteOfComponent implements OnInit, OnDestroy {
     let array = [];
     controls.forEach(element => {
       let type = element.get('type').value;
-      if(type === IngredietnsTypeName.piece){
+      if(type === IngredietnsTypeName[3]){
         array.push(element.get('price').value * value)
-      } else if(type === IngredietnsTypeName.kilogram){
+      } else if(type === IngredietnsTypeName[4]){
         let price = value * 0.1 / 100 * element.get('price').value;
         array.push(price)
-      } else if(type === IngredietnsTypeName.litre) {
+      } else if(type === IngredietnsTypeName[0]) {
         let price = value * 0.1 / 100 * element.get('price').value;
         array.push(price)
       } 

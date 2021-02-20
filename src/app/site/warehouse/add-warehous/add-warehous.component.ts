@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { isNumber } from 'highcharts';
+import * as moment_ from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DbService } from 'src/app/shared/services/db.service';
 import { IngredietnsTypeName, skladIntarface, suppliersIntarface } from 'src/app/shared/services/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
+import { CustomValidator } from 'src/app/shared/utils/custom-validator';
+const moment = moment_;
 
 @Component({
   selector: 'app-add-warehous',
@@ -16,6 +18,7 @@ import { SettingsService } from 'src/app/shared/services/settings.service';
 export class AddWarehousComponent implements OnInit, OnDestroy {
   form: FormGroup;
   id: string;
+  smena: string;
   ingredietnsTypeName: any;
   keys = Object.keys;
   notifier = new Subject();
@@ -31,6 +34,7 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
   ) { 
     this.ingredietnsTypeName = IngredietnsTypeName;
     this.id = this.activatedRoute.snapshot.queryParams.id;
+    this.smena = this.activatedRoute.snapshot.queryParams.smena;
     db.getSuppliers().pipe(takeUntil(this.notifier)).subscribe(
       (data) => { this.suppliers = data; },
       (error) => {}
@@ -58,7 +62,17 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
         (data) => { this.addTovarArray(data); },
         (error) => {console.log(error);}
        )  
-    } else {
+    } else if(this.smena) {
+      this.db.getSmenaId(this.smena).pipe(takeUntil(this.notifier)).subscribe(
+        (data) => { 
+          this.form.get('date').setValue(moment(data['date']).format('YYYY-MM-DD'));
+          this.form.get('account').setValue('3');
+          this.addFieldsForm()
+        },
+        (error) => {console.log(error);}
+       )  
+
+    }else {
       this.addFieldsForm(); 
     }
     this.form.get('tovars').valueChanges.subscribe(values => {
@@ -66,8 +80,8 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
       const ctrl = <FormArray>this.form.controls['tovars'];
       ctrl.controls.forEach(el => {
         if(el.get('summ').value) {
-          this.summed += +parseFloat(el.get('summ').value)
-          this.form.controls['summ'].patchValue(this.summed)
+          this.summed += +parseFloat(el.get('summ').value);
+          this.form.controls['summ'].patchValue(this.summed);
         }
       });
     })
@@ -80,10 +94,10 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
   addTovarArray(data?) {
     if(data) {
       data.forEach(element => {
-        return this.addFieldsForm(element)
+        return this.addFieldsForm(element);
       });
     } else {
-      return this.addFieldsForm()
+      return this.addFieldsForm();
     }
   }
 
@@ -94,7 +108,7 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
         name: ['', Validators.required],
         priceOld: [''],
         type: [''],
-        quantity: [ '', Validators.required],
+        quantity: [ '', [CustomValidator.numeric, Validators.required]],
         quantityOld: [''],
         priceNews: [''],
         summ: [''],
@@ -109,9 +123,10 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
 
   selectedItem(item: skladIntarface, i: number): void { 
     const form = this.form.get('tovars')['controls'][i];
-    form.get('priceOld').setValue(item['price']);
-    form.get('quantityOld').setValue(item['value']);
-    form.get('id').setValue(item['id']);
+    form.get('type').setValue(item.ed)
+    form.get('priceOld').setValue(item.price);
+    form.get('quantityOld').setValue(item.value);
+    form.get('id').setValue(item.id);
   }
 
   onChange(e: any, i: number): void {
@@ -121,8 +136,8 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
     const quantityNew = +e.target.value * +quantity;
     const sell_cost = priceOld / 100;  // Проценты
     const sell_price = e.target.value - priceOld;  // Проценты
-    var sell_itog = sell_price / sell_cost;  // Проценты
-    form.get('summ').patchValue(quantityNew);
+    const sell_itog = sell_price / sell_cost;  // Проценты
+    form.get('summ').patchValue(quantityNew.toFixed(2));
     form.get('markUpPercent').setValue(sell_itog.toFixed(2));
 
   }
@@ -139,10 +154,10 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
   sendForm(): void {
     const formData = new FormData();
     formData.append('file', this.form.get('fileSource').value);
-    this.db.postSklad(this.form.value).pipe(takeUntil(this.notifier)).subscribe(
+    this.db.postSklad(this.form.value, this.smena, localStorage.getItem('SJid')).pipe(takeUntil(this.notifier)).subscribe(
       (data) => { },
       (error) => {}
-    ) 
+    )
   }
 
   ngOnDestroy(): void {

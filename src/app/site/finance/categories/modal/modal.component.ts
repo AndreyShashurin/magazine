@@ -33,6 +33,14 @@ export class ModalComponent implements OnInit {
     })
   }
 
+  setDisabled(data: string): boolean {
+    console.log(this.data.formGroup.get('type').value, data)
+    if(this.data.formGroup.get('type').value === 1 && +data === 0
+    || this.data.formGroup.get('type').value === 2 && +data === 1) {
+      return true
+    }
+    return false
+  }
   save() {
     this.dialogRef.close(this.data);
   }

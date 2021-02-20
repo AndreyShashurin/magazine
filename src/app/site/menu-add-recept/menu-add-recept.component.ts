@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
 import { DbService } from '../../shared/services/db.service';
-import { ingredientsInterface, skladIntarface, IngredietnsTypeName } from '../../shared/services/interface.service';
+import { ingredientsInterface, skladIntarface, IngredietnsTypeName, menuIntarface } from '../../shared/services/interface.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -50,7 +50,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       weight: false,
       sale: true,   
       nalog:  new FormControl('0'),
-      filial: new FormControl(null, Validators.required),
+      filial: new FormControl('', Validators.required),
       process: this.fb.array([]),
       ingredient: this.fb.array([]),
       cost: new FormControl(0),
@@ -63,7 +63,9 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       this.db.getMenuById(this.id).pipe(
         takeUntil(this.notifier)
       ).subscribe(el => {
-        this.form.patchValue(el)
+        console.log(2222, el)
+        this.form.patchValue(el);
+        console.log(2222, this.form.value)
         this.addFormProcess(el['process']);
         this.addIngredient(el['ingredient']);
       })
@@ -115,7 +117,6 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       data.forEach(element => {
         return (<FormArray>this.form.get('process')).push(
           this.fb.group({
-            id: [''],
             value: [element[1]],
           })
         ) 
@@ -123,22 +124,20 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
     } else {
       return (<FormArray>this.form.get('process')).push(
         this.fb.group({
-          id: [''],
           value: [''],
         })
       )
     }
   }
 
-  addIngredient(data?) {
+  addIngredient(data?: menuIntarface[]) {
     if(data) {
       data.forEach(element => {
         return (<FormArray>this.form.get('ingredient')).push(
           this.fb.group({
             value: [element[0]],
-            output: [element[1]],
-            price: [element[2]],
-            weight: [element[1], [
+            price: [element[1]],
+            weight: [element[2], [
               Validators.required,
               Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$')
             ]],
@@ -152,7 +151,6 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       return (<FormArray>this.form.get('ingredient')).push(
         this.fb.group({
           value: [''],
-          output: [''],
           price: [''],
           weight: ['', [
             Validators.required,
@@ -195,7 +193,6 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
 
   onChange(e: any, i: number): void {
     const form = this.form.get('ingredient')['controls'][i];
-    const output = this.form.get('output').value;
     const type = form.get('type').value;
     const max = form.get('maxValue').value;
     const price = form.get('price').value;
@@ -205,25 +202,25 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       if(max <= '0'){
         form.get('costPrice').setValue(0)         
       } else {
-        if(type === IngredietnsTypeName.piece){
+        if(type === IngredietnsTypeName['шт.']){
           const price_ml = price * e.target.value;
           const pricelFixed = price_ml.toFixed(2);
           const cost_new = +cost - +costPrice + +pricelFixed;
-          form.get('costPrice').setValue(pricelFixed)   
+          form.get('costPrice').setValue(pricelFixed);   
           const cost_newFixed = cost_new.toFixed(2);
-          this.form.get('cost').setValue(cost_newFixed)
-        } else if(type === IngredietnsTypeName.kilogram){
+          this.form.get('cost').setValue(cost_newFixed);
+        } else if(type === IngredietnsTypeName['кг.']){
           let price_ml = e.target.value * 0.1 / 100 * price;
           let pricelFixed = price_ml.toFixed(2);
-          form.get('costPrice').setValue(pricelFixed)
+          form.get('costPrice').setValue(pricelFixed);
           this.setCost();
-        } else if(type === IngredietnsTypeName.litre) {
-          let price_ml = e.target.value * 0.1 / 100 * price
+        } else if(type === IngredietnsTypeName['л.']) {
+          let price_ml = e.target.value * 0.1 / 100 * price;
           let pricelFixed = price_ml.toFixed(2);
-          form.get('costPrice').setValue(pricelFixed)
+          form.get('costPrice').setValue(pricelFixed);
           this.setCost();
         } 
-        if(type !== IngredietnsTypeName.piece) {
+        if(type !== IngredietnsTypeName['шт.']) {
           this.setOutput();
         }
       }
@@ -236,7 +233,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
     const controls = this.getFormIngredient();
     let array = [];
     controls.forEach(element => {
-      if(element.get('type').value !== IngredietnsTypeName.piece) {
+      if(element.get('type').value !== IngredietnsTypeName[3]) {
         array.push(element.get('weight').value)
       }
     });
@@ -268,7 +265,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
     this.form.get('markUpPercent').setValue(sell_itog_rub.toFixed(2));
   }
 
-  serializeObj(obj) {
+  serializeObj(obj): string {
     let result = [];
     for (let property in obj) {
       if(obj[property] && obj[property].value) {

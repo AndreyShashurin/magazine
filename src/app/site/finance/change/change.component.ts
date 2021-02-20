@@ -3,11 +3,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment_ from 'moment';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { accountIntarface, categoryInterface, CategoryType, filialIntarface, personsInterface } from 'src/app/shared/services/interface.service';
-import { DbService } from 'src/app/shared/services/db.service';
-import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 import { BsModalRef } from 'ngx-bootstrap';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { accountIntarface, categoriesInterface, categoryInterface, CategoryType, filialIntarface, personsInterface, smenaInterface } from 'src/app/shared/services/interface.service';
+import { DbService } from 'src/app/shared/services/db.service';
+import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 import { ModalChangeComponent } from './modal-change/modal-change.component';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -22,23 +23,23 @@ export class ChangeComponent implements OnInit, OnDestroy {
 
   ngUnsubscribe = new Subject();
   limit = 15;
-  smena: any[] = []
+  smena: smenaInterface[] = []
   category: any = [];
   persons: personsInterface[] = [];
   account: accountIntarface[] = [];
   filial: filialIntarface[] = [];
   form: FormGroup;
-  type = CategoryType;
+  types = CategoryType;
   bsModalRef: BsModalRef;
   constructor(
     public settingsService: SettingsService,
     private dialog: MatDialog,
     private bd: DbService,
-    private alert: AlertService
+    private alert: AlertService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    console.log(new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(3800))
     this.bd.getFinance().pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(res => {
@@ -47,7 +48,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
     this.bd.getUsers().pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(res=> { 
-        this.persons = res
+      this.persons = res
     })
     this.settingsService.accountResponse.subscribe(res => {
       this.account = res;
@@ -77,6 +78,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
       (res) => { 
+        console.log(res['data'])
         this.smena = res['data'];
         this.smena['total'] = res['total'];
       },
@@ -84,11 +86,31 @@ export class ChangeComponent implements OnInit, OnDestroy {
      )  
   }  
 
-  summPay(val: string, val2: string) {
-    return +val + +val2
+  formateDate(data: string): string {
+    return moment(data).locale('ru').format('DD MMMM YYYY h:mm:ss')
   }
 
-  openModal(type: number, date: string): void {
+  openDelivery(data: number): void {
+    this.router.navigate(['dashboard/addSklad'], {
+      queryParams: {
+        smena : data
+    }})
+  }
+
+  getDohod(data): number {
+    return +data.nal + +data.beznal;
+  }
+
+  setBalance(data, i: number): number {
+    let balance = 0;
+    balance = data.summOpen + data.income + data.nal - data.takeMoney - data.encashment - data.suppliers;
+    if(i === 2) {
+      balance = data.summClose - balance;
+    }
+    return balance
+  }
+
+  openModal(type: number, date: string, smenaId?: string): void {
     this.form.get('type').setValue(type)
     if (date) {
       this.form.get('date').setValue(date)
@@ -97,36 +119,45 @@ export class ChangeComponent implements OnInit, OnDestroy {
       data: {
         formGroup: this.form,
         type,
+        date,
         account: this.account,
         persons: this.persons,
         category: this.category,
         filial: this.filial,
+        smenaId
       }
     });
     dialogRef.afterClosed().subscribe(el => {
-      if(el.type === 4) {
-        const payload = [
-          localStorage.getItem('SJTerminalid'), 
-          this.settingsService.activefilial[0].id,
-          moment(el.formGroup.value.date).format('DD.MM.YYYY'), 
-          moment(el.formGroup.value.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
-          +el.formGroup.value.price,
-          moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss'),     
-          0
-        ]
-        this.bd.openSmena(payload).pipe(
-          takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-          res => this.alert.success('Новая смена открыта')
-        );
-        const datetime = moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss')
-        this.bd.postTransaction('transaction', el.formGroup.value, datetime).pipe(
-          takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-          res => {
-            console.log(res)
-          }
-        );
+      if(el) {
+        if(el.type === 4) {
+          const payload = [
+            localStorage.getItem('SJid'), 
+            this.settingsService.activefilial[0].id,
+            moment(el.formGroup.value.date).format('DD.MM.YYYY'), 
+            moment(el.formGroup.value.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
+            +el.formGroup.value.price,
+            moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss'),     
+            0
+          ]
+          this.bd.openSmena(payload).pipe(
+            takeUntil(this.ngUnsubscribe)
+          ).subscribe(
+            res => this.alert.success('Новая смена открыта')
+          );
+        } else {
+          const payload = [
+            localStorage.getItem('SJid'),
+            el.formGroup.value,
+            moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss'),
+            el.smenaId
+          ]
+          this.bd.postTransaction('smena', payload).pipe(
+            takeUntil(this.ngUnsubscribe)
+          ).subscribe(res => {
+              console.log(res)
+            }
+          );
+        }
       }
     })
   }

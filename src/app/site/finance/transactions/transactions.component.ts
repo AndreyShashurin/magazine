@@ -40,9 +40,8 @@ export class TransactionsComponent implements OnInit {
       this.account = res;
     })
     this.form = new FormGroup({
-      type: new FormControl(0, Validators.required),
+      type: new FormControl(1, Validators.required),
       date: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
       category: new FormControl('', Validators.required),
       filial: new FormControl('', Validators.required),
       accountOut: new FormControl(''),
@@ -65,6 +64,7 @@ export class TransactionsComponent implements OnInit {
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
       res => {
+        console.log(res)
         this.data = res['data'];
         this.data['total'] = res['total'];
       }
@@ -88,13 +88,13 @@ export class TransactionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(el => {
       if(el.type === 2) {
         const datetime = moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss')
-        this.db.postTransaction('transaction', el.formGroup.value, datetime).pipe(
+        /*this.db.postTransaction('transaction', el.formGroup.value, datetime, '').pipe(
           takeUntil(this.ngUnsubscribe)
         ).subscribe(
           res => {
             console.log(res)
           }
-        );
+        );*/
       }
     })
   }

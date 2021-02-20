@@ -1,13 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatTableModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
-import {MatTreeModule} from '@angular/material/tree';
-import {MatIconModule} from '@angular/material/icon';
-import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatRadioModule} from '@angular/material/radio';
+import {MatPaginatorIntl} from '@angular/material/paginator';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { StoreModule } from '@ngrx/store';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
@@ -78,7 +71,6 @@ import { MenuAddTovarComponent } from './site/menu-add-tovar/menu-add-tovar.comp
 import { MenuAddReceptComponent } from './site/menu-add-recept/menu-add-recept.component';
 import { appReducers } from './store/index';
 import { SeriesModule } from './site/series/series.module';
-import { MenuModule } from './site/menu/menu.module';
 import { SettingsEffects } from './store/effects/settings.effcets';
 import { EffectsModule } from '@ngrx/effects';
 import { AddFilialComponent } from './site/filial/add-filial/add-filial.component';
@@ -95,6 +87,9 @@ import { environment } from 'src/environments/environment';
 import { ModalComponent } from './site/finance/categories/modal/modal.component';
 import { CurrencyFormatterDirective } from './directives/currency.directive';
 import { ModalChangeComponent } from './site/finance/change/modal-change/modal-change.component';
+import { MaterialModule } from './shared/material/material.module';
+import { RoundPipe } from './directives/round.pipe';
+import { PricePipe } from './directives/priceFormat.pipe';
 
 @NgModule({
   declarations: [
@@ -156,7 +151,9 @@ import { ModalChangeComponent } from './site/finance/change/modal-change/modal-c
     KitchenComponent,
     ModalComponent,
     CurrencyFormatterDirective,
-    ModalChangeComponent
+    ModalChangeComponent,
+    RoundPipe,
+    PricePipe
   ],
   imports: [
     BrowserModule,
@@ -165,24 +162,12 @@ import { ModalChangeComponent } from './site/finance/change/modal-change/modal-c
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ScrollDispatchModule,
-    MatTableModule,
     AppRoutingModule,
-    MatCheckboxModule,
-    MatSelectModule,    
-    MatInputModule,
-    MatAutocompleteModule,
-    MatPaginatorModule,
-    MatExpansionModule,
     ModalModule.forRoot(),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([SettingsEffects]),
     SeriesModule,
-    MenuModule,
-    MatTreeModule,
-    MatIconModule,
-    MatDialogModule,
-    MatProgressBarModule,
-    MatRadioModule,
+    MaterialModule,
     WebsocketModule.config({
         url: environment.ws
     })

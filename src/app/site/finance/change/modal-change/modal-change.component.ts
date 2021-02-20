@@ -15,23 +15,25 @@ export class ModalChangeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.data)
-    this.data.formGroup.validator
+    console.log(this.data.type)
     this.data.formGroup.get('filial').disable();
     if(this.data.type === 4) {
       this.data.formGroup.get('filial').enable();
       this.data.formGroup.get('date').enable();
     } else if(this.data.type === 3) {
-      this.data.formGroup.get('filial').enable();
       this.data.formGroup.get('accountIn').enable();
+      this.data.formGroup.get('category').disable();
+    } else if(this.data.type === 2) {
+      this.data.formGroup.get('accountIn').disable();
+      this.data.formGroup.get('category').enable();
     } else {
       this.data.formGroup.get('category').enable();
     }
   }
 
-  setDisabled(data: any) {
-    if(this.data.formGroup.get('type').value === 1 && +data.operation === 0
-    || this.data.formGroup.get('type').value === 2 && +data.operation === 1) {
+  setDisabled(data: string): boolean {
+    if(this.data.formGroup.get('type').value === 1 && +data === 0
+    || this.data.formGroup.get('type').value === 2 && +data === 1) {
       return true
     }
     return false

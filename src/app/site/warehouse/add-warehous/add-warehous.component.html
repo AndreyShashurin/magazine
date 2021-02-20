@@ -75,8 +75,8 @@
                   </mat-form-field>
                 </td>
                 <td>
-                  {{tovar.controls['markUpPercent'].value || percent }}
                   {{tovar.controls['priceOld'].value}}
+                  <sup>{{tovar.controls['markUpPercent'].value || percent }}</sup>
                 </td>
                 <td>
                   <mat-form-field style="width: 100%" [formControl]="tovar.controls['type']">
@@ -104,7 +104,7 @@
               </tr>
             </tbody>
         </table>
-        <b>Сумма поставки: {{ summed }}</b>
+        <b>Сумма поставки: {{ summed | round:2 }}</b>
         <div class="controls">
             <button type="submit" class="btn btn-success btn-sm" (click)="sendForm()">Сохранить</button>
         </div> 

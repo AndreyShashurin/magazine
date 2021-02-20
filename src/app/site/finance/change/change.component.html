@@ -25,17 +25,75 @@
         <tbody>
           <tr *ngFor="let t of item.transaction | keyvalue">
             <td>{{t.value.type}}</td>
-            <td>{{t.value.date}}</td>
-            <td>{{t.value.price}}</td>
+            <td>{{formateDate(t.value.date)}}</td>
+            <td>{{t.value.price | price:2}}</td>
             <td>{{t.value.user}}</td>
             <td>{{t.value.comment}}</td>
           </tr>
         </tbody>
-      </table>      
+      </table>  
+
+      <table class="detail_bill_table table">
+        <tr class="bold">
+            <td>Продажи</td>
+            <td></td>
+            <td>{{getDohod(item) | price:2}}</td>
+        </tr>
+        <tr class="sub_table">
+            <td><i class="fa fa-pencil"></i> Наличными</td>
+            <td></td>
+            <td>{{item.nal || 0 | price:2}}</td>
+        </tr>   
+        <tr class="sub_table">
+            <td><i class="fa fa-pencil"></i> Безнал</td>
+            <td></td>
+            <td>{{item.beznal || 0 | price:2}}</td>
+        </tr>   
+        <tr class="bold">
+            <td>Доход</td>
+            <td></td>
+            <td>{{item.income || 0 | price:2}}</td>
+        </tr> 
+        <tr class="bold">
+            <td>Расходы</td>
+            <td></td>
+            <td>- {{item.expense || 0 | price:2}}</td>
+        </tr>   
+        <tr class="sub_table">
+            <td>Поставка</td>
+            <td></td>
+            <td>{{item.suppliers || 0 | price:2}}</td>
+        </tr>    
+        <tr class="sub_table">
+            <td>Зарплата</td>
+            <td></td>
+            <td>{{item.takeMoney || 0 | price:2}}</td>
+        </tr>                                            
+        <tr class="bold">
+            <td>Инкасация</td>
+            <td></td>
+            <td>{{item.encashment || 0 | price:2}}</td>
+        </tr>
+        <tr class="bold">
+            <td>Книжный баланс <mat-icon aria-hidden="false" matTooltip="Cумма, которая должна быть в кассе на конец смены. Она формируется системой на основе остатка на начало смены, доходов, расходов, чеков, которые были оплачены наличными деньгами и суммы инкассации.">help_outline</mat-icon></td>
+            <td></td>
+            <td>{{setBalance(item, 1) | price:2}}</td>
+        </tr>
+        <tr class="bold">
+            <td>Фактический баланс <mat-icon aria-hidden="false" matTooltip="Cумма в кассе на конец дня, которую вводит официант при закрытии кассовой смены.">help_outline</mat-icon></td>
+            <td></td>
+            <td>{{item.summClose || 0 | price:2}}</td>
+        </tr>   
+        <tr class="bold">
+            <td>Разница</td>
+            <td></td>
+            <td>{{setBalance(item, 2) | price:2}}</td>
+        </tr>
+    </table> 
       <div class="flex">
-        <div class="btn-dotted">Поставка</div>
-        <ng-container *ngFor="let item of type.values(); let i = index">
-          <div class="btn-dotted" *ngIf="i <= 2" (click)="openModal(i+1, item.date)">{{item}}</div>
+        <div class="btn btn-dotted" (click)="openDelivery(item.id)">Поставка</div>
+        <ng-container *ngFor="let type of types.values(); let i = index">
+          <div class="btn btn-dotted" *ngIf="i <= 2" (click)="openModal(i+1, item.date, item.id)">{{type}}</div>
         </ng-container>
       </div>
     </mat-expansion-panel>

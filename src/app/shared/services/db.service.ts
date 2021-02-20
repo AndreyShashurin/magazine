@@ -48,10 +48,10 @@ export class DbService implements OnDestroy  {
     }
   }  
   
-  postSklad(data) {
-    return this.http.post<skladIntarface[]>(this.apiURL + 'tovars', data);
+  postSklad(data, smena: string, id: string) {
+    return this.http.post<skladIntarface[]>(this.apiURL + 'tovars', [data, smena, id]);
   }
-
+  
   getTovarById(id: string) {
     return this.http.get(this.apiURL + 'tovars', {
       params: new HttpParams().set('id', id)
@@ -281,8 +281,8 @@ export class DbService implements OnDestroy  {
     return this.http.get(this.apiURL + 'finance', {params})
   }
 
-  postTransaction(type: string, data: any, datetime: any) {
-    return this.http.post(this.apiURL + 'finance', [type, data, datetime])
+  postTransaction(type: string, data: any) {
+    return this.http.post(this.apiURL + 'finance', [type, data])
   }
 
   postFinance(type: string, payload: any) {
@@ -396,6 +396,12 @@ export class DbService implements OnDestroy  {
     .set('offset', data.offset);
     return this.http.get(this.apiURL + 'smena', {params})
   }  
+
+  getSmenaId(data: string) {
+    return this.http.get(this.apiURL + 'smena', {
+      params: new HttpParams().set('smena', data)
+    })
+  }
 
   ngOnDestroy() {
     if (this.subscription) {

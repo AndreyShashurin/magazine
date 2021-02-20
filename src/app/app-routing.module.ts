@@ -76,7 +76,7 @@ const routes: Routes = [
                     { path: 'delivery', component: DeliveryComponent},
                     { path: 'discard', component: DiscardComponent},  
                     { path: 'write', component: WriteOfComponent},
-                { path: "menu", component: MenuComponent},
+                { path: "menu", /*loadChildren: () => import('./site/menu/menu.module').then(m => m.MenuModule),*/ component: MenuComponent},
                 { path: "category", component: CategoryComponent},
                 { path: "addtovar", component: MenuAddTovarComponent},
                 { path: "addrecept", component: MenuAddReceptComponent}

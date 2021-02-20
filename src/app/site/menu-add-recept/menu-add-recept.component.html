@@ -50,9 +50,8 @@
                       <label for="item-process" class="col-sm-2 col-form-label">Процесс приготовления:</label>
                       <div class="col-sm-9">
                           <ng-container *ngFor="let control of form.get('process').controls; let i = index; trackBy:trackByFn" >
-                              <div [formGroupName]="i" class="col-sm-12 mb-3" style="display: flex;">
-                                  <input class="form-control item-process-number" name="item-process-number" [value]="i+1" formControlName="id" hidden>
-                                  <input class="form-control item-process" name="item-process" [id]="i+1" value="" formControlName="value">
+                              <div [formGroupName]="i" class="col-sm-12 mb-3" style="display: flex;"> 
+                                <input class="form-control item-process" name="item-process"  value="" formControlName="value">
                               </div>
                           </ng-container>
                           <a class="btn-link add-process" (click)="addFormProcess()">Добавить</a>

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DbService } from '../../shared/services/db.service';
-import { responseIntarface } from '../../shared/services/interface.service';
+import { menuIntarface, processArray, responseIntarface, structureArray } from '../../shared/services/interface.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { ModalDetailComponent } from '../shared/modal-detail/modal-detail.component';
 import { SettingsService } from 'src/app/shared/services/settings.service';
@@ -20,7 +20,6 @@ import { LimitInterface, NodeStructureInterface, QueryInterface } from 'src/app/
 export class MenuComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   menu: responseIntarface[] = [];
-  data: any;
   limit = 15;
   page = 0;
   form: FormGroup;
@@ -75,28 +74,30 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.bsModalRef.content.confirmDeleteGet = link;
   }
 
-  openDetail(data): void {
-    let structureArray = [];
-    let processArray = [];
+  openDetail(data: menuIntarface): void {
     let sum = 0;
-    data.ingredient.forEach(function(value, key) {
+    let structureArray: structureArray[] = [];
+    let processArray: processArray[] = [];
+    data.ingredient.forEach(value => {
       sum = sum + parseFloat(value[3].split('=')[1]);
       structureArray.push({
         "name": value[0].split('=')[1],
         "size": value[2].split('=')[1],
-        "price": value[3].split('=')[1]});
+        "price": value[3].split('=')[1]
+      });
     });
     if(data.process) {
-      data.process.forEach(function (value) {
+      data.process[0].forEach((value, i) => {
         processArray.push({
-          "number": value[0].split('=')[1],
-          "process": value[1].split('=')[1]});
+          "number": i+1,
+          "process": value.split('=')[1]
+        });
       });
     }
     const initialState = {
       structureArray,
       processArray,
-      sum:sum,
+      sum,
       output:data.output
     };
     this.bsModalRef = this.modalService.show(ModalDetailComponent, {initialState});
@@ -105,14 +106,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
 
-  update(data): void {
+  update(data: menuIntarface): void {
     this.router.navigate(['/dashboard/addrecept'], {
       queryParams: {
         id : data.id
-      }})
+      }}
+    )
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void  {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

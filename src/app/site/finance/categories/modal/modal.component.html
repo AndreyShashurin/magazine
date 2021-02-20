@@ -20,17 +20,13 @@
       </ng-container>
     </div>
     <mat-form-field class="col-12">
-      <mat-label>Название</mat-label>
-      <input matInput placeholder="" formControlName="name" required>
-    </mat-form-field>
-    <mat-form-field class="col-12">
       <mat-label>Дата</mat-label>
-      <input matInput placeholder="" formControlName="date" required>
+      <input matInput type="date" placeholder="" formControlName="date" required>
     </mat-form-field>
     <mat-form-field class="col-12">
       <mat-label>Категория</mat-label>
       <mat-select formControlName="category" required>
-        <mat-option *ngFor="let item of data.category; let i = index" [value]="item.id">
+        <mat-option *ngFor="let item of data.category; let i = index" [disabled]="setDisabled(item.operation)" [value]="item.id">
           {{ item.name }}
         </mat-option>
       </mat-select>
