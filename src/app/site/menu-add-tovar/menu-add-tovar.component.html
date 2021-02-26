@@ -10,65 +10,66 @@
                 <th>Категория</th>
                 <th>Ед. измерения</th>
                 <th>Налог</th>
-                <th>Цена</th>
+                <th>Цена продажи</th>
                 <th></th>
             </tr>
         </thead>
         <tfoot>
-            <tr class="noprint">
-                <td class="noprint" colspan="10">
-                    <a class="btn-link add_new_menu" (click)="addForm()">Добавить позицию</a>
-                </td>
-                <td class="noprint-cell"></td>
-            </tr>
+          <tr class="noprint">
+            <td class="noprint" colspan="11">
+              <a class="btn-link add_new_menu" (click)="addForm()">Добавить позицию</a>
+            </td>
+          </tr>
         </tfoot>
         <tbody>
-            <tr *ngFor="let control of tovar.controls; let i = index; trackBy:trackByFn">
-              <ng-container >
-                  <td>
-                  <mat-checkbox [formControl]="control.controls['sale']"></mat-checkbox>
-                  </td>
-                  <td class="weight_flag">
-                    <mat-checkbox [formControl]="control.controls['weight']"></mat-checkbox>
-                  </td>
-                  <td class="product_name">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="" [formControl]="control.controls['name']">
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field>
-                      <mat-label>Категория</mat-label>
-                      <mat-select [formControl]="control.controls['category']">
-                        <mat-option *ngFor="let item of settings.categoriesResponse | async" [value]="item.id">
-                          {{item.name}}
-                        </mat-option>    
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field [formControl]="control.controls['ed']">
-                      <mat-label>Единица измерения</mat-label>
-                      <mat-select>
-                        <mat-option *ngFor="let item of keys(ingredietnsTypeName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field>
-                      <mat-label>Налог</mat-label>
-                      <mat-select [formControl]="control.controls['nalog']">
-                        <mat-option *ngFor="let item of categories" [value]="item.id">
-                          {{item.name}}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td style="vertical-align: middle;">
-                    <a class="delete-new-tovar" tabindex="-1" (click)="remove(i)">×</a>
-                  </td> 
-                </ng-container>       
-            </tr>
+          <tr *ngFor="let control of tovar.controls; let i = index; trackBy:trackByFn">
+            <ng-container>
+              <td>
+                <mat-checkbox [formControl]="control.controls['sale']"></mat-checkbox>
+              </td>
+              <td class="weight_flag">
+                <mat-checkbox [formControl]="control.controls['weight']"></mat-checkbox>
+              </td>
+              <td class="product_name">
+                <mat-form-field class="example-full-width">
+                  <input matInput [formControl]="control.controls['name']">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select [formControl]="control.controls['category']">
+                    <mat-option *ngFor="let item of settings.categoriesResponse | async" [value]="item.id">
+                      {{item.name}}
+                    </mat-option>    
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field [formControl]="control.controls['ed']">
+                  <mat-select>
+                    <mat-option *ngFor="let item of keys(ingredietnsTypeName) | keyvalue" [value]="item.key">{{item.value}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select [formControl]="control.controls['nalog']">
+                    <mat-option *ngFor="let item of categories" [value]="item.id">
+                      {{item.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="example-full-width">
+                  <input matInput [formControl]="control.controls['price']">
+                </mat-form-field>
+              </td>
+              <td style="vertical-align: middle;">
+                <a class="delete-new-tovar" (click)="remove(i)">×</a>
+              </td> 
+            </ng-container>       
+          </tr>
         </tbody>
       </table>
       <div class="row">
@@ -76,18 +77,17 @@
           <label for="product_name" class="control-label">Заведение для привязки</label>
         </div>
         <div class="col-6">
-          <mat-form-field >
-              <mat-label>Филиал</mat-label>
-              <mat-select formControlName="filial">
-                <mat-option *ngFor="let item of settings.filialResponse | async" [value]="item.id">
-                  {{item.name}}
-                </mat-option>
-              </mat-select>
+          <mat-form-field>
+            <mat-select formControlName="filial">
+              <mat-option *ngFor="let item of settings.filialResponse | async" [value]="item.id">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
       <div class="controls">
-        <button  class="btn btn-success btn-sm" type="submit" [disabled]="!form.valid" (click)="save()">Сохранить</button>
+        <button class="btn btn-success btn-sm" type="submit" [disabled]="!form.valid" (click)="save()">Сохранить</button>
       </div>
     </div>
   </div>

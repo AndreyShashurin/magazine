@@ -45,7 +45,7 @@
                     <mat-checkbox formControlName="sale" class="col-sm-2"></mat-checkbox>               
                   </div>
               </div> 
-              <form id="process" formArrayName="process">
+              <form id="process" formArrayName="process" *ngIf="tovar">
                   <div class="form-group row">
                       <label for="item-process" class="col-sm-2 col-form-label">Процесс приготовления:</label>
                       <div class="col-sm-9">
@@ -85,7 +85,7 @@
                   </div>
               </div>
           </div>
-          <div class="flexBox" formArrayName="ingredient">
+          <div class="flexBox" formArrayName="ingredient" *ngIf="tovar">
               <div class="blue-wrapper ingredients">
                 <form id="ingredienty">
                   <table class="table sortable structure-table">

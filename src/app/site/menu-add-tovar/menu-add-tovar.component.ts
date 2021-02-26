@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-
 import { DbService } from '../../shared/services/db.service';
-import { categoriesInterface, IngredietnsTypeName } from '../../shared/services/interface.service';
+import { IngredietnsTypeName } from '../../shared/services/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
-import { HomeComponent } from '../home.component';
+import { AlertService } from 'src/app/shared/services/alert.service';
 
 @Component({
   selector: 'app-menu-add',
   templateUrl: './menu-add-tovar.component.html',
   styleUrls: ['./menu-add-tovar.component.scss']
 })
-export class MenuAddTovarComponent extends HomeComponent implements OnInit {
-
+export class MenuAddTovarComponent implements OnInit {
   form: FormGroup;
-  filial: any;
   ingredietnsTypeName: any;
   keys = Object.keys;
   
@@ -23,13 +20,13 @@ export class MenuAddTovarComponent extends HomeComponent implements OnInit {
     public fb: FormBuilder,
     public db: DbService,
     public settings: SettingsService,
+    private alert: AlertService,
     public store: Store 
-  ) { 
-    super(
-      db,
-      settings,
-      store
-    )
+  ) {
+  }
+
+  get tovar(): FormArray {
+    return this.form.get('tovar') as FormArray;
   }
 
   ngOnInit() {
@@ -49,21 +46,20 @@ export class MenuAddTovarComponent extends HomeComponent implements OnInit {
         name: new FormControl(null, Validators.required),
         category: new FormControl(null, Validators.required),
         ed: new FormControl(null),
-        nalog:new FormControl(null)
+        nalog: new FormControl(null),
+        price: new FormControl(0)
       })
     )
   }
-  get tovar(){
-    return this.form.get('tovar') as FormArray;
-  }
+
   remove(i: number): void {
     (<FormArray>this.form.get('tovar')).removeAt(i);
   }
 
   save() {
-    this.db.saveDelivery(this.form.value).subscribe(data=> {
-      console.log(data)
-    });
+    this.db.saveDelivery(this.form.value).subscribe(
+      (responce) => {this.alert.success('Товар добавлен')},
+      (error) => {this.alert.error('Ошибка')});
   }
 
   trackByFn(index, item) {

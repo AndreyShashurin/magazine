@@ -16,9 +16,10 @@ const moment = moment_;
   styleUrls: ['./transactions.component.sass']
 })
 export class TransactionsComponent implements OnInit {
-  limit = 15;
+  limit = 30;
   page = 0;
   data = [];
+  pageSizeOptions = [30, 50, 90, 100];
   category: any = [];
   filial = [];
   account = [];
@@ -52,10 +53,10 @@ export class TransactionsComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.request()
+    this.request();
   }
 
-  request(data?: LimitInterface): void {
+  request(data?: LimitInterface) {
     const params = {
       limit: this.limit,
       offset: data ? data.offset : 0
@@ -64,15 +65,25 @@ export class TransactionsComponent implements OnInit {
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
       res => {
-        console.log(res)
         this.data = res['data'];
+        const result = Object.values(this.data).sort((a,b) => {
+          if(a.datetime && a.datetime) {
+            return moment(b.datetime).diff(moment(a.datetime));
+          }
+        });
+        this.data = result;
         this.data['total'] = res['total'];
       }
     );
   }
 
   setPaginatorParams(params: LimitInterface): void {
-    this.request(params)
+    this.request(params);
+  }
+
+  formateDate(data: string): string {
+    const formatDate = moment(data).locale('ru').format('DD.MM.YYYY');
+    return formatDate !== "Invalid date" ? formatDate : data;
   }
 
   openModal(type?: string) {
@@ -87,7 +98,7 @@ export class TransactionsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(el => {
       if(el.type === 2) {
-        const datetime = moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss')
+        const datetime = moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss');
         /*this.db.postTransaction('transaction', el.formGroup.value, datetime, '').pipe(
           takeUntil(this.ngUnsubscribe)
         ).subscribe(

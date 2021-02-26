@@ -2,7 +2,7 @@
 *ngIf="filteredArray.page$ | async as page"
 [length]="page.length"
 [pageSize]="page.size"
-[pageSizeOptions]="page.pageSizeOptions"
+[pageSizeOptions]="pageSize || page.pageSizeOptions"
 [pageIndex]="page.number"
 (page)="getPage($event, page)"
 >

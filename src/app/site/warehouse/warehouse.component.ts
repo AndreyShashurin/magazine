@@ -2,14 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { DbService } from '../../shared/services/db.service';
 import { skladIntarface } from '../../shared/services/interface.service';
-import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 
 @Component({
@@ -17,7 +16,7 @@ import { LimitInterface } from 'src/app/shared/services/paginationInterface';
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss']
 })
-export class WarehouseComponent extends HomeComponent implements OnInit, OnDestroy {
+export class WarehouseComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   sklads: skladIntarface[] = [];
   limit = 15;
@@ -30,11 +29,6 @@ export class WarehouseComponent extends HomeComponent implements OnInit, OnDestr
     public store: Store,
     private router: Router
   ) {
-    super(
-      db,
-      settingsService,
-      store
-    );
   }
 
   ngOnInit() {

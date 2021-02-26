@@ -20,14 +20,11 @@ import { SingInComponent } from './site/sing-site/sing-in.component';
 import { DbService } from './shared/services/db.service';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './site/home.component';
-import { SettingsComponent } from './site/settings/settings.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { GuardTerminal } from './shared/services/guardterminal.service';
 import { AuthService } from './shared/services/auth.service';
 import { CartService } from './shared/services/cart.service';
 import { DashboardComponent } from './site/dashboard/dashboard.component';
-import { WarehouseComponent } from './site/warehouse/warehouse.component';
-import { MenuComponent } from './site/menu/menu.component';
 import { InterfaceService } from './shared/services/interface.service';
 import { ReportsComponent } from './site/reports/reports.component';
 import { NewsfeedComponent } from './site/reports/newsfeed/newsfeed.component';
@@ -35,7 +32,6 @@ import { DiscountComponent } from './site/reports/discount/discount.component';
 import { StaffComponent } from './site/reports/staff/staff.component';
 import { IngredientsComponent } from './site/reports/ingredients/ingredients.component';
 import { BillComponent } from './site/finance/bill/bill.component';
-import { TransactionsComponent } from './site/finance/transactions/transactions.component';
 import { FinanсeComponent } from './site/finance/finance.component';
 import { ParamsModel } from './shared/services/params.model';
 import { ReceptComponent } from './site/recept/recept.component';
@@ -49,12 +45,8 @@ import { ModalContentComponent } from './site/shared/modal-content/modal-content
 import { ModalDetailComponent } from './site/shared/modal-detail/modal-detail.component';
 import { ModalUpdateComponent } from './site/shared/modal-update/modal-update.component';
 import { SettingsService } from './shared/services/settings.service';
-import { FilterComponent } from './site/filter/filter.component';
-import { PaymentComponent } from './site/payment/payment.component';
+import { FilterComponentModule } from './site/filter/filter.component';
 import { AddWarehousComponent } from './site/warehouse/add-warehous/add-warehous.component';
-import { SuppliersComponent } from './site/warehouse/suppliers/suppliers.component';
-import { DeliveryComponent } from './site/warehouse/delivery/delivery.component';
-import { DiscardComponent } from './site/warehouse/discard/discard.component';
 import { WriteOfComponent } from './site/warehouse/write/writeof.component';
 import { AutosizeDirective } from './directives/autosize.directive';
 import { TerminalComponent } from './terminal/terminal.component';
@@ -75,11 +67,9 @@ import { SettingsEffects } from './store/effects/settings.effcets';
 import { EffectsModule } from '@ngrx/effects';
 import { AddFilialComponent } from './site/filial/add-filial/add-filial.component';
 import { CategoryComponent } from './site/category/category.component';
-import { ChangeComponent } from './site/finance/change/change.component';
 import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
 import { TaxesComponent } from './site/finance/taxes/taxes.component';
 import { CategoriesComponent } from './site/finance/categories/categories.component';
-import { PaginatorComponent } from './site/paginator/paginator.component';
 import { getDutchPaginatorIntl } from './shared/paginatorIntl';
 import { KitchenComponent } from './kitchen/kitchen/kitchen.component';
 import { WebsocketModule } from './websocket/websocket.module';
@@ -89,7 +79,8 @@ import { CurrencyFormatterDirective } from './directives/currency.directive';
 import { ModalChangeComponent } from './site/finance/change/modal-change/modal-change.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RoundPipe } from './directives/round.pipe';
-import { PricePipe } from './directives/priceFormat.pipe';
+import { PaginatorComponentModule } from './site/paginator/paginator.module';
+import { PricePipeModule } from './directives/price-pipe.module';
 
 @NgModule({
   declarations: [
@@ -100,15 +91,12 @@ import { PricePipe } from './directives/priceFormat.pipe';
     NavComponent,
     AuthenticatedComponent,
     SingInComponent,
-    SettingsComponent,
     DashboardComponent,
     ContentComponent,
-    WarehouseComponent,
     ModalContentComponent,
     ModalUpdateComponent,
     ModalDetailComponent,
     ModalTerminalComponent,
-    MenuComponent,    
     MenuAddTovarComponent,
     MenuAddReceptComponent,
     ReportsComponent,
@@ -118,19 +106,13 @@ import { PricePipe } from './directives/priceFormat.pipe';
     StaffComponent,
     BillComponent,
     FinanсeComponent,
-    TransactionsComponent,
     CustomSelectComponent,
     ReceptComponent,
     PersonalComponent,
     newPersonalComponent,
     updatePersonalComponent,
     AlertComponent,
-    FilterComponent,
-    PaymentComponent,
     AddWarehousComponent,
-    SuppliersComponent,
-    DeliveryComponent,
-    DiscardComponent,
     WriteOfComponent,
     AutosizeDirective,
     TerminalContentComponent,
@@ -143,17 +125,14 @@ import { PricePipe } from './directives/priceFormat.pipe';
     AccessComponent,
     AddFilialComponent,
     CategoryComponent,
-    ChangeComponent,
     AccoutnsComponent,
     TaxesComponent,
     CategoriesComponent,
-    PaginatorComponent,
     KitchenComponent,
     ModalComponent,
     CurrencyFormatterDirective,
     ModalChangeComponent,
-    RoundPipe,
-    PricePipe
+    RoundPipe
   ],
   imports: [
     BrowserModule,
@@ -168,6 +147,9 @@ import { PricePipe } from './directives/priceFormat.pipe';
     EffectsModule.forRoot([SettingsEffects]),
     SeriesModule,
     MaterialModule,
+    FilterComponentModule,
+    PaginatorComponentModule,
+    PricePipeModule,
     WebsocketModule.config({
         url: environment.ws
     })

@@ -56,7 +56,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
     this.settingsService.filialResponse.subscribe(res => {
       this.filial = res;
     })
-    this.request()
+    this.request();
     this.form = new FormGroup({
       type: new FormControl('', Validators.required),
       date: new FormControl({ value: null, disabled: true }, Validators.required),
@@ -78,7 +78,6 @@ export class ChangeComponent implements OnInit, OnDestroy {
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
       (res) => { 
-        console.log(res['data'])
         this.smena = res['data'];
         this.smena['total'] = res['total'];
       },
@@ -86,8 +85,9 @@ export class ChangeComponent implements OnInit, OnDestroy {
      )  
   }  
 
-  formateDate(data: string): string {
-    return moment(data).locale('ru').format('DD MMMM YYYY h:mm:ss')
+  formateDate(data: any): string {
+    const formatDate = moment(data.datetime).locale('ru').format('DD MMMM YYYY HH:mm:ss');
+    return formatDate !== "Invalid date" ? formatDate : moment(data.date).locale('ru').format('DD.MM.YYYY');
   }
 
   openDelivery(data: number): void {
@@ -107,13 +107,13 @@ export class ChangeComponent implements OnInit, OnDestroy {
     if(i === 2) {
       balance = data.summClose - balance;
     }
-    return balance
+    return balance;
   }
 
   openModal(type: number, date: string, smenaId?: string): void {
-    this.form.get('type').setValue(type)
+    this.form.get('type').setValue(type);
     if (date) {
-      this.form.get('date').setValue(date)
+      this.form.get('date').setValue(date);
     }
     let dialogRef = this.dialog.open(ModalChangeComponent, {
       data: {
@@ -154,7 +154,7 @@ export class ChangeComponent implements OnInit, OnDestroy {
           this.bd.postTransaction('smena', payload).pipe(
             takeUntil(this.ngUnsubscribe)
           ).subscribe(res => {
-              console.log(res)
+              console.log(res);
             }
           );
         }

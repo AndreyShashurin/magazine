@@ -1,27 +1,24 @@
 
 <div class="sj-panel sj-panel-fh">
   <div class="sj-panel-header row">
-      <div class="col-sm-12 col-md-6">
-          <div class="dataTables_filter">
-              <input type="search" class="form-control form-control-sm" placeholder="Поиск">
-          </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="dataTables_filter">
+        <input type="search" class="form-control form-control-sm" placeholder="Поиск">
       </div>
-      <div class="col-sm-12 col-md-6">
-        <button mat-button (click)="openModal()" class="btn btn-sm btn-add">Добавить транзакцию</button>
-      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <button mat-button (click)="openModal()" class="btn btn-sm btn-add">Добавить транзакцию</button>
+    </div>
   </div>
   <div class="sj-panel-body">
-      <div class="stats-wrapper">
-        <mat-expansion-panel hideToggle *ngFor="let item of data">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{item.date}}
-            </mat-panel-title>
-            <mat-panel-description>
-              {{item.id}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <table class="table table detail-transaction">
+    <div class="stats-wrapper">
+      <mat-expansion-panel hideToggle *ngFor="let item of data">
+        <mat-expansion-panel-header *ngIf="item.datetime">
+          <mat-panel-title>
+            {{formateDate(item.datetime)}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+          <table class="table table detail-table">
             <thead>
               <tr class="bg-grey">
                 <th>Дата</th>
@@ -33,23 +30,24 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let t of item.transaction | keyvalue">
-                <td>{{t.value.date}}</td>
-                <td>{{t.value.type}}</td>
-                <td>{{t.value.account}}</td>
-                <td style="font-weight: bold;">{{t.value.operation == 0 ? t.value.price  : 0}}</td>
-                <td style="font-weight: bold;">{{t.value.operation == 1 ? t.value.price : 0}}</td>
-                <td style="width:300px">{{t.value.comment}}</td>
+              <tr *ngFor="let t of item.transactions">
+                <td>{{formateDate(t.datetime)}}</td>
+                <td>{{t.name}}</td>
+                <td>{{t.account}}</td>
+                <td style="font-weight: bold;">{{t.operation == 0 ? t.price  : 0}}</td>
+                <td style="font-weight: bold;">{{t.operation == 1 ? t.price : 0}}</td>
+                <td style="width:300px">{{t.comment}}</td>
               </tr>                                         
             </tbody>
           </table>
-        </mat-expansion-panel>
-      </div>
-      <sj-paginator *ngIf="data.length" 
+      </mat-expansion-panel>
+    </div>
+    <sj-paginator *ngIf="data.length" 
       [length]="data.total"
       [array]="data"
+      [pageSize]="pageSizeOptions"
       [limit]="limit"
       (params)="setPaginatorParams($event)"
-      ></sj-paginator>
+    ></sj-paginator>
   </div>
 </div>

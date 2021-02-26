@@ -3,26 +3,40 @@
       <app-filter [warehouse]="true"></app-filter>
   </div>
   <div class="sj-panel-body">
-      <table class="full-list table">
+    <mat-expansion-panel hideToggle *ngFor="let item of delivery">
+      <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
+        <mat-panel-title>
+          {{formateDate(item.date)}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{item.sklad_name}}
+        </mat-panel-description>
+        <mat-panel-description>
+          {{item.price}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <table class="full-list table detail-table">
         <thead>
           <tr>
-            <th>Дата поставки</th>
-            <th>Поставщик</th>
-            <th>Сумма</th>
-            <th>Действия</th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Цена</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let item of delivery" class="item">
-            <td>{{item.date}}</td>    
-            <td>{{item.sklad_name}}</td>                           
-            <td>{{item.price}} <i class="fa fa-rub"></i></td>
-            <td>
-                <a (click)="ngEdit(item)" class="mr-25" data-toggle="tooltip" data-original-title="Редактировать"> <i class="icon-pencil"></i></a>  
-                <a (click)="openModal(item, 'delivery')" class="mr-25" data-toggle="tooltip" data-original-title="Удалить"> <i class="icon-trash txt-danger"></i> </a>       
-            </td>
+        <tbody *ngIf="item.goods">
+          <tr *ngFor="let good of item.goods" class="item">
+            <td>{{good.name}}</td>
+            <td>{{good.quantity}}</td>
+            <td>{{good.price}}</td>
           </tr>
         </tbody>
-      </table>
+      </table>    
+    </mat-expansion-panel>
+    <sj-paginator *ngIf="delivery.length" 
+      [length]="delivery.total"
+      [array]="delivery"
+      [limit]="limit"
+      (params)="setPaginatorParams($event)"
+    ></sj-paginator> 
   </div>
 </div>

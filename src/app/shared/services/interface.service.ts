@@ -96,7 +96,8 @@ export interface skladIntarface {
   sale_price: number, 
   size: number, 
   value: number, 
-  weight_flag: number
+  weight_flag: number,
+  idMenu: string
 }
 
 export interface MenuItem {

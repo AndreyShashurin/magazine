@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from './menu.component';
-import { MenuRoutingModule } from './menu-routing.module';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { FilterComponentModule } from '../filter/filter.component';
 import { PaginatorComponentModule } from '../paginator/paginator.module';
+import { WarehouseComponent } from './warehouse.component';
+import { WarehouseRoutingModule } from './warehous-routing.module';
 
 @NgModule({
-  declarations: [MenuComponent ],
+  declarations: [ WarehouseComponent ],
   imports: [
     CommonModule,
-    MenuRoutingModule,
+    WarehouseRoutingModule,
     MaterialModule,
     FilterComponentModule,
     PaginatorComponentModule
   ]
 })
-export class MenuModule { }
+export class WarehouseModule { }

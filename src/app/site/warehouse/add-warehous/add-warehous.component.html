@@ -66,7 +66,7 @@
               <tr *ngFor="let tovar of tovars.controls; let i = index">
                 <td class="tovar">
                   <mat-form-field style="width: 100%">
-                    <input type="text" matInput [formControl]="tovar.controls['name']" [matAutocomplete]="auto" required >
+                    <input type="text" matInput [formControl]="tovar.controls['value']" [matAutocomplete]="auto" required >
                     <mat-autocomplete #auto="matAutocomplete">
                       <mat-option *ngFor="let item of sklads" [value]="item.tovar" (click)="selectedItem(item, i)">
                             {{item.tovar}}

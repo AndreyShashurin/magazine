@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { discardIntarface, DiscardTypeName } from '../../../shared/services/interface.service';
-import { DbService } from '../../../shared/services/db.service';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { LimitInterface } from 'src/app/shared/services/paginationInterface';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { discardIntarface, DiscardTypeName } from '../../../shared/services/interface.service';
+import { DbService } from '../../../shared/services/db.service';
+import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 
 @Component({
   selector: 'app-discard',

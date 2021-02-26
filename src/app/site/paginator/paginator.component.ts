@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, NgModule, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { Subject } from 'rxjs';
+import { MaterialModule } from 'src/app/shared/material/material.module';
 import { DbService } from 'src/app/shared/services/db.service';
 import { PaginatedDataSource, PaginationService } from 'src/app/shared/services/pagination.service';
 import { NodeStructureInterface, QueryInterface } from 'src/app/shared/services/paginationInterface';
@@ -14,6 +16,7 @@ export class PaginatorComponent implements OnInit, OnDestroy {
   @Input() array;
   @Input() limit = 10;
   @Input() length = 0;
+  @Input() pageSize;
   @Output() params = new EventEmitter<any>();
   pager: any = {};
   searchField: any = [];

@@ -1596,3 +1596,17 @@ i {
 .mat-form-field-disabled {
   display: none;
 }
+.mat-expansion-panel {    
+  margin-bottom: 2px !important;
+}
+.mat-expansion-panel-header-title {
+  width: 300px;
+  flex-grow: 0 !important;
+}
+.detail-table th {
+  background: #15b3f0 !important;
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+  color: white;
+  font-weight: normal !important;
+}

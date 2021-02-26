@@ -22,6 +22,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
   notifier = new Subject();
   sklad: skladIntarface[] =[];
   id: number;
+  tovar: boolean = true;
   selectedWeigt = 0;
   public ingredientsTypes: ingredientsInterface[] = [];
   filteredOptions: Observable<string[]>;
@@ -63,9 +64,8 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       this.db.getMenuById(this.id).pipe(
         takeUntil(this.notifier)
       ).subscribe(el => {
-        console.log(2222, el)
+        el['ingredient'].length > 0 ? this.tovar = true :  this.tovar = false; 
         this.form.patchValue(el);
-        console.log(2222, this.form.value)
         this.addFormProcess(el['process']);
         this.addIngredient(el['ingredient']);
       })
@@ -117,7 +117,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       data.forEach(element => {
         return (<FormArray>this.form.get('process')).push(
           this.fb.group({
-            value: [element[1]],
+            value: [element],
           })
         ) 
       });
@@ -284,7 +284,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
     this.form.value.sale ? this.form.value.sale = 1 : this.form.value.sale = 0;
     if(this.id) {
       this.db.updateMenu(this.id, this.form.value).subscribe(
-        (responce) => {this.alert.success('Информация добавлена')},
+        (responce) => {this.alert.success('Информация обновлена')},
         (error) => {this.alert.error('Ошибка')}
       ) 
     } else {

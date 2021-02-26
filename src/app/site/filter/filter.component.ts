@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, Input, NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-filter',
@@ -20,3 +21,9 @@ export class FilterComponent implements OnInit {
   }
 
 }
+@NgModule({
+  imports: [CommonModule],
+  exports: [FilterComponent],
+  declarations: [FilterComponent]
+})
+export class FilterComponentModule { }

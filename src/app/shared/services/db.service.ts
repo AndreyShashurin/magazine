@@ -70,12 +70,15 @@ export class DbService implements OnDestroy  {
     });
   }
 
-  getDelivery(): Observable<deliveryInterface[]> {
-    return this.http.get<deliveryInterface[]>(this.apiURL + 'warehouse', {
-      params: new HttpParams().set('delivery', '1')
-    });
-  }
-
+  getDelivery(data?): Observable<deliveryInterface[]>  {
+    if(data) {
+      let params = new HttpParams()
+      .set('limit', data.limit)
+      .set('delivery', '1')
+      .set('offset', data.offset);
+      return this.http.get<deliveryInterface[]>(this.apiURL + 'warehouse', {params});
+    }
+  }  
   getDiscard(data): Observable<skladIntarface[]> {
     let params = new HttpParams()
     .set('limit', data.limit)

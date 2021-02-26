@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as moment_ from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertService } from 'src/app/shared/services/alert.service';
 import { DbService } from 'src/app/shared/services/db.service';
 import { IngredietnsTypeName, skladIntarface, suppliersIntarface } from 'src/app/shared/services/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
@@ -30,7 +31,8 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private settings: SettingsService,
     private fb: FormBuilder,
-    public db: DbService
+    public db: DbService,
+    private alert: AlertService
   ) { 
     this.ingredietnsTypeName = IngredietnsTypeName;
     this.id = this.activatedRoute.snapshot.queryParams.id;
@@ -104,15 +106,16 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
   addFieldsForm(data?) {
     return (<FormArray>this.form.get('tovars')).push(
       this.fb.group({
-        id: [''],
-        name: ['', Validators.required],
-        priceOld: [''],
-        type: [''],
+        id: [data ? data.id : ''],
+        value: [data ? data.tovar : '', Validators.required],
+        priceOld: [data ? data.price :''],
+        type: [data ? data.ed : ''],
         quantity: [ '', [CustomValidator.numeric, Validators.required]],
         quantityOld: [''],
         priceNews: [''],
         summ: [''],
-        markUpPercent: ['']
+        markUpPercent: [''],
+        idMenu: []
       })
     )
   }
@@ -127,6 +130,7 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
     form.get('priceOld').setValue(item.price);
     form.get('quantityOld').setValue(item.value);
     form.get('id').setValue(item.id);
+    form.get('idMenu').setValue(item.idMenu);
   }
 
   onChange(e: any, i: number): void {
@@ -134,12 +138,13 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
     const quantity = form.get('quantity').value;
     const priceOld = form.get('priceOld').value;
     const quantityNew = +e.target.value * +quantity;
-    const sell_cost = priceOld / 100;  // Проценты
-    const sell_price = e.target.value - priceOld;  // Проценты
-    const sell_itog = sell_price / sell_cost;  // Проценты
+    if(priceOld > 0) {
+      const sell_cost = priceOld / 100;  // Проценты
+      const sell_price = e.target.value - priceOld;  // Проценты
+      const sell_itog = sell_price / sell_cost;  // Проценты
+      form.get('markUpPercent').setValue(sell_itog.toFixed(2));
+    }
     form.get('summ').patchValue(quantityNew.toFixed(2));
-    form.get('markUpPercent').setValue(sell_itog.toFixed(2));
-
   }
 
   onFileChange(event): void {
@@ -150,13 +155,26 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
       });
     }
   }
-     
+
+  serializeObj(obj): string {
+    let result = [];
+    for (let property in obj) {
+      if(obj[property] && obj[property].value) {
+        Object.keys(obj[property]).forEach((el, i) => {
+          result.push(`${el}=${obj[property][el]}`);
+        })
+      }
+    }
+    return result.join("&");
+  }  
+   
   sendForm(): void {
     const formData = new FormData();
     formData.append('file', this.form.get('fileSource').value);
+    this.form.value.tovars = this.serializeObj(this.form.value.tovars);
     this.db.postSklad(this.form.value, this.smena, localStorage.getItem('SJid')).pipe(takeUntil(this.notifier)).subscribe(
-      (data) => { },
-      (error) => {}
+      (responce) => {this.alert.success('Товары добавлены')},
+      (error) => {this.alert.error('Ошибка')}
     )
   }
 
