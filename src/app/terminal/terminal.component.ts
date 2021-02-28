@@ -1,11 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, Output } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SettingsService } from '../shared/services/settings.service';
 import { DbService } from '../shared/services/db.service';
-import { personsInterface, promoInterface } from '../shared/services/interface.service';
-import { takeUntil } from 'rxjs/operators';
+import { promoInterface } from '../shared/services/interface.service';
 import { CartService } from '../shared/services/cart.service';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-terminal',
@@ -42,7 +41,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
     )
   }
 
-  public onSelectItem(item: any): void {
+   onSelectItem(item: any): void {
     if (!this.activeItem) {
       this.activeItem = item;
       this.cartService.activeItemSales = item;
@@ -54,7 +53,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
       this.cartService.sale = '';
     }
   }  
-
 
   ngOnDestroy(): void {
     this.notifier.next();

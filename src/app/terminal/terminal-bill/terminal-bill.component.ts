@@ -39,26 +39,12 @@ export class TerminalBillComponent implements OnInit {
     this.typePay =  TypePay;
   }
 
-  setIncrement(data: menuIntarface, index: number): void {
-    const form = this.cartService.cartForm.get('tovars')['controls'][index];
-    let count = form.get('count').value
-    form.get('count').setValue(--count) 
-    if(form.get('weightFlag') !== 0) {
-      form.get('priceWeight').setValue((form.get('count').value / 1000) * form.get('price').value)
-    } else {
-      form.get('priceWeight').setValue(form.get('price').value * form.get('count').value)
-    }
+  setIncrement(index: number): void {
+    this.cartService.setIncrement(index);
   }
 
-  setDecrement(data: menuIntarface, index: number): void {
-    const form = this.cartService.cartForm.get('tovars')['controls'][index];
-    let count = form.get('count').value
-    form.get('count').setValue(++count)
-    if(form.get('weightFlag').value !== 0) {
-      form.get('priceWeight').setValue((form.get('count').value / 1000) * form.get('price').value)
-    } else {  
-      form.get('priceWeight').setValue(form.get('price').value * form.get('count').value)
-    }
+  setDecrement(index: number): void {
+    this.cartService.setDecrement(index);
   }
 
   deleteCart(index: number): void {

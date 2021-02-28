@@ -30,9 +30,9 @@
         <td class="name">{{tovar.controls['name'].value}}</td>
         <td class="price">{{tovar.controls['price'].value}}</td>
         <td class="calc-count">
-          <span class="minus" (click)="setIncrement(tovar, i)">-</span>
+          <span class="minus" (click)="setIncrement(i)">-</span>
           <span class="count"><input type="text" class="form-control" [formControl]="tovar.controls['count']"> </span>
-          <span class="plus" (click)="setDecrement(tovar, i)">+</span>
+          <span class="plus" (click)="setDecrement(i)">+</span>
         </td>
         <td class="price-new">{{tovar.controls['priceWeight'].value}}</td>
         <td class="delete-tovar" (click)="deleteCart(i)">

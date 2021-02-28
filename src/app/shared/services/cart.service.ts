@@ -44,8 +44,6 @@ export class CartService {
         } else {
           arrayCount.push(element.get('count').value)
         }
-      });
-      ctrl.controls.forEach(element => {
         arraySalePrice.push(element.get('salePrice').value)
       });
       this.count = arrayCount.reduce((sum, current) => {
@@ -57,31 +55,18 @@ export class CartService {
       this.priceSale = arraySalePrice.reduce((sum, current) => {
         return +sum + +current;
       }, 0);
-      /*if(this.activeItemSales) {
-        Object.values(this.activeItemSales['childe']).forEach(el => {
-          if(el['cat']) {
-            let child =  el['cat'].split(',');
-            ctrl.controls.forEach(element => {
-              if(child.some(el => {return +el === element.get('id').value})) {
-                console.log(element)
-                let percent = this.activeItemSales['sale'] / 100 * element.get('price').value;
-                element.get('salePrice').setValue(element.get('price').value - percent)
-              }
-            });
-          }
-        });
-      }*/
     })
   }
 
-  public get tovars(): FormArray {
+  get tovars(): FormArray {
     return <FormArray>this.cartForm.get('tovars');
   }
-  public get combo(): FormArray {
+  get combo(): FormArray {
     return <FormArray>this.cartForm.get('combo');
   }
+
   addCartGroup(data?) {
-    return (<FormArray>this.cartForm.get('tovars')).push(
+    (<FormArray>this.cartForm.get('tovars')).push(
       this.fb.group({
         id: [data.id],
         name: [data.name],
@@ -94,76 +79,112 @@ export class CartService {
         weightFlag: [data.weight_flag],
         priceWeight: [data.price]
       })
-    )
+    );
+    if(this.activeItemSales) {
+      this.setSale(this.activeItemSales);
+    }
   }
 
-  onSelectedArray(data, id) {
+  onSelectedArray(data, id): void {
     this.data[`combo`].push(data);
   }
 
-  updateCount(item: menuIntarface[], val: number) {
+  updateCount(item: menuIntarface[], val: number): void {
     this.data.tovar.map(val => val['id'] === item['id'] ? item['totalCounter'] = 1 : null)
     this.count += val;
   }
 
-  incrementCount(data: number) {
+  incrementCount(data: number): void {
     this.count -= data;
   }
 
-  incrementPrice(data: number) {
+  incrementPrice(data: number): void {
     this.price -= data;
   }
 
-  updatePrice(data: number) {
+  updatePrice(data: number): void {
     this.price += data;
   }
 
-  decrementCounter(key: any, item: any){
+  decrementCounter(key: any, item: any): void {
     this.data.tovar.map(val => val['id'] === item.id ? item.totalCounter++ : null)
   }
 
-  incrementCounter(key: any, item: any){
+  incrementCounter(key: any, item: any): void {
     this.data.tovar.map(val => val['id'] === item.id ? item.totalCounter-- : null)
     if (item.totalCounter === 0) {
-      this.deleteCart(key)
+      this.deleteCart(key);
     }
   }
 
-  onBreadcrumbs(data) {
+  onBreadcrumbs(data): void {
     this.breadcrumbs.push(data);
   }
 
   deleteCart(index: number): void {
     (<FormArray>this.cartForm.get('tovars')).removeAt(index);
-  }  
+  }
 
-  deleteCombo(index: number) {
-    this.data.combo = this.data.combo.filter((arr, i) => i !== index)
+  setIncrement(index: number): void {
+    const form = this.cartForm.get('tovars')['controls'][index];
+    let count = form.get('count').value;
+    form.get('count').setValue(--count) ;
+    if(form.get('weightFlag').value !== 0) {
+      form.get('priceWeight').setValue((count / 1000) * form.get('price').value);
+      if(this.activeItemSales) {
+        this.setSale(this.activeItemSales);
+      }
+    } else {
+      form.get('priceWeight').setValue(form.get('price').value * count);
+      if(this.activeItemSales) {
+        this.setSale(this.activeItemSales);
+      }
+    }
+  }
+
+  setDecrement(index: number): void {
+    const form = this.cartForm.get('tovars')['controls'][index];
+    let count = form.get('count').value;
+    form.get('count').setValue(++count);
+    if(form.get('weightFlag').value !== 0) {
+      form.get('priceWeight').setValue((count / 1000) * form.get('price').value);
+      if(this.activeItemSales) {
+        this.setSale(this.activeItemSales);
+      }
+    } else {  
+      form.get('priceWeight').setValue(form.get('price').value * count);
+      if(this.activeItemSales) {
+        this.setSale(this.activeItemSales);
+      }
+    }
+  }
+
+  deleteCombo(index: number): void {
+    this.data.combo = this.data.combo.filter((arr, i) => i !== index);
   }
   
   setSale(data): void {
     Object.values(data.childe).forEach(el => {
       if(el['cat']) {
-        this.getSale(data, el['cat'].split(','))
+        this.getSale(data, el['cat'].split(','));
       }
     });
   }
 
-  getSale(array: any, child: string[]) {
+  getSale(array: any, child: string[]): void {
     this.cartForm.get('tovars').value.forEach((form, i) => {
       if(child.some(el => {return +el === form.id})) {
-        let percent = array.sale / 100 * form.price;
-        this.cartForm.get('tovars.0').get('salePrice').setValue(form.price - percent)
+        const percent = array.sale / 100 * form.price;
+        this.cartForm.get(`tovars.${i}`).get('salePrice').setValue((form.price * form.count) - percent);
       }
     })
   }
 
-  setPriceCount(tovar) {
+  setPriceCount(tovar): number {
     if(tovar.controls.weightFlag.value) {
-      return 0
+      return 0;
     } else {
-      return tovar.controls.price.value * tovar.controls.count.value
+      return tovar.controls.price.value * tovar.controls.count.value;
     }
-
   }
 }
