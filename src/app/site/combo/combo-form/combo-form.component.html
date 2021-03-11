@@ -1,0 +1,57 @@
+<div class="sj-panel sj-panel-fh">
+  <div class="sj-panel-body" [formGroup]="form">  
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Активность</label>
+      <div class="col-sm-9">
+        <mat-checkbox formControlName="active" class="col-sm-2"></mat-checkbox>               
+      </div>
+    </div>
+    <mat-form-field class="col-12">
+      <mat-label>Название</mat-label>
+      <input matInput placeholder="" formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <mat-label>Цена</mat-label>
+      <input matInput placeholder="" formControlName="price" required>
+    </mat-form-field>
+    <div class="col-12" formArrayName="days">
+      <div class="week-days-label">{{daysArray.value}}</div>
+        <span class="week-days" *ngFor="let tovar of days.controls; let i = index">
+          <mat-checkbox [formControl]="tovar.controls['completed']">{{tovar.value.value}}
+          </mat-checkbox>
+        </span>
+    </div>
+    <mat-form-field class="col-12 chip" formArrayName="categories">
+      <div>Товары участвующие в акции</div>
+      <div *ngFor="let tovar of categories.controls; let i = index" >
+        <mat-chip-list #chipList>
+          <mat-chip
+            *ngFor="let el of tovar.controls['value'].value; let number = index"
+            [selectable]="selectable"
+            (removed)="remove(i, number)">
+            {{el.name}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            [formControl]="tovarSearch"
+            [matAutocomplete]="auto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputFor]="chipList">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-optgroup *ngFor="let group of categoriesArray" [label]="group.name" (click)="selectGoup(group, i)">
+            <mat-option *ngFor="let childe of group.childe | keyvalue" [value]="childe.value">
+                {{childe.value.name}}
+              </mat-option>
+          </mat-optgroup>
+        </mat-autocomplete>
+      </div>
+    </mat-form-field>
+    <div class="col-12">
+      <a class="btn-link add-form" (click)="addForm()">Добавить категорию</a>
+    </div>
+  <div class="controls">
+      <button type="submit" class="btn btn-success btn-sm"  (click)="save()">Сохранить</button>
+  </div>
+  </div>
+</div>

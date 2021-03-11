@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { accountIntarface, categoriesInterface, categoryInterface, CategoryType, filialIntarface, personsInterface, smenaInterface } from 'src/app/shared/services/interface.service';
+import { accountIntarface, categoriesInterface, categoryInterface, CategoryType, filialIntarface, personsInterface, saveParamsSmena, smenaInterface } from 'src/app/shared/services/interface.service';
 import { DbService } from 'src/app/shared/services/db.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 import { ModalChangeComponent } from './modal-change/modal-change.component';
@@ -90,6 +90,13 @@ export class ChangeComponent implements OnInit, OnDestroy {
     return formatDate !== "Invalid date" ? formatDate : moment(data.date).locale('ru').format('DD.MM.YYYY');
   }
 
+  setType(data): string {
+    if(data.typeId === 6) {
+      return `${data.type} ${data.user}/${data.transferUser}`;
+    }
+    return data.type;
+  }
+
   openDelivery(data: number): void {
     this.router.navigate(['dashboard/addSklad'], {
       queryParams: {
@@ -130,14 +137,12 @@ export class ChangeComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(el => {
       if(el) {
         if(el.type === 4) {
-          const payload = [
-            localStorage.getItem('SJid'), 
-            this.settingsService.activefilial[0].id,
-            moment(el.formGroup.value.date).format('DD.MM.YYYY'), 
-            moment(el.formGroup.value.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
-            +el.formGroup.value.price,
-            moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss'),     
-            0
+          const payload: saveParamsSmena[] = [
+            el.formGroup.value.user, 
+            el.formGroup.value.filial,
+            moment(el.formGroup.value.date).format('YYYY-MM-DD HH:mm:ss'),       
+            0,
+            +el.formGroup.value.price
           ]
           this.bd.openSmena(payload).pipe(
             takeUntil(this.ngUnsubscribe)
@@ -148,8 +153,8 @@ export class ChangeComponent implements OnInit, OnDestroy {
           const payload = [
             localStorage.getItem('SJid'),
             el.formGroup.value,
-            moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss'),
-            el.smenaId
+            moment(el.formGroup.value.date).format('YYYY-MM-DD HH:mm:ss'),
+            el.smenaId,
           ]
           this.bd.postTransaction('smena', payload).pipe(
             takeUntil(this.ngUnsubscribe)

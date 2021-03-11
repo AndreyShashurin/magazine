@@ -1,0 +1,22 @@
+<mat-dialog-content class="mat-typography" [formGroup]="data.formGroup">
+  <mat-form-field class="col-12">
+    <mat-label>Взять сумму</mat-label>
+    <input matInput placeholder="" type="text" formControlName="price" required>
+  </mat-form-field>  
+  <mat-form-field class="col-12">
+    <mat-label>На кого переводим</mat-label>
+    <mat-select formControlName="user" required>
+      <mat-option *ngFor="let item of data.persons; let i = index" [value]="item.id">
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>  
+  <mat-form-field class="col-12">
+    <mat-label>Комментарий</mat-label>
+    <input matInput placeholder="" type="text" formControlName="comment" required>
+  </mat-form-field>   
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close class="close-button btn">Отмена</button>
+  <button mat-flat-button color="primary" [disabled]="data.formGroup.invalid" class="btn btn-sm btn-add" (click)="save()">Сохранить</button>
+</mat-dialog-actions>

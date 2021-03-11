@@ -31,6 +31,8 @@ import { TaxesComponent } from './site/finance/taxes/taxes.component';
 import { AccoutnsComponent } from './site/finance/accoutns/accoutns.component';
 import { CategoriesComponent } from './site/finance/categories/categories.component';
 import { KitchenComponent } from './kitchen/kitchen/kitchen.component';
+import { ComboComponent } from './site/combo/combo.component';
+import { ComboFormComponent } from './site/combo/combo-form/combo-form.component';
 
 const routes: Routes = [
     {path: '', component: SingInComponent},
@@ -70,7 +72,10 @@ const routes: Routes = [
                 { path: "menu", loadChildren: () => import('./site/menu/menu.module').then(m => m.MenuModule)},
                 { path: "category", component: CategoryComponent},
                 { path: "addtovar", component: MenuAddTovarComponent},
-                { path: "addrecept", component: MenuAddReceptComponent}
+                { path: "addrecept", component: MenuAddReceptComponent},
+                { path: "combo", component: ComboComponent},
+                { path: "comboform", component: ComboFormComponent},
+                { path: "comboform/:id", component: ComboFormComponent}
             ]
         }]
     },  

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Subject } from 'rxjs';
-import * as moment_ from 'moment';
 import { takeUntil } from 'rxjs/operators';
+import * as moment_ from 'moment';
 import { DbService } from 'src/app/shared/services/db.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { ModalComponent } from '../categories/modal/modal.component';
+import { saveParamsSmena, transactionInterface } from 'src/app/shared/services/interface.service';
 const moment = moment_;
 
 @Component({
@@ -81,6 +82,13 @@ export class TransactionsComponent implements OnInit {
     this.request(params);
   }
 
+  setAccount(data: transactionInterface): string {
+    if(data.type === 3) {
+      return `Со счета <b>${data.accountNameOut}</b> на <b>${data.accountNameIn}</b>`;
+    }
+    return data.accountNameOut;
+  }
+
   formateDate(data: string): string {
     const formatDate = moment(data).locale('ru').format('DD.MM.YYYY');
     return formatDate !== "Invalid date" ? formatDate : data;
@@ -98,14 +106,20 @@ export class TransactionsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(el => {
       if(el.type === 2) {
-        const datetime = moment(el.formGroup.value.date).format('YYYY-MM-DD h:mm:ss');
-        /*this.db.postTransaction('transaction', el.formGroup.value, datetime, '').pipe(
+        const payload: saveParamsSmena[] = [
+          localStorage.getItem('SJid'), 
+          el.formGroup.value,
+          moment(el.formGroup.value.date).format('YYYY-MM-DD HH:mm:ss'),       
+          0,
+          +el.formGroup.value.price
+        ]
+        this.db.postTransaction('transaction', payload).pipe(
           takeUntil(this.ngUnsubscribe)
         ).subscribe(
           res => {
             console.log(res)
           }
-        );*/
+        );
       }
     })
   }

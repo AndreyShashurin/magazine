@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import * as moment_ from 'moment';
 import { CartService } from '../../../shared/services/cart.service';
 import { DbService } from '../../../shared/services/db.service';
 import { SettingsService } from '../../../shared/services/settings.service';
-import { menuIntarface } from 'src/app/shared/services/interface.service';
+import { menuIntarface, saveParamsSmena } from 'src/app/shared/services/interface.service';
 const moment = moment_;
 
 @Component({
@@ -21,6 +21,8 @@ export class ModalTerminalComponent implements OnInit {
   Form: any = {
     price: ''
   };
+  selectedComboChild = []
+  formCombo = []
   
   constructor(
     public bsModalRef: BsModalRef,
@@ -36,12 +38,11 @@ export class ModalTerminalComponent implements OnInit {
     });  
 
     this.form = new FormGroup({
-      combo1: new FormControl('', Validators.required),
-      combo2: new FormControl('', Validators.required)
-    });    
+      combo: new FormControl('', Validators.required)
+    });   
   } 
   
-  getNumber(v: string){
+  getNumber(v: string): void {
     this.formWeight.get('weight').setValue(this.formWeight.get('weight').value + v)
   }
 
@@ -54,19 +55,27 @@ export class ModalTerminalComponent implements OnInit {
     });
   }
 
-  getCombo(data, item) {
-    let zakaz1 = data[0][0].tovarArray.filter(val => val[0].name === this.form.controls['combo1'].value);
+  selectCombo(data) {      
+  if(!this.selectedComboChild[data.id]) {
+    this.selectedComboChild[data.id] = data
+  } else {
+    this.selectedComboChild.splice(data.id, 1)
+  }
+  console.log(this.selectedComboChild)
+  }
+
+  getCombo(data): void {
+    console.log(this.formCombo)
+    /*let zakaz1 = data[0][0].tovarArray.filter(val => val[0].name === this.form.controls['combo1'].value);
     let zakaz2 = data[1].filter(val => val[0].name === this.form.controls['combo2'].value);
     let zakaz = [data[0][0]];
     let length = [zakaz1[0][0], zakaz2[0][0]]
     zakaz[0]['zakaz'] = length;
     zakaz[0]['zakazLength'] = length.length;
     
-    this.cartService.updateCount(zakaz[0], length.length);
-    this.cartService.onSelectedArray(zakaz[0], item.id);
-    this.cartService.updatePrice(+item.price);
     
-    this.bsModalRef.hide();
+    //this.cartService.addCartGroup(data)
+    this.bsModalRef.hide();*/
   }
 
   updateAmount(e) {
@@ -74,16 +83,13 @@ export class ModalTerminalComponent implements OnInit {
   }
 
   saveModal(data, smena = 0): void {
-    const payload = [
+    const payload: saveParamsSmena[] = [
       localStorage.getItem('SJTerminalid'), 
       this.settingsService.activefilial[0].id,
-      moment(this.date).format('DD.MM.YYYY'), 
-      moment(this.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
-      +this.Form.price, 
-      moment(this.date).format('YYYY-MM-DD h:mm:ss'),     
-      smena
-    ]
-    console.log(payload)
+      moment(this.date).format('YYYY-MM-DD HH:mm:ss'),     
+      smena,
+      +this.Form.price
+    ];
     if(data === 5) {
       this.db.closeSmena(payload).subscribe(
         val => {

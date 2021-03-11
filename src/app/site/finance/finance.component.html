@@ -12,40 +12,42 @@
           <td colspan="6" class="title">Доходы</td>
         </tr>
         <ng-container *ngFor="let item of finance">
-        <tr class="bill" *ngIf="item.operation === 0">
+        <tr class="bill" *ngIf="item.operation === 0 && item.smena !== 1">
           <td>{{item.name}}</td>
-          <td align="right" class="nowrap text-success">{{ item.sum | number:'3.1-5' }}</td>
+          <td align="right" class="nowrap text-success">{{ item.sum | price:2 }}</td>
         </tr>
-      </ng-container>
+        </ng-container>
         <tr>
           <td colspan="6" class="title">Расходы</td>
         </tr>
         <ng-container *ngFor="let item of finance">
         <tr class="bill" *ngIf="item.operation === 1">
           <td>{{item.name}}</td>
-          <td align="right" class="nowrap text-danger">{{ item.sum | number:'3.1-5' }}</td>
+          <td align="right" class="nowrap text-danger">{{ item.sum | price:2 }}</td>
         </tr>
       </ng-container>
       <tr>
         <td colspan="2" class="title">Прочее</td>
       </tr>
-      <tr>
-          <td>Инкасация</td>
-          <td class="nowrap text-success" align="right"></td>
-      </tr>
+      <ng-container *ngFor="let item of finance">
+        <tr class="bill" *ngIf="item.id === 3">
+          <td>{{item.name}}</td>
+          <td align="right" class="nowrap text-success">{{ item.sum | price:2 }}</td>
+        </tr>
+      </ng-container>
       </tbody>
       <tfoot>
         <tr class="title" >
           <td><b>Всего расходов</b></td>
-          <td align="right" class="text-danger">{{setFinance(1) | number:'3.1-5'}}</td>
+          <td align="right" class="text-danger">{{setFinance(1) | price:2}}</td>
         </tr>
         <tr class="title">
           <td><b>Всего доходов</b></td>
-          <td align="right" class="text-success">{{setFinance(0) | number:'3.1-5'}}</td>
+          <td align="right" class="text-success">{{setFinance(0) | price:2}}</td>
         </tr>
         <tr class="title">
           <td><b>Финансовый результат</b></td>
-          <td align="right">{{setFinance(0) - setFinance(1)}}</td>
+          <td align="right">{{setFinance(0) - setFinance(1) | price:2}}</td>
         </tr>
       </tfoot>
     </table>

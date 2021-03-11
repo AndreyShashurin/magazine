@@ -64,10 +64,10 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
       this.db.getMenuById(this.id).pipe(
         takeUntil(this.notifier)
       ).subscribe(el => {
-        el['ingredient'].length > 0 ? this.tovar = true :  this.tovar = false; 
+        el[0]['ingredient'].length > 0 ? this.tovar = true :  this.tovar = false; 
         this.form.patchValue(el);
-        this.addFormProcess(el['process']);
-        this.addIngredient(el['ingredient']);
+        this.addFormProcess(el[0]['process']);
+        this.addIngredient(el[0]['ingredient']);
       })
     } else {
       this.addFormProcess();
@@ -84,8 +84,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
             title: item['tovar'], 
             price: +item['price'], 
             type: item['ed'],
-            weight: '',
-            maxValue: item['value']
+            weight: ''
           });
         }
       } ,
@@ -130,7 +129,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
     }
   }
 
-  addIngredient(data?: menuIntarface[]) {
+  addIngredient(data?) {
     if(data) {
       data.forEach(element => {
         return (<FormArray>this.form.get('ingredient')).push(
@@ -142,8 +141,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
               Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$')
             ]],
             costPrice: [element[3]],
-            type: [element[4]],
-            maxValue: ['']
+            type: [element[4]]
           })
         );
       });
@@ -157,8 +155,7 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
             Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$')
           ]],
           costPrice: [0],
-          type: [''],
-          maxValue: ['']
+          type: ['']
         })
       );
     }
@@ -188,20 +185,14 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
     //form.reset();
     form.get('type').setValue(item.type)
     form.get('price').setValue(item.price)
-    form.get('maxValue').setValue(item.maxValue)
   }
 
   onChange(e: any, i: number): void {
     const form = this.form.get('ingredient')['controls'][i];
     const type = form.get('type').value;
-    const max = form.get('maxValue').value;
     const price = form.get('price').value;
     const costPrice = form.get('costPrice').value;
-    const cost = this.form.get('cost').value;  
-    if (max) {
-      if(max <= '0'){
-        form.get('costPrice').setValue(0)         
-      } else {
+    const cost = this.form.get('cost').value;
         if(type === IngredietnsTypeName['шт.']){
           const price_ml = price * e.target.value;
           const pricelFixed = price_ml.toFixed(2);
@@ -223,10 +214,6 @@ export class MenuAddReceptComponent extends HomeComponent implements OnInit, OnD
         if(type !== IngredietnsTypeName['шт.']) {
           this.setOutput();
         }
-      }
-    } else {
-      this.alert.error('Необходимо выбрать товар')
-    }
   }
 
   setOutput(): void {

@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { menuIntarface } from './interface.service';
 
 @Injectable({
@@ -26,7 +26,7 @@ export class CartService {
     this.cartForm = this.fb.group({
       tovars: this.fb.array([]),
       combo: this.fb.array([]),
-      typePay: []
+      typePay: [null, Validators.required]
     });
     this.cartForm.get('tovars').valueChanges.subscribe(value => {
       const ctrl = <FormArray>this.cartForm.controls['tovars'];
@@ -77,7 +77,8 @@ export class CartService {
         salePrice: [],
         structure: [data.structure],
         weightFlag: [data.weight_flag],
-        priceWeight: [data.price]
+        priceWeight: [data.price],
+        categories: [data.categories_id],
       })
     );
     if(this.activeItemSales) {
@@ -118,7 +119,9 @@ export class CartService {
   }
 
   onBreadcrumbs(data): void {
-    this.breadcrumbs.push(data);
+    if(!this.breadcrumbs.some(el => +el.id === +data.id)) {
+      this.breadcrumbs.push(data);
+    }
   }
 
   deleteCart(index: number): void {
@@ -164,18 +167,17 @@ export class CartService {
   }
   
   setSale(data): void {
-    Object.values(data.childe).forEach(el => {
-      if(el['cat']) {
-        this.getSale(data, el['cat'].split(','));
-      }
-    });
+    this.getSale(data, data.childe);
   }
 
   getSale(array: any, child: string[]): void {
     this.cartForm.get('tovars').value.forEach((form, i) => {
-      if(child.some(el => {return +el === form.id})) {
+      const cat = this.cartForm.get(`tovars.${i}`).get('categories').value;
+      if(child[cat] && child[cat]['cat'].split(',').some(el => +el === form.id)) {
         const percent = array.sale / 100 * form.price;
         this.cartForm.get(`tovars.${i}`).get('salePrice').setValue((form.price * form.count) - percent);
+      } else {
+        this.cartForm.get(`tovars.${i}`).get('salePrice').setValue(form.price * form.count);
       }
     })
   }

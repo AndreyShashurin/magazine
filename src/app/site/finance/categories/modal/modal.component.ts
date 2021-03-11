@@ -16,7 +16,6 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     this.data.formGroup.get('type').valueChanges.subscribe(id => {
-      console.log(id)
       if(+id === 1) {
         this.data.formGroup.get('category').enable();
         this.data.formGroup.get('accountOut').enable();

@@ -45,17 +45,19 @@ export interface smenaInterface {
 }
 
 export interface transactionInterface {
-  account: number,
+  accountNameOut: string,
+  accountNameIn: string,
   comment: string,
   date: string,
-  operationIn: number,
-  operationOut: number,
+  operationIn?: number,
+  operationOut?: number,
   price: number,
   transferUser: number,
-  type: string,
+  type: number,
   typeId: number,
   user: string
 }
+
 export interface personsInterface {
   access: number, 
   email: string, 
@@ -242,7 +244,7 @@ export interface promoInterface {
 
 export interface ingredientsInterface  {
   costPrice?:  string | number,
-  maxValue: string | number,
+  maxValue?: string | number,
   output?: string,
   price?: number,
   title: string, 
@@ -274,6 +276,12 @@ export interface filialInterface  {
   phone?: string
 }
 
+export interface Days {
+  id: number,
+  value: string;
+  completed: boolean;
+  subtasks?: Days[];
+}
 export enum IngredietnsTypeName {
   'л.' = 'л.',
   'мл.' = 'мл.',
@@ -304,6 +312,19 @@ export enum CategoryType {
   'Перевод',
   'Открытие смены',
   'Закрытие смены',
+}
+
+export enum statusType {
+  'Неактивна',
+  'Активна'
+}
+
+export interface saveParamsSmena {
+  id: number,
+  filial: number,
+  date: Date
+  smeena: number | string,
+  price: number | string
 }
 
 @Injectable({

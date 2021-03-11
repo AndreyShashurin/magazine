@@ -33,9 +33,9 @@
               <tr *ngFor="let t of item.transactions">
                 <td>{{formateDate(t.datetime)}}</td>
                 <td>{{t.name}}</td>
-                <td>{{t.account}}</td>
-                <td style="font-weight: bold;">{{t.operation == 0 ? t.price  : 0}}</td>
-                <td style="font-weight: bold;">{{t.operation == 1 ? t.price : 0}}</td>
+                <td>{{t.accountNameOut}}</td>
+                <td style="font-weight: bold;">{{t.operationIn === 1 ? t.price  : 0}}</td>
+                <td style="font-weight: bold;">{{t.operationOut === 1 ? t.price : 0}}</td>
                 <td style="width:300px">{{t.comment}}</td>
               </tr>                                         
             </tbody>

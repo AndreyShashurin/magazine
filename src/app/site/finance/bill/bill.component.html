@@ -4,29 +4,29 @@
       <thead>
         <tr>
           <th></th>
-          <th name="d">№</th>
-          <th name="smena_id">Смена</th>
-          <th class="" style="text-align: left;" name="d">Дата</th>
-          <th class="" style="text-align: left;" name="type_biill">Тип оплаты</th>
-          <th class="" style="text-align: left;" name="user">Сотрудник</th>
-          <th class="" style="text-align: left;" name="user">Скидка</th>
-          <th class="" style="text-align: left;" name="price">Сумма</th>
-          <th class="" style="text-align: left;" name="profit">Прибыль</th>
-          <th class="" style="text-align: left;" name="payment">Оплата</th>
-          <th class="" style="text-align: left;" name="status">Статус</th>
-          <th name=""></th>
+          <th>№</th>
+          <th>Смена</th>
+          <th>Дата</th>
+          <th>Тип оплаты</th>
+          <th>Сотрудник</th>
+          <th>Скидка</th>
+          <th>Сумма</th>
+          <th>Прибыль</th>
+          <th>Оплата</th>
+          <th>Статус</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of bill" class="bill">
           <td><i class="fa fa-bars detail_bill" (click)='openDetail(item)'></i></td>
           <td><b>{{item.id}}</b></td>
-          <td class="smena">{{item.smena_id}}</td>
-          <td class="" style="text-align: left;">{{item.date}}</td>
-          <td class="" style="text-align: left;">{{item.name}}</td>
+          <td>{{item.smena_id}}</td>
+          <td>{{formateDate(item.date)}}</td>
+          <td>{{item.name}}</td>
           <td class="">{{item.user}}</td>
           <td class="">{{item.sale}}</td>
-          <td class=""  style="text-align: left; font-weight: bold;">{{item.price}} <i class="fa fa-"></i></td>
+          <td class=""  style="text-align: left; font-weight: bold;">{{item.price }} <i class="fa fa-"></i></td>
           <td class="" style="text-align: left; font-weight: bold;">{{item.sale_price_margin}} <i class="fa fa-"></i></td>
           <td class="pay" style="text-align: left; font-weight: bold;">
             <span *ngIf="item.payment" class="billAcceptPay">Оплачен</span>

@@ -45,6 +45,9 @@ header {
             cursor: pointer;
             font-size: 12px;
             display: inline-block;
+            &.next_page {
+                cursor: no-drop;
+            }
         }   
           
         span {

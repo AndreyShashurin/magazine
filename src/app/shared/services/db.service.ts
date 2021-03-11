@@ -63,6 +63,19 @@ export class DbService implements OnDestroy  {
     return this.http.get<promoInterface[]>(this.apiURL + 'promo');
   }
 
+  // Наборы
+  getCombo(data?): Observable<promoInterface[]> {
+    let params = new HttpParams()
+    .set('limit', data.limit)
+    .set('combo', '1')
+    .set('offset', data.offset);
+    return this.http.get<promoInterface[]>(this.apiURL + 'promo', {params});
+  }
+
+  saveCombo(data) {
+    return this.http.post(this.apiURL + 'combo', data);
+  }
+
   // Склады
   getSuppliers(): Observable<suppliersIntarface[]> {
     return this.http.get<suppliersIntarface[]>(this.apiURL + 'warehouse', {
@@ -144,6 +157,12 @@ export class DbService implements OnDestroy  {
     return this.http.get<categoriesInterface[]>(this.apiURL + 'categories')
   }
 
+  getCategoriesAndChilde() {
+    return this.http.get<categoriesInterface[]>(this.apiURL + 'categories', {
+      params: new HttpParams().set('categoriesAndChild', '1')
+    })
+  }
+
   getCategoriesChilde(data: any) {
     return this.http.get<categoriesInterface[]>(this.apiURL + 'categories', {
       params: new HttpParams().set('categories', data)
@@ -196,9 +215,8 @@ export class DbService implements OnDestroy  {
       .set('offset', data.offset);
       return this.http.get<responseIntarface[]>(this.apiURL + 'menu', {params});
     } else {
-       return this.http.get<responseIntarface[]>(this.apiURL + 'menu');
-    }
-      
+      return this.http.get<responseIntarface[]>(this.apiURL + 'menu');
+    }  
   }
 
   getMenuById(id: any) {

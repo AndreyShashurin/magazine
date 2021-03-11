@@ -6,7 +6,7 @@
     <mat-expansion-panel hideToggle *ngFor="let item of smena">
       <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px">
         <mat-panel-title>
-          {{item.date}}
+          {{item.dateOpen | date:'dd.MM.yyyy'}}
         </mat-panel-title>
         <mat-panel-description>
           {{item.id}}
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let t of item.transaction | keyvalue">
-            <td>{{t.value.type}}</td>
+            <td>{{setType(t.value)}}</td>
             <td>{{formateDate(t.value)}}</td>
             <td>{{t.value.price | price:2}}</td>
             <td>{{t.value.user}}</td>

@@ -1,0 +1,36 @@
+<div class="sj-panel sj-panel-fh">
+    <div class="sj-panel-header">
+        <a [routerLink]="['/dashboard', 'comboform']" class="btn btn-sm btn-add">Добавить набор</a>
+    </div>
+    <div class="sj-panel-body">
+        <table class="table table-centered">
+            <thead>
+                <tr>            
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Категории</th>
+                    <th>Дни недели</th>
+                    <th>Активность</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of combo" class="item">
+                    <td class="left-cell index">{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.categories}}</td>
+                    <td>
+                        <ng-container *ngFor="let day of item.dayWeek">
+                            <span *ngIf="day.completed"class="day day{{day.id}}">{{day.day}}</span>
+                        </ng-container>
+                    </td>
+                    <td>{{statusType[item.active]}}</td>
+                    <td>
+                        <i class="icon-pencil mr-25"></i>
+                        <i class="icon-trash txt-danger mr-25" (click)="deleteModal(item, 'combo')"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

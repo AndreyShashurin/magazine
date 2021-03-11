@@ -34,7 +34,7 @@ export class FinanсeComponent implements OnInit, OnDestroy {
   setFinance(data: number): number {
     let array = [];
     this.finance.forEach(element => {
-      if (element.operation === data &&element.sum) {
+      if (element.operation === data && element.sum) {
         array.push(element.sum)
       }
     });

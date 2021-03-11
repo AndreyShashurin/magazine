@@ -1,7 +1,7 @@
 <header class="header row">
   <div class="left-nav col-8">
       <div class="breadcump">
-        <i class="fa fa-th"></i> <a id="all_categories" (click)="clickbreadcump()">Все категории</a>
+        <i class="fa fa-th"></i> <a id="all_categories" (click)="clickBreadcump()">Все категории</a>
         <ng-container *ngFor="let item of cartService.breadcrumbs">
           <span class="fa fa-long-arrow-right"></span>
           <a class="next_page">{{item.name}}</a>
@@ -24,9 +24,8 @@
       <ng-template #closeSmena>
         <li class="dropdown"><i class="fa fa-bars detail_bill"></i>
           <div class="dropdown-content">
-            <a class="dropdown-item">Статистика</a>
-            <a class="dropdown-item">Перевод смены</a>
-            <a class="dropdown-item">Инкасация</a>
+            <a class="dropdown-item" (click)="openTransactions(6)">Перевод смены</a>
+            <a class="dropdown-item" (click)="openTransactions(3)">Инкасация</a>
           </div>
         </li>
         <li><a class="smena_close" (click)="closeSmenaFunc()">Закрыть смену</a></li>

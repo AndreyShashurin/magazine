@@ -81,6 +81,9 @@ import { MaterialModule } from './shared/material/material.module';
 import { RoundPipe } from './directives/round.pipe';
 import { PaginatorComponentModule } from './site/paginator/paginator.module';
 import { PricePipeModule } from './directives/price-pipe.module';
+import { ModalTransactionComponent } from './terminal/modal-transaction/modal-transaction.component';
+import { ComboComponent } from './site/combo/combo.component';
+import { ComboFormComponent } from './site/combo/combo-form/combo-form.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +135,10 @@ import { PricePipeModule } from './directives/price-pipe.module';
     ModalComponent,
     CurrencyFormatterDirective,
     ModalChangeComponent,
-    RoundPipe
+    RoundPipe,
+    ModalTransactionComponent,
+    ComboComponent,
+    ComboFormComponent
   ],
   imports: [
     BrowserModule,
@@ -182,7 +188,8 @@ import { PricePipeModule } from './directives/price-pipe.module';
     ModalTerminalComponent,
     ModalUpdateComponent,
     ModalComponent,
-    ModalChangeComponent
+    ModalChangeComponent,
+    ModalTransactionComponent
   ]
 })
 export class AppModule { }

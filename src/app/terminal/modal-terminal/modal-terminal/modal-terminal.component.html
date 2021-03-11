@@ -27,22 +27,16 @@
         </div>
       </ng-container>         
       <ng-container *ngIf="type === 2">
-      <form [formGroup]="form" style="width: 100%;">
-        <div class="col-12" *ngIf="combo1">
-          <div class="combo-parent-name">{{combo1[0].tovarName}}</div>
-          <select size="4" class="form-control combo_select" formControlName="combo1">         
-            <option *ngFor="let child of combo1[0].tovarArray">{{child[0].name}}</option>
-          </select>            
+        <div style="width: 100%;">
+          <ng-container *ngIf="data">
+            <div class="col-12" *ngFor="let combo of data.childe | keyvalue">
+              <div class="combo-parent-name">{{combo.value.name}}</div>
+              <select class="form-control" multiple>         
+                <option *ngFor="let child of combo.value.tovarArray" (click)="selectCombo(child)" [value]="child">{{child.name}}</option>
+              </select>           
+            </div>
+          </ng-container>
         </div>
-        <div class="col-12" *ngIf="combo2">
-          <div class="combo-parent-name">{{combo2[0][0].categories_name}}</div>
-          <select class="form-control combo_select width100" size="4" formControlName="combo2">
-            <ng-container *ngFor="let child2 of combo2">    
-              <option *ngFor="let child of child2">{{child.name}}</option>
-            </ng-container>
-          </select>            
-        </div>   
-        </form>
       </ng-container>
       <ng-container *ngIf="type === 3">
         <div class="row width100 pb-1" *ngFor="let item of data.process">  
@@ -59,7 +53,7 @@
     </div> 
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 2" (click)="getCombo(structureArray, data)" [disabled]="!form.touched">{{confirmBtnName}}</button>
+    <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 2" (click)="getCombo(data)" [disabled]="!form.touched">{{confirmBtnName}}</button>
     <button type="submit" class="btn btn-sm btn-danger" *ngIf="type === 1 || type === 5" (click)="saveModal(type, smena)">{{confirmBtnName}}</button>
     <button type="button" class="btn btn-sm btn-primary" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
   </div>

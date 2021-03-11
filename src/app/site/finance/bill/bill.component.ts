@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { SubscriptionLike, of, Subject } from 'rxjs';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import * as moment_ from 'moment';
 
 import { SettingsService } from '../../../shared/services/settings.service';
 import { DbService } from '../../../shared/services/db.service';
@@ -11,7 +12,7 @@ import { ModalDetailComponent } from '../../shared/modal-detail/modal-detail.com
 import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
 import { HomeComponent } from '../../home.component';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
-import { takeUntil } from 'rxjs/operators';
+const moment = moment_;
 
 @Component({
   selector: 'app-bill',
@@ -73,6 +74,10 @@ export class BillComponent extends HomeComponent implements OnInit {
     this.bsModalRef.content.confirmDeleteGet = type;
   }
 
+  formateDate(data: string): string {
+    return moment(data).locale('ru').format('DD MMMM YYYY HH:mm:ss');
+  }
+
   openDetail(item){
     let structureArray = [];
     item.tovar[0].forEach(function(value, key) {
@@ -101,16 +106,6 @@ export class BillComponent extends HomeComponent implements OnInit {
     this.bsModalRef.content.type = type;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
   }
-
-
-  ngDoCheck() {  
-/*
-      this.bill.filter(function(e) {
-
-        return e.id !== data.id;
-      });*/
-  }
- 
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

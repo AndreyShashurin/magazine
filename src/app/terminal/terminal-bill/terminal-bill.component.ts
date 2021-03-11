@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment_ from 'moment';
+import { FormBuilder } from '@angular/forms';
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, TypePay } from '../../shared/services/interface.service';
 import { CartService } from '../../shared/services/cart.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
-import { FormBuilder } from '@angular/forms';
+import { AlertService } from 'src/app/shared/services/alert.service';
 
 const moment = moment_;
 @Component({
@@ -32,11 +33,12 @@ export class TerminalBillComponent implements OnInit {
     public cartService: CartService,
     public fb: FormBuilder,
     public settingsService: SettingsService,
+    private alert: AlertService
   ) { 
   }
 
   ngOnInit() {
-    this.typePay =  TypePay;
+    this.typePay = TypePay;
   }
 
   setIncrement(index: number): void {
@@ -75,15 +77,14 @@ export class TerminalBillComponent implements OnInit {
     const smena = [
       localStorage.getItem('SJTerminalid'), 
       this.settingsService.activefilial[0].id,
-      moment(this.date).format('DD.MM.YYYY'), 
-      moment(this.date).locale('ru').format('DD MMMM YYYY h:mm:ss'), 
-      moment(this.date).format('YYYY-MM-DD h:mm:ss'),
+      moment(this.date).format('YYYY-MM-DD HH:mm:ss'),
       this.smena['id'],
       this.cartService.price,
       this.cartService.priceSale
-    ]
-    this.db.setBill(this.cartService.cartForm.value, smena).subscribe(el => {
-      console.log(el)
-    })
+    ];
+    this.db.setBill(this.cartService.cartForm.value, smena).subscribe(
+      (responce) => {this.alert.success('Счет сформирован')},
+      (error) => {this.alert.error('Ошибка')}
+    )
   }
 }

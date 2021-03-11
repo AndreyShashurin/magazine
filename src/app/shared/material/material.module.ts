@@ -9,6 +9,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [],
@@ -26,7 +27,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDialogModule,
     MatProgressBarModule,
     MatRadioModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule
   ],
   exports: [
     MatTableModule,
@@ -41,7 +43,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDialogModule,
     MatProgressBarModule,
     MatRadioModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule { }

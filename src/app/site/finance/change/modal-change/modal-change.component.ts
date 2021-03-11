@@ -15,7 +15,6 @@ export class ModalChangeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.data.type)
     this.data.formGroup.get('filial').disable();
     if(this.data.type === 4) {
       this.data.formGroup.get('filial').enable();

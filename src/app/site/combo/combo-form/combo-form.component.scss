@@ -1,0 +1,31 @@
+.chip ::ng-deep {
+    .mat-optgroup-label {
+        color: black !important
+    }
+    .mat-chip-list-wrapper {
+        padding: 0px 8px;
+        border: 1px solid #D2D2D2;
+        width: 100%;
+        margin: 10px 0px !important;
+    }
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }  
+    .mat-form-field-underline {
+        display: none;
+    }
+}
+li {
+    list-style: none
+}
+.week-days-label {
+    margin-bottom: 8px;
+}
+.week-days {
+    font-weight: normal;
+    margin-right: 13px;
+}
+.add-form {
+    margin: 0px 0 20px 0;
+    display: inline-block;
+}

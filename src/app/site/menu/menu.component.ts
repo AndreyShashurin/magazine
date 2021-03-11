@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import * as moment_ from 'moment';
 import { DbService } from '../../shared/services/db.service';
 import { menuIntarface, processArray, responseIntarface, structureArray } from '../../shared/services/interface.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
@@ -11,6 +12,7 @@ import { ModalDetailComponent } from '../shared/modal-detail/modal-detail.compon
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { PaginatedDataSource, PaginationService } from 'src/app/shared/services/pagination.service';
 import { LimitInterface, NodeStructureInterface, QueryInterface } from 'src/app/shared/services/paginationInterface';
+const moment = moment_;
 
 @Component({
   selector: 'app-menu',
