@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { CategoryType } from 'src/app/shared/services/interface.service';
+import { CategoryType } from 'src/app/shared/interface/interface.service';
 
 @Component({
   selector: 'app-modal',

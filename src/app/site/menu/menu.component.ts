@@ -1,18 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import * as moment_ from 'moment';
 import { DbService } from '../../shared/services/db.service';
-import { menuIntarface, processArray, responseIntarface, structureArray } from '../../shared/services/interface.service';
+import { menuIntarface, processArray, responseIntarface, structureArray } from '../../shared/interface/interface.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { ModalDetailComponent } from '../shared/modal-detail/modal-detail.component';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { PaginatedDataSource, PaginationService } from 'src/app/shared/services/pagination.service';
 import { LimitInterface, NodeStructureInterface, QueryInterface } from 'src/app/shared/services/paginationInterface';
-const moment = moment_;
 
 @Component({
   selector: 'app-menu',
@@ -20,22 +17,21 @@ const moment = moment_;
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  bsModalRef: BsModalRef;
-  menu: responseIntarface[] = [];
-  limit = 15;
-  page = 0;
-  form: FormGroup;
-  ngUnsubscribe = new Subject();
-  filteredArray = new PaginatedDataSource<NodeStructureInterface, QueryInterface>(
-    (request, query, paramsArray = []) => this.pagination.paginationAndSearch({page: 0, size: 0}, {search: ''}, ''),
+  private _bsModalRef: BsModalRef;
+  private _ngUnsubscribe = new Subject();
+  private _filteredArray = new PaginatedDataSource<NodeStructureInterface, QueryInterface>(
+    (request, query, paramsArray = []) => this._pagination.paginationAndSearch({page: 0, size: 0}, {search: ''}, ''),
     {search: ''});
+  private _page = 0;
+  public menu: responseIntarface[] = [];
+  public limit = 15;
 
   constructor(
-    private db: DbService,
-    private modalService: BsModalService,
+    private _db: DbService,
+    private _modalService: BsModalService,
+    private _router: Router, 
+    private _pagination: PaginationService, 
     public settings: SettingsService,
-    private router: Router, 
-    private pagination: PaginationService, 
   ) {
   }
 
@@ -48,8 +44,8 @@ export class MenuComponent implements OnInit, OnDestroy {
       limit: this.limit,
       offset: data ? data.offset : 0
     }
-    this.db.getMenu(params).pipe(
-      takeUntil(this.ngUnsubscribe)
+    this._db.getMenu(params).pipe(
+      takeUntil(this._ngUnsubscribe)
     ).subscribe(
       res => {
         this.menu = res['data'];
@@ -68,12 +64,12 @@ export class MenuComponent implements OnInit, OnDestroy {
       confirmDeleteGet: link,
       title: 'Удалить позицию из меню'
     };
-    this.bsModalRef = this.modalService.show(ModalContentComponent, {initialState});
-    this.bsModalRef.content.ModalBody = `Вы действительно хотите удалить ${tovar}?`;
-    this.bsModalRef.content.closeBtnName = 'Закрыть';
-    this.bsModalRef.content.confirmBtnName = 'Удалить';
-    this.bsModalRef.content.confirmDeleteParam = id;
-    this.bsModalRef.content.confirmDeleteGet = link;
+    this._bsModalRef = this._modalService.show(ModalContentComponent, {initialState});
+    this._bsModalRef.content.ModalBody = `Вы действительно хотите удалить ${tovar}?`;
+    this._bsModalRef.content.closeBtnName = 'Закрыть';
+    this._bsModalRef.content.confirmBtnName = 'Удалить';
+    this._bsModalRef.content.confirmDeleteParam = id;
+    this._bsModalRef.content.confirmDeleteGet = link;
   }
 
   openDetail(data: menuIntarface): void {
@@ -102,14 +98,14 @@ export class MenuComponent implements OnInit, OnDestroy {
       sum,
       output:data.output
     };
-    this.bsModalRef = this.modalService.show(ModalDetailComponent, {initialState});
-    this.bsModalRef.content.ModalBody = {initialState};
-    this.bsModalRef.content.ModalTitle = data.name;
-    this.bsModalRef.content.closeBtnName = 'Закрыть';
+    this._bsModalRef = this._modalService.show(ModalDetailComponent, {initialState});
+    this._bsModalRef.content.ModalBody = {initialState};
+    this._bsModalRef.content.ModalTitle = data.name;
+    this._bsModalRef.content.closeBtnName = 'Закрыть';
   }
 
   update(data: menuIntarface): void {
-    this.router.navigate(['/dashboard/addrecept'], {
+    this._router.navigate(['/dashboard/addrecept'], {
       queryParams: {
         id : data.id
       }}
@@ -117,7 +113,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void  {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this._ngUnsubscribe.next();
+    this._ngUnsubscribe.complete();
   }
 }

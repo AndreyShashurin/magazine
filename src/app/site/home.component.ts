@@ -24,15 +24,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   config$ = this._store.pipe(select(selectSettings))
   
   constructor(
-    public db: DbService,
-    public settingsService: SettingsService,
-    public _store: Store
+    private _db: DbService,
+    private _settingsService: SettingsService,
+    private _store: Store
     ) {}
 
   ngOnInit() {
     this._store.dispatch(new GetSettings())
-    this.settingsService.ngOnInit()
-    this.db.getPayment().pipe(
+    this._settingsService.ngOnInit()
+    this._db.getPayment().pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
       (val) => {

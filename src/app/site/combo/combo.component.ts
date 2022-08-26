@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DbService } from 'src/app/shared/services/db.service';
-import { statusType } from 'src/app/shared/services/interface.service';
+import { statusType } from 'src/app/shared/interface/interface.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 
 @Component({

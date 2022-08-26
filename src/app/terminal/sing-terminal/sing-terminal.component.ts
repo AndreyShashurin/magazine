@@ -17,21 +17,21 @@ export class SingTerminalComponent implements OnInit {
     return this.form.get('pin');
   }
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private settingsService: SettingsService
+    private _authService: AuthService,
+    private _router: Router,
+    private _route: ActivatedRoute,
+    private _fb: FormBuilder,
+    private _settingsService: SettingsService
   ) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
+    this._route.queryParams.subscribe((params) => {
       if (params['token']) {
         this.message = 'Пожалуйста, введите поле Pin'
       }
     })
 
-    this.form = this.fb.group({
+    this.form = this._fb.group({
       pin: ['', [Validators.required, Validators.pattern(/^[0-9]+(?!.)/)]]
     })   
   }
@@ -49,10 +49,10 @@ export class SingTerminalComponent implements OnInit {
 
   singIn(): void  {
     if(this.form.get('pin').valid) {
-      const hash = this.settingsService.md5.appendStr(this.form.get('pin').value).end();
-      this.authService.pin(hash).subscribe((event) => {
+      const hash = this._settingsService.md5.appendStr(this.form.get('pin').value).end();
+      this._authService.pin(hash).subscribe((event) => {
         if (event) {
-          this.router.navigate(['/terminal', 'index'])
+          this._router.navigate(['/terminal', 'index'])
           return true;
         } else {
           this.error = 'Неверный Pin'

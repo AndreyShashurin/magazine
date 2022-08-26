@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import { personsInterface } from '../../shared/services/interface.service';
+import { personsInterface } from '../../shared/interface/interface.service';
 
 export enum EPersonsActions {
     GetPersons = '[Persons Page] GetPersons',

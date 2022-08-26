@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DbService } from 'src/app/shared/services/db.service';
-import { CategoryType, } from 'src/app/shared/services/interface.service';
+import { CategoryType, } from 'src/app/shared/interface/interface.service';
 import { ModalComponent } from './modal/modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ModalContentComponent } from '../../shared/modal-content/modal-content.component';

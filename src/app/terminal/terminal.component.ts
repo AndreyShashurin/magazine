@@ -1,20 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SettingsService } from '../shared/services/settings.service';
 import { DbService } from '../shared/services/db.service';
-import { promoInterface } from '../shared/services/interface.service';
+import { promoInterface } from '../shared/interface/interface.service';
 import { CartService } from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-terminal',
   templateUrl: './terminal.component.html',
-  styleUrls: ['./terminal.component.scss']
+  styleUrls: ['./terminal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TerminalComponent implements OnInit, OnDestroy {
-
-  currentNumber: string = '';
-  submitted: boolean = false;
+  submitted = false;
   activeItem: string | number;
   error: string;
   message: string;
@@ -22,16 +21,15 @@ export class TerminalComponent implements OnInit, OnDestroy {
   notifier = new Subject();
 
   constructor(
-    public db: DbService,    
+    private _db: DbService,    
+    private _cartService: CartService,
     public settingsService: SettingsService,
-    public cartService: CartService
-  ) {
-  }
+  ) { }
   
   ngOnInit() {
     this.settingsService.ngOnInit();
     this.settingsService.getUserTerminal();
-    this.db.getPromo().pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getPromo().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.promo = val;
       },
@@ -44,13 +42,13 @@ export class TerminalComponent implements OnInit, OnDestroy {
    onSelectItem(item: any): void {
     if (!this.activeItem) {
       this.activeItem = item;
-      this.cartService.activeItemSales = item;
-      this.cartService.sale = item.sale;
-      this.cartService.setSale(item)
+      this._cartService.activeItemSales = item;
+      this._cartService.sale = item.sale;
+      this._cartService.setSale(item)
     } else {
       this.activeItem = '';
-      this.cartService.activeItemSales = '';
-      this.cartService.sale = '';
+      this._cartService.activeItemSales = '';
+      this._cartService.sale = '';
     }
   }  
 

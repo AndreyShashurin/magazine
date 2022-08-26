@@ -1,4 +1,4 @@
-import { settingsIntarface } from '../../shared/services/interface.service';
+import { settingsIntarface } from '../../shared/interface/interface.service';
 
 export interface ISettingsState {
     settings: settingsIntarface[];

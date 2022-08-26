@@ -24,8 +24,8 @@
       <ng-template #closeSmena>
         <li class="dropdown"><i class="fa fa-bars detail_bill"></i>
           <div class="dropdown-content">
-            <a class="dropdown-item" (click)="openTransactions(6)">Перевод смены</a>
-            <a class="dropdown-item" (click)="openTransactions(3)">Инкасация</a>
+            <a class="dropdown-item" (click)="openTransactions(TypeOperationEnum.Transfer)">Перевод смены</a>
+            <a class="dropdown-item" (click)="openTransactions(TypeOperationEnum.Collection)">Инкасация</a>
           </div>
         </li>
         <li><a class="smena_close" (click)="closeSmenaFunc()">Закрыть смену</a></li>

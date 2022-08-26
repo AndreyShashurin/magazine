@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DbService } from '../../shared/services/db.service';
-import { IngredietnsTypeName } from '../../shared/services/interface.service';
+import { IngredietnsTypeName } from '../../shared/interface/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 

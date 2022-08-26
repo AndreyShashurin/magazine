@@ -3,7 +3,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DbService } from './db.service';
-import { settingsIntarface, promoInterface } from './interface.service';
+import { settingsIntarface, promoInterface } from '../interface/interface.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class SettingsService implements OnInit, OnDestroy {
   notifier = new Subject();
 
   constructor(
-    public db: DbService
+    private _db: DbService
   ) { }
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getUser(): void {
-    this.db.getUser(localStorage.getItem('SJTerminalid')).pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getUser(localStorage.getItem('SJTerminalid')).pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.activeUser = val;
       },
@@ -51,13 +51,13 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getCategories(): void {
-    this.db.getCategories().pipe(takeUntil(this.notifier)).subscribe(val => {
+    this._db.getCategories().pipe(takeUntil(this.notifier)).subscribe(val => {
       this.categoriesResponse.next(val);
     })
   }
 
   getSetting(): void {
-    this.db.getSettings().pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getSettings().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.settings = val;    
         this.menu = +val['type'];
@@ -69,7 +69,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getFilial(): void {   
-    this.db.getFilial().pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getFilial().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.filial = val[0];        
         this.filialResponse.next(val[0]);
@@ -84,7 +84,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getSmenaUser(): void { 
-    this.db.getSmenaUser(+localStorage.getItem('SJTerminalid')).pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getSmenaUser(+localStorage.getItem('SJTerminalid')).pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.activeSmena.next(val);
         this.isOpenSmena.next(!val);
@@ -96,7 +96,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getPromo(): void {    
-    this.db.getPromo().pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getPromo().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.promo = val;  
       },
@@ -107,7 +107,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getPayment(): void { 
-    this.db.getPayment().pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getPayment().pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.payments = val;  
       },
@@ -118,7 +118,7 @@ export class SettingsService implements OnInit, OnDestroy {
   }
 
   getUserTerminal(): void { 
-    this.db.getUserTerminal(localStorage.getItem("SJTerminalid")).pipe(takeUntil(this.notifier)).subscribe(
+    this._db.getUserTerminal(localStorage.getItem("SJTerminalid")).pipe(takeUntil(this.notifier)).subscribe(
       (val) => {
         this.terminalUser.next(val);
         this.terminalUserName.next(val['name']);

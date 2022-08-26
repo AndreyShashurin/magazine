@@ -2,7 +2,7 @@ import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DbService } from './db.service';
-import { categoriesInterface } from './interface.service';
+import { categoriesInterface } from '../interface/interface.service';
 
 @Injectable({
   providedIn: 'root'

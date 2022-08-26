@@ -5,7 +5,7 @@ import { tap} from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { DbService } from './db.service';
-import { User } from './interface.service';
+import { User } from '../interface/interface.service';
 
 @Injectable()
 export class AuthService {

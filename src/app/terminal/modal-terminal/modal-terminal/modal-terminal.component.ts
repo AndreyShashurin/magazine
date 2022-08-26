@@ -5,7 +5,8 @@ import * as moment_ from 'moment';
 import { CartService } from '../../../shared/services/cart.service';
 import { DbService } from '../../../shared/services/db.service';
 import { SettingsService } from '../../../shared/services/settings.service';
-import { menuIntarface, saveParamsSmena } from 'src/app/shared/services/interface.service';
+import { menuIntarface, saveParamsSmena } from 'src/app/shared/interface/interface.service';
+import { TypeOperationEnum } from 'src/app/shared/enums/type-operation.enum';
 const moment = moment_;
 
 @Component({
@@ -23,6 +24,7 @@ export class ModalTerminalComponent implements OnInit {
   };
   selectedComboChild = []
   formCombo = []
+  TypeOperationEnum = TypeOperationEnum;
   
   constructor(
     public bsModalRef: BsModalRef,
@@ -90,20 +92,20 @@ export class ModalTerminalComponent implements OnInit {
       smena,
       +this.Form.price
     ];
-    if(data === 5) {
+    if(data === TypeOperationEnum.CloseShift) {
       this.db.closeSmena(payload).subscribe(
         val => {
           this.settingsService.isOpenSmena.next(true);
           this.bsModalRef.hide();
         }
       )
-    } else {
-      this.db.openSmena(payload).subscribe(
-        val => {
-          this.settingsService.isOpenSmena.next(false);
-          this.bsModalRef.hide();
-        }
-      )
+      return;
     }
+    this.db.openSmena(payload).subscribe(
+      val => {
+        this.settingsService.isOpenSmena.next(false);
+        this.bsModalRef.hide();
+      }
+    )
   }
 }

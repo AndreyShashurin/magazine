@@ -21,11 +21,10 @@ import { DbService } from './shared/services/db.service';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './site/home.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
-import { GuardTerminal } from './shared/services/guardterminal.service';
 import { AuthService } from './shared/services/auth.service';
 import { CartService } from './shared/services/cart.service';
 import { DashboardComponent } from './site/dashboard/dashboard.component';
-import { InterfaceService } from './shared/services/interface.service';
+import { InterfaceService } from './shared/interface/interface.service';
 import { ReportsComponent } from './site/reports/reports.component';
 import { NewsfeedComponent } from './site/reports/newsfeed/newsfeed.component';
 import { DiscountComponent } from './site/reports/discount/discount.component';
@@ -84,6 +83,7 @@ import { PricePipeModule } from './directives/price-pipe.module';
 import { ModalTransactionComponent } from './terminal/modal-transaction/modal-transaction.component';
 import { ComboComponent } from './site/combo/combo.component';
 import { ComboFormComponent } from './site/combo/combo-form/combo-form.component';
+import { GuardTerminalService } from './shared/services/guard-terminal.service';
 
 @NgModule({
   declarations: [
@@ -167,7 +167,7 @@ import { ComboFormComponent } from './site/combo/combo-form/combo-form.component
     DbService,
     HttpClient,
     AuthGuard,
-    GuardTerminal,
+    GuardTerminalService,
     DeactivateGuard,
     ParamsModel,
     InterfaceService,

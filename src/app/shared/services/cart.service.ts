@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { menuIntarface } from './interface.service';
+import { menuIntarface } from '../interface/interface.service';
 
 @Injectable({
   providedIn: 'root'

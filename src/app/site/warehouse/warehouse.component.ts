@@ -1,13 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { DbService } from '../../shared/services/db.service';
-import { skladIntarface } from '../../shared/services/interface.service';
-import { SettingsService } from '../../shared/services/settings.service';
+import { skladIntarface } from '../../shared/interface/interface.service';
 import { ModalContentComponent } from '../shared/modal-content/modal-content.component';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 
@@ -23,11 +20,9 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   ngUnsubscribe = new Subject();
   items = [];
   constructor(
-    public db: DbService,
-    private modalService: BsModalService,
-    public settingsService: SettingsService,
-    public store: Store,
-    private router: Router
+    private _db: DbService,
+    private _modalService: BsModalService,
+    private _router: Router
   ) {
   }
 
@@ -40,7 +35,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       limit: data ? data.limit : this.limit,
       offset: data ? data.offset : 0
     }
-    this.db.getSklad(params).pipe(
+    this._db.getSklad(params).pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
       (res) => { 
@@ -61,7 +56,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
       confirmDeleteGet: link,
       title: 'Удалить ингредиент со склада'
     };
-    this.bsModalRef = this.modalService.show(ModalContentComponent, {initialState});
+    this.bsModalRef = this._modalService.show(ModalContentComponent, {initialState});
     this.bsModalRef.content.ModalBody = `Вы действительно хотите удалить ${tovar}?`;
     this.bsModalRef.content.closeBtnName = 'Закрыть';
     this.bsModalRef.content.confirmBtnName = 'Удалить';
@@ -70,7 +65,7 @@ export class WarehouseComponent implements OnInit, OnDestroy {
   } 
 
   ngWriteOff(data) {
-    this.router.navigate(['/dashboard/write'], {
+    this._router.navigate(['/dashboard/write'], {
       queryParams: {
         id : data.id
     }})

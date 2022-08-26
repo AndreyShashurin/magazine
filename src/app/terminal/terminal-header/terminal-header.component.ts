@@ -12,8 +12,9 @@ import { SettingsService } from 'src/app/shared/services/settings.service';
 import { TerminalService } from 'src/app/shared/services/terminal.service';
 import { ModalTransactionComponent } from '../modal-transaction/modal-transaction.component';
 import { DbService } from 'src/app/shared/services/db.service';
-import { personsInterface, saveParamsSmena } from 'src/app/shared/services/interface.service';
+import { personsInterface, saveParamsSmena } from 'src/app/shared/interface/interface.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { TypeOperationEnum } from 'src/app/shared/enums/type-operation.enum';
 const moment = moment_;
 
 @Component({
@@ -22,12 +23,12 @@ const moment = moment_;
   styleUrls: ['./terminal-header.component.scss']
 })
 export class TerminalHeaderComponent implements OnInit, OnDestroy {
-
   bsModalRef: BsModalRef;
   smenaActive: string;
   form: FormGroup;
   persons: personsInterface[] = [];
   ngUnsubscribe = new Subject();
+  TypeOperationEnum = TypeOperationEnum;
   @Input() openSmena: boolean;
   @Input() smena: boolean;
   
@@ -95,9 +96,9 @@ export class TerminalHeaderComponent implements OnInit, OnDestroy {
     })
   }
 
-  openModal(data) {
+  openModal() {
     const initialState = {
-      "type": 1
+      "type": TypeOperationEnum.StartSift
     };
     this.bsModalRef = this.modalService.show(ModalTerminalComponent, {initialState});
     this.bsModalRef.content.ModalBody = '';
@@ -108,7 +109,7 @@ export class TerminalHeaderComponent implements OnInit, OnDestroy {
 
   closeSmenaFunc() {
     const initialState = {
-      "type": 5,
+      "type": TypeOperationEnum.CloseShift,
       'smena': this.smenaActive
     };
     this.bsModalRef = this.modalService.show(ModalTerminalComponent, {initialState});

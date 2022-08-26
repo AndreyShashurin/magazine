@@ -8,7 +8,7 @@ import { DbService } from 'src/app/shared/services/db.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { ModalComponent } from '../categories/modal/modal.component';
-import { saveParamsSmena, transactionInterface } from 'src/app/shared/services/interface.service';
+import { saveParamsSmena, transactionInterface } from 'src/app/shared/interface/interface.service';
 const moment = moment_;
 
 @Component({

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { DbService } from 'src/app/shared/services/db.service';
-import { DiscardTypeName, IngredietnsTypeName, skladIntarface } from 'src/app/shared/services/interface.service';
+import { DiscardTypeName, IngredietnsTypeName, skladIntarface } from 'src/app/shared/interface/interface.service';
 
 @Component({
   selector: 'app-write',
@@ -21,29 +21,29 @@ export class WriteOfComponent implements OnInit, OnDestroy {
   keys = Object.keys;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    public db: DbService,
-    private fb: FormBuilder,
-    private alert: AlertService
+    private _activatedRoute: ActivatedRoute,
+    private _db: DbService,
+    private _fb: FormBuilder,
+    private _alert: AlertService
   ) {
-    this.id = this.activatedRoute.snapshot.queryParams.id;
-    db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
+    this.id = this._activatedRoute.snapshot.queryParams.id;
+    _db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
       (data) => { this.sklads = data; },
       (error) => { console.log(error); }
      )  
    }
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.form = this._fb.group({
       reason: new FormControl(null, Validators.required),
       date: new FormControl(new Date()), 
       comment: new FormControl(''),
       price: new FormControl(''),
-      tovars: this.fb.array([]),
+      tovars: this._fb.array([]),
     });
     
     if(this.id) {
-      this.db.getTovarById(this.id).pipe(takeUntil(this.notifier)).subscribe(
+      this._db.getTovarById(this.id).pipe(takeUntil(this.notifier)).subscribe(
         (data) => { this.addTovarArray(data); },
         (error) => {console.log(error);}
        )  
@@ -56,7 +56,7 @@ export class WriteOfComponent implements OnInit, OnDestroy {
     if(data) {
       data.forEach(element => {
         return (<FormArray>this.form.get('tovars')).push(
-          this.fb.group({
+          this._fb.group({
             name: [element.tovar, Validators.required],
             id: [element.id, Validators.required],
             quantity: [element.value, Validators.required],
@@ -68,7 +68,7 @@ export class WriteOfComponent implements OnInit, OnDestroy {
       });
     } else {
       return (<FormArray>this.form.get('tovars')).push(
-        this.fb.group({
+        this._fb.group({
           name: ['', Validators.required],
           id: ['', Validators.required],
           quantity: ['', Validators.required],
@@ -102,7 +102,7 @@ export class WriteOfComponent implements OnInit, OnDestroy {
     const form = this.form.get('tovars')['controls'][i];
     const max = form.get('max').value;
     if (+e.target.value > + max) {
-      this.alert.error(`Максимально для списания ${max}`);
+      this._alert.error(`Максимально для списания ${max}`);
     } else {
       this.setPrice(+e.target.value)
     }
@@ -143,9 +143,9 @@ export class WriteOfComponent implements OnInit, OnDestroy {
 
   sendForm(): void {
     this.form.value.tovars = this.serializeObj(this.form.value.tovars);
-    this.db.postWriteOf(this.id, this.form.value).subscribe(
-      (responce) => {this.alert.success('Информация обновлена')},
-      (error) => {this.alert.error('Ошибка')}
+    this._db.postWriteOf(this.id, this.form.value).subscribe(
+      (responce) => {this._alert.success('Информация обновлена')},
+      (error) => {this._alert.error('Ошибка')}
     );
   }
 

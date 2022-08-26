@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import { settingsIntarface } from 'src/app/shared/services/interface.service';
+import { settingsIntarface } from 'src/app/shared/interface/interface.service';
 
 export enum ESettingsActions {
     GetSettings = '[Settings] Get Settings',

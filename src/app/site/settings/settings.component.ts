@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { settingsIntarface } from '../../shared/services/interface.service';
+import { settingsIntarface } from '../../shared/interface/interface.service';
 import { DbService } from '../../shared/services/db.service';
 import { AlertService } from '../../shared/services/alert.service';
 import { SettingsService } from '../../shared/services/settings.service';

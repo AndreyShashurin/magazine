@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { HomeComponent } from '../home.component';
 import { SettingsService } from '../../shared/services/settings.service';
 import { DbService } from '../../shared/services/db.service';
-import { ingredientsInterface, skladIntarface, IngredietnsTypeName, menuIntarface } from '../../shared/services/interface.service';
+import { ingredientsInterface, skladIntarface, IngredietnsTypeName, menuIntarface } from '../../shared/interface/interface.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ActivatedRoute } from '@angular/router';
 

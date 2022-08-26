@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { DbService } from 'src/app/shared/services/db.service';
-import { Days } from 'src/app/shared/services/interface.service';
+import { Days } from 'src/app/shared/interface/interface.service';
 
 @Component({
   selector: 'app-combo-form',

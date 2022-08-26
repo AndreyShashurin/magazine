@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { accountIntarface, categoriesInterface, categoryInterface, CategoryType, filialIntarface, personsInterface, saveParamsSmena, smenaInterface } from 'src/app/shared/services/interface.service';
+import { accountIntarface, categoriesInterface, categoryInterface, CategoryType, filialIntarface, personsInterface, saveParamsSmena, smenaInterface } from 'src/app/shared/interface/interface.service';
 import { DbService } from 'src/app/shared/services/db.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 import { ModalChangeComponent } from './modal-change/modal-change.component';

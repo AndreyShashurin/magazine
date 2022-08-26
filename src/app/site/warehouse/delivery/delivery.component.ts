@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import * as moment_ from 'moment';
 import { takeUntil } from 'rxjs/operators';
 import { DbService } from '../../../shared/services/db.service';
-import { deliveryInterface } from '../../../shared/services/interface.service';
+import { deliveryInterface } from '../../../shared/interface/interface.service';
 import { SettingsService } from '../../../shared/services/settings.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 const moment = moment_;

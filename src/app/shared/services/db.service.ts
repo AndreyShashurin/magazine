@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { map, tap } from 'rxjs/operators';
 
-import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface, promoInterface, responseIntarface } from './interface.service';
+import { settingsIntarface, menuIntarface, skladIntarface, personsInterface, tovarInterface, newUser, suppliersIntarface, deliveryInterface, discardIntarface, categoriesInterface, promoInterface, responseIntarface } from '../interface/interface.service';
 import { environment } from 'src/environments/environment';
+import { AccessInterface } from 'src/app/site/access/interface/access.interface';
 
 
 @Injectable()
@@ -14,25 +15,24 @@ export class DbService implements OnDestroy  {
   apiURL = environment.url;
   canActivateMessage = '';
   bsModalRef: BsModalRef;
-  subscription:  Subscription;
-  hightcharsResponse: any;
+  subscription: Subscription;
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private modalService: BsModalService,
-){}
+    private _http: HttpClient,
+    private _router: Router,
+    private _modalService: BsModalService,
+  ){}
 
   getSettings(): Observable<settingsIntarface[]> {
-    return this.http.get<settingsIntarface[]>(this.apiURL + 'settings');
+    return this._http.get<settingsIntarface[]>(this.apiURL + 'settings');
   }
 
   getSmsService(): Observable<any> {
-    return this.http.get(this.apiURL + 'service');
+    return this._http.get(this.apiURL + 'service');
   }
 
   getTovars(): Observable<tovarInterface[]> {
-    return this.http.get<tovarInterface[]>(this.apiURL + 'tovars', {
+    return this._http.get<tovarInterface[]>(this.apiURL + 'tovars', {
       params: new HttpParams().set('count', '6')
     });
   }
@@ -42,25 +42,25 @@ export class DbService implements OnDestroy  {
       let params = new HttpParams()
       .set('limit', data.limit)
       .set('offset', data.offset);
-      return this.http.get<skladIntarface[]>(this.apiURL + 'tovars', {params});
+      return this._http.get<skladIntarface[]>(this.apiURL + 'tovars', {params});
     } else {
-      return this.http.get<skladIntarface[]>(this.apiURL + 'tovars');
+      return this._http.get<skladIntarface[]>(this.apiURL + 'tovars');
     }
   }  
   
   postSklad(data, smena: string, id: string) {
-    return this.http.post<skladIntarface[]>(this.apiURL + 'tovars', [data, smena, id]);
+    return this._http.post<skladIntarface[]>(this.apiURL + 'tovars', [data, smena, id]);
   }
   
   getTovarById(id: string) {
-    return this.http.get(this.apiURL + 'tovars', {
+    return this._http.get(this.apiURL + 'tovars', {
       params: new HttpParams().set('id', id)
     });
   }
 
   // Акции
   getPromo(): Observable<promoInterface[]> {
-    return this.http.get<promoInterface[]>(this.apiURL + 'promo');
+    return this._http.get<promoInterface[]>(this.apiURL + 'promo');
   }
 
   // Наборы
@@ -69,16 +69,16 @@ export class DbService implements OnDestroy  {
     .set('limit', data.limit)
     .set('combo', '1')
     .set('offset', data.offset);
-    return this.http.get<promoInterface[]>(this.apiURL + 'promo', {params});
+    return this._http.get<promoInterface[]>(this.apiURL + 'promo', {params});
   }
 
   saveCombo(data) {
-    return this.http.post(this.apiURL + 'combo', data);
+    return this._http.post(this.apiURL + 'combo', data);
   }
 
   // Склады
   getSuppliers(): Observable<suppliersIntarface[]> {
-    return this.http.get<suppliersIntarface[]>(this.apiURL + 'warehouse', {
+    return this._http.get<suppliersIntarface[]>(this.apiURL + 'warehouse', {
       params: new HttpParams().set('suppliers', '1')
     });
   }
@@ -89,7 +89,7 @@ export class DbService implements OnDestroy  {
       .set('limit', data.limit)
       .set('delivery', '1')
       .set('offset', data.offset);
-      return this.http.get<deliveryInterface[]>(this.apiURL + 'warehouse', {params});
+      return this._http.get<deliveryInterface[]>(this.apiURL + 'warehouse', {params});
     }
   }  
   getDiscard(data): Observable<skladIntarface[]> {
@@ -97,11 +97,11 @@ export class DbService implements OnDestroy  {
     .set('limit', data.limit)
     .set('offset', data.offset)
     .set('discard', '1')
-    return this.http.get<skladIntarface[]>(this.apiURL + 'warehouse', {params});
+    return this._http.get<skladIntarface[]>(this.apiURL + 'warehouse', {params});
   }
 
   postWriteOf(id, data: any): Observable<any> {
-    return this.http.post(this.apiURL + 'warehouse', {
+    return this._http.post(this.apiURL + 'warehouse', {
       id,
       data
     })
@@ -109,29 +109,29 @@ export class DbService implements OnDestroy  {
 
   // Информация о комбо наборе
   getComboID(id) {
-    return this.http.get<personsInterface[]>(this.apiURL + 'combo', id)
+    return this._http.get<personsInterface[]>(this.apiURL + 'combo', id)
   }  
 
   // Users
   saveUser(users: newUser) {
-    return this.http.post(this.apiURL + 'users', users)
+    return this._http.post(this.apiURL + 'users', users)
   }
 
   getUsers() {
-    return this.http.get<personsInterface[]>(this.apiURL + 'users')
+    return this._http.get<personsInterface[]>(this.apiURL + 'users')
   }  
   
-  getUser(data) {
+  getUser(id: string) {
     return forkJoin(
-      this.http.get(this.apiURL + 'users', {
-        params: new HttpParams().set('id', data)
+      this._http.get(this.apiURL + 'users', {
+        params: new HttpParams().set('id', id)
       }).pipe(
         tap(
           response => response
         )
       ),
-      this.http.get(this.apiURL + 'users', {
-        params: new HttpParams().set('access', data)
+      this._http.get(this.apiURL + 'users', {
+        params: new HttpParams().set('access', id)
       }).pipe(
         tap(
           response => response
@@ -141,41 +141,41 @@ export class DbService implements OnDestroy  {
   }
   
   getUserTerminal(data) {
-    return this.http.get(this.apiURL + 'users', {
+    return this._http.get(this.apiURL + 'users', {
       params: new HttpParams().set('terminalId', data)
     })  
   }
 
   updateUser(user: personsInterface) {
-    return this.http.put<personsInterface[]>(this.apiURL + 'users', user, {
+    return this._http.put<personsInterface[]>(this.apiURL + 'users', user, {
       params: new HttpParams().set('update', 'update')
     })
   }
 
   // Категории
   getCategories() {
-    return this.http.get<categoriesInterface[]>(this.apiURL + 'categories')
+    return this._http.get<categoriesInterface[]>(this.apiURL + 'categories')
   }
 
   getCategoriesAndChilde() {
-    return this.http.get<categoriesInterface[]>(this.apiURL + 'categories', {
+    return this._http.get<categoriesInterface[]>(this.apiURL + 'categories', {
       params: new HttpParams().set('categoriesAndChild', '1')
     })
   }
 
   getCategoriesChilde(data: any) {
-    return this.http.get<categoriesInterface[]>(this.apiURL + 'categories', {
+    return this._http.get<categoriesInterface[]>(this.apiURL + 'categories', {
       params: new HttpParams().set('categories', data)
     })
   }
 
   singIn(data) {
-    this.subscription = this.http.put(this.apiURL + 'users', data).pipe(
+    this.subscription = this._http.put(this.apiURL + 'users', data).pipe(
       map(response => {
         if(response){
           localStorage.setItem("sessionId", response['sessionId']);
           localStorage.setItem("id", response['id']);
-          this.router.navigate(['/dashboard', 'index']);
+          this._router.navigate(['/dashboard', 'index']);
         }else{
           console.log('Вход запрещен');
           this.canActivateMessage = 'Логин или пароль не верные';
@@ -200,33 +200,33 @@ export class DbService implements OnDestroy  {
     const options = {
       id: data
     };
-    return this.http.put(this.apiURL + 'tovars', options).subscribe(
+    return this._http.put(this.apiURL + 'tovars', options).subscribe(
         (val) => {
-          this.modalService.hide(1);
+          this._modalService.hide(1);
         }
     );
   }
 
-  // Меню  
+  /** Меню  */
   getMenu(data?) {
     if(data) {
       let params = new HttpParams()
       .set('limit', data.limit)
       .set('offset', data.offset);
-      return this.http.get<responseIntarface[]>(this.apiURL + 'menu', {params});
+      return this._http.get<responseIntarface[]>(this.apiURL + 'menu', {params});
     } else {
-      return this.http.get<responseIntarface[]>(this.apiURL + 'menu');
+      return this._http.get<responseIntarface[]>(this.apiURL + 'menu');
     }  
   }
 
   getMenuById(id: any) {
-    return this.http.get<menuIntarface[]>(this.apiURL + 'menu', {
+    return this._http.get<menuIntarface[]>(this.apiURL + 'menu', {
       params: new HttpParams().set('id', id)
     });
   }
 
   getMenuByCategoryID(id: any) {
-    return this.http.get<menuIntarface[]>(this.apiURL + 'menu', {
+    return this._http.get<menuIntarface[]>(this.apiURL + 'menu', {
       params: new HttpParams().set('categoryId', id)
     });
   }
@@ -238,19 +238,19 @@ export class DbService implements OnDestroy  {
       }),
       body: data,
     };
-    return this.http.delete(this.apiURL + 'menu', options).subscribe(
+    return this._http.delete(this.apiURL + 'menu', options).subscribe(
         (val) => {
-          this.modalService.hide(1);
+          this._modalService.hide(1);
         }
     );
   }
 
   saveMenu(data: menuIntarface) {
-    return this.http.post<menuIntarface>(this.apiURL + 'menu', data);
+    return this._http.post<menuIntarface>(this.apiURL + 'menu', data);
   }
 
   updateMenu(id: number, data: menuIntarface): Observable<any> {
-    return this.http.put<menuIntarface>(this.apiURL + 'menu', {
+    return this._http.put<menuIntarface>(this.apiURL + 'menu', {
       id,
       data
     });
@@ -258,40 +258,40 @@ export class DbService implements OnDestroy  {
 
 
   saveSettings(data: settingsIntarface[]){
-    return this.http.post(this.apiURL + 'settings', data)
+    return this._http.post(this.apiURL + 'settings', data)
   }
 
   getHightcharsResponse(data){
-    return this.http.get(this.apiURL + 'chart', {
+    return this._http.get(this.apiURL + 'chart', {
       params: new HttpParams().set('period', data)
     });
   }
 
-  // Отчеты 
+  /** Отчеты  */
   getReports() {
-    return this.http.get(this.apiURL + 'reports')
+    return this._http.get(this.apiURL + 'reports')
   }
 
-  // Финансы/ Оплаты
+  /** Финансы/ Оплаты */
   getBill(data?) {
     let params = new HttpParams()
     .set('limit', data.limit)
     .set('offset', data.offset);
-    return this.http.get(this.apiURL + 'bill', {params})
+    return this._http.get(this.apiURL + 'bill', {params})
   }
 
   getBillKitchen() {
     let params = new HttpParams()
     .set('kitchen', '1')
-    return this.http.get(this.apiURL + 'bill', {params})
+    return this._http.get(this.apiURL + 'bill', {params})
   }
 
   setBill(data, smena) {
-    return this.http.post(this.apiURL + 'bill', [data, smena]);
+    return this._http.post(this.apiURL + 'bill', [data, smena]);
   }
 
   getFinance() {
-    return this.http.get(this.apiURL + 'finance')
+    return this._http.get(this.apiURL + 'finance')
   }
 
   getTransaction(type: string, data: any) {
@@ -299,19 +299,19 @@ export class DbService implements OnDestroy  {
     .set('type', type)
     .set('limit', data.limit)
     .set('offset', data.offset);
-    return this.http.get(this.apiURL + 'finance', {params})
+    return this._http.get(this.apiURL + 'finance', {params})
   }
 
   postTransaction(type: string, data: any) {
-    return this.http.post(this.apiURL + 'finance', [type, data])
+    return this._http.post(this.apiURL + 'finance', [type, data])
   }
 
   postFinance(type: string, payload: any) {
-    return this.http.post(this.apiURL + 'finance', [type, payload])
+    return this._http.post(this.apiURL + 'finance', [type, payload])
   }
 
   putFinance(type: string, payload: any) {
-    return this.http.put(this.apiURL + 'finance', [type, payload])
+    return this._http.put(this.apiURL + 'finance', [type, payload])
   }
 
   deleteFinance(data: any) {
@@ -321,26 +321,26 @@ export class DbService implements OnDestroy  {
       }),
       body: data
     };
-    this.http.delete(this.apiURL + 'finance', options).subscribe(
+    this._http.delete(this.apiURL + 'finance', options).subscribe(
       (val) => {
-        this.modalService.hide(1);
+        this._modalService.hide(1);
       }
   );
   }
 
-  // Обновляем счет
+  /** Обновляем счет */
   updateBill(data) {
-    return this.http.put(this.apiURL + 'bill', data)
+    return this._http.put(this.apiURL + 'bill', data)
   }
 
-  // Типы оплат
+  /** Получение типа оплат */
   getPayment() {
-    return this.http.get(this.apiURL + 'bill', {
+    return this._http.get(this.apiURL + 'bill', {
       params: new HttpParams().set('payment', '1')
     })
   }
 
-  // Счета
+  /** Удалить счет */
   deleteBill(data) {
     let options = {
       headers: new HttpHeaders({
@@ -348,41 +348,41 @@ export class DbService implements OnDestroy  {
       }),
       body: data
     };
-    this.http.delete(this.apiURL + 'bill', options).subscribe(
+    this._http.delete(this.apiURL + 'bill', options).subscribe(
       (val) => {
     /*     
       this.billComponent.getBill().filter(function(e) {
 
         return e.id !== data.id;
       });*/
-        this.modalService.hide(1);
+        this._modalService.hide(1);
       }
     );
   }
 
-  getAccess() {
-    return this.http.get(this.apiURL + 'access');
+  getAccess(): Observable<AccessInterface[]> {
+    return this._http.get<AccessInterface[]>(this.apiURL + 'access');
   }
 
   getUserAccess(data: string) {
-    return this.http.get(this.apiURL + 'users', {
+    return this._http.get(this.apiURL + 'users', {
       params: new HttpParams().set('user', data)
     })
   }
 
   addFilial(data) {
-    return this.http.post(this.apiURL + 'filial', data);
+    return this._http.post(this.apiURL + 'filial', data);
   }
 
   getFilial() {
     return forkJoin(
-      this.http.get(this.apiURL + 'filial'),
-      this.http.get(this.apiURL + 'account')
+      this._http.get(this.apiURL + 'filial'),
+      this._http.get(this.apiURL + 'account')
    );  
   }
 
   updateFilial(data) {
-     return this.http.put(this.apiURL + 'filial', data)
+     return this._http.put(this.apiURL + 'filial', data)
   }
 
   deleteFilial(data){
@@ -392,21 +392,22 @@ export class DbService implements OnDestroy  {
       }),
       body: data,
     };
-    return this.http.delete(this.apiURL + 'filial', options)
+    return this._http.delete(this.apiURL + 'filial', options)
   }
 
-  // Открыть смену
+  /** Открыть смену */ 
   openSmena(smena) {
-    return this.http.post(this.apiURL + 'smena', smena)
-  }  
-  // Закрцть смену
+    return this._http.post(this.apiURL + 'smena', smena)
+  }
+
+  /** Закрыть смену */
   closeSmena(smena) {
-    return this.http.put(this.apiURL + 'smena', smena)
+    return this._http.put(this.apiURL + 'smena', smena)
   }  
 
-  // Активная смена
+  /** Активная смена */
   getSmenaUser(data) {
-    return this.http.get(this.apiURL + 'smena', {
+    return this._http.get(this.apiURL + 'smena', {
       params: new HttpParams().set('user', data)
     })
   }  
@@ -415,11 +416,11 @@ export class DbService implements OnDestroy  {
     let params = new HttpParams()
     .set('limit', data.limit)
     .set('offset', data.offset);
-    return this.http.get(this.apiURL + 'smena', {params})
+    return this._http.get(this.apiURL + 'smena', {params})
   }  
 
   getSmenaId(data: string) {
-    return this.http.get(this.apiURL + 'smena', {
+    return this._http.get(this.apiURL + 'smena', {
       params: new HttpParams().set('smena', data)
     })
   }
@@ -430,13 +431,13 @@ export class DbService implements OnDestroy  {
     }
   }
 
-  //  Сохраняем поставку
+  /**  Сохраняем поставку */
   saveDelivery(data) {
-    return this.http.put(this.apiURL + 'warehouse', data)
+    return this._http.put(this.apiURL + 'warehouse', data)
   }
 
-  //  Счета
+  /**  Счета */
   accoutnts(data) {
-    return this.http.put(this.apiURL + 'warehouse', data)
+    return this._http.put(this.apiURL + 'warehouse', data)
   }
 }

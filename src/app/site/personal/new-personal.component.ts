@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DbService } from 'src/app/shared/services/db.service';
-import { categoriesInterface } from 'src/app/shared/services/interface.service';
+import { categoriesInterface } from 'src/app/shared/interface/interface.service';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';

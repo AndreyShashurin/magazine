@@ -1,20 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { Subject, SubscriptionLike } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { DbService } from '../../shared/services/db.service';
-import { personsInterface, tovarInterface } from '../../shared/services/interface.service';
-import { HomeComponent } from '../home.component';
+import { personsInterface, tovarInterface } from '../../shared/interface/interface.service';
 import { SettingsService } from '../../shared/services/settings.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-
 export class DashboardComponent implements OnInit, OnDestroy {
   appPageHeaderDivStyle: {};
   errorMessage: string;
@@ -190,21 +187,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   
   constructor( 
-    private db: DbService,
-    private http: HttpClient,
-    private homeComponent:HomeComponent,
-    private settingsService: SettingsService
+    private _db: DbService,
+    private _settingsService: SettingsService,
+    private _cd: ChangeDetectorRef,
     ) {
   }
 
 
   toggleChart(...val: any) {
-    this.typeStats = val[0]
-    this.typePeriod = val[1]
-    this.activeStats = val[1]
-    const statusesFilter = this.statuses.filter(id => id.id === val[0])
+    this.typeStats = val[0];
+    this.typePeriod = val[1];
+    this.activeStats = val[1];
+    const statusesFilter = this.statuses.filter(id => id.id === val[0]);
                
-    this.db.getHightcharsResponse(val[1]).pipe(
+    this._db.getHightcharsResponse(val[1]).pipe(
         takeUntil(this.ngUnsubscribe)
       ).subscribe(
         (response: Response) => { 
@@ -228,32 +224,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
         (error) => {console.log(error);
         }
     )
+    this._cd.markForCheck();
   }
 
   ngOnInit() {  
-    this.db.getUsers().pipe(
+    this._db.getUsers().pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
         (response) => { 
-            this.persons = response
+            this.persons = response;
         },
         (error) => {
-            console.log(error)
+            console.log(error);
         }
     )
 
-    this.db.getTovars().pipe(
+    this._db.getTovars().pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(
         (response) => { 
-            this.tovars = response
+            this.tovars = response;
         },
         (error) => {
-            console.log(error)
+            console.log(error);
         }
     )  
-    this.toggleChart(this.typeStats, this.typePeriod)
-    this.settingsService.visibleFilterDunc(false)
+    this.toggleChart(this.typeStats, this.typePeriod);
+    this._settingsService.visibleFilterDunc(false);
   }
  
   ngOnDestroy() {

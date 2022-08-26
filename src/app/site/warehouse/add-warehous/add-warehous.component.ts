@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { DbService } from 'src/app/shared/services/db.service';
-import { IngredietnsTypeName, skladIntarface, suppliersIntarface } from 'src/app/shared/services/interface.service';
+import { IngredietnsTypeName, skladIntarface, suppliersIntarface } from 'src/app/shared/interface/interface.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { CustomValidator } from 'src/app/shared/utils/custom-validator';
 const moment = moment_;
@@ -27,28 +27,30 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
   sklads: skladIntarface[] = [];
   summed = 0;
 
+  get tovars(): FormArray {
+    return this.form.get('tovars') as FormArray;
+  } 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private settings: SettingsService,
-    private fb: FormBuilder,
-    public db: DbService,
-    private alert: AlertService
+    private _activatedRoute: ActivatedRoute,
+    private _fb: FormBuilder,
+    private _db: DbService,
+    private _alert: AlertService
   ) { 
     this.ingredietnsTypeName = IngredietnsTypeName;
-    this.id = this.activatedRoute.snapshot.queryParams.id;
-    this.smena = this.activatedRoute.snapshot.queryParams.smena;
-    db.getSuppliers().pipe(takeUntil(this.notifier)).subscribe(
+    this.id = this._activatedRoute.snapshot.queryParams.id;
+    this.smena = this._activatedRoute.snapshot.queryParams.smena;
+    _db.getSuppliers().pipe(takeUntil(this.notifier)).subscribe(
       (data) => { this.suppliers = data; },
       (error) => {}
     ) 
-    db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
+    _db.getSklad().pipe(takeUntil(this.notifier)).subscribe(
       (data) => { this.sklads = data },
       (error) => { console.log(error) }
     )  
   }
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.form = this._fb.group({
       filial: new FormControl(null, Validators.required),
       supplier: new FormControl(null, Validators.required),
       account: new FormControl(null, Validators.required),
@@ -56,16 +58,16 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
       file: new FormControl(''),
       fileSource: new FormControl(''),
       summ: new FormControl(''),
-      tovars: this.fb.array([]),
+      tovars: this._fb.array([]),
     });
     
     if(this.id) {
-      this.db.getTovarById(this.id).pipe(takeUntil(this.notifier)).subscribe(
+      this._db.getTovarById(this.id).pipe(takeUntil(this.notifier)).subscribe(
         (data) => { this.addTovarArray(data); },
         (error) => {console.log(error);}
        )  
     } else if(this.smena) {
-      this.db.getSmenaId(this.smena).pipe(takeUntil(this.notifier)).subscribe(
+      this._db.getSmenaId(this.smena).pipe(takeUntil(this.notifier)).subscribe(
         (data) => { 
           this.form.get('date').setValue(moment(data['date']).format('YYYY-MM-DD'));
           this.form.get('account').setValue('3');
@@ -89,10 +91,6 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
     })
   }
 
-  get tovars(): FormArray {
-    return <FormArray>this.form.get('tovars');
-  }
-
   addTovarArray(data?) {
     if(data) {
       data.forEach(element => {
@@ -105,7 +103,7 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
 
   addFieldsForm(data?) {
     return (<FormArray>this.form.get('tovars')).push(
-      this.fb.group({
+      this._fb.group({
         id: [data ? data.id : ''],
         value: [data ? data.tovar : '', Validators.required],
         priceOld: [data ? data.price :''],
@@ -172,9 +170,9 @@ export class AddWarehousComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append('file', this.form.get('fileSource').value);
     this.form.value.tovars = this.serializeObj(this.form.value.tovars);
-    this.db.postSklad(this.form.value, this.smena, localStorage.getItem('SJid')).pipe(takeUntil(this.notifier)).subscribe(
-      (responce) => {this.alert.success('Товары добавлены')},
-      (error) => {this.alert.error('Ошибка')}
+    this._db.postSklad(this.form.value, this.smena, localStorage.getItem('SJid')).pipe(takeUntil(this.notifier)).subscribe(
+      (responce) => {this._alert.success(`Товар${this.form.value.tovars.length > 1 ? 'ы' : '' } добавлены`)},
+      (error) => {this._alert.error('Ошибка')}
     )
   }
 

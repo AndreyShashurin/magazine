@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment_ from 'moment';
-import { FormBuilder } from '@angular/forms';
 import { DbService } from '../../shared/services/db.service';
-import { menuIntarface, TypePay } from '../../shared/services/interface.service';
+import { menuIntarface, TypePay } from '../../shared/interface/interface.service';
 import { CartService } from '../../shared/services/cart.service';
 import { SettingsService } from 'src/app/shared/services/settings.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -29,11 +28,10 @@ export class TerminalBillComponent implements OnInit {
 
 
   constructor(
-    public db: DbService,
+    private _db: DbService,
+    private _settingsService: SettingsService,
+    private _alert: AlertService,
     public cartService: CartService,
-    public fb: FormBuilder,
-    public settingsService: SettingsService,
-    private alert: AlertService
   ) { 
   }
 
@@ -76,15 +74,15 @@ export class TerminalBillComponent implements OnInit {
   buy() {
     const smena = [
       localStorage.getItem('SJTerminalid'), 
-      this.settingsService.activefilial[0].id,
+      this._settingsService.activefilial[0].id,
       moment(this.date).format('YYYY-MM-DD HH:mm:ss'),
       this.smena['id'],
       this.cartService.price,
       this.cartService.priceSale
     ];
-    this.db.setBill(this.cartService.cartForm.value, smena).subscribe(
-      (responce) => {this.alert.success('Счет сформирован')},
-      (error) => {this.alert.error('Ошибка')}
+    this._db.setBill(this.cartService.cartForm.value, smena).subscribe(
+      (responce) => {this._alert.success('Счет сформирован')},
+      (error) => {this._alert.error('Ошибка')}
     )
   }
 }

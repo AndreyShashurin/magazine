@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { DbService } from '../../shared/services/db.service';
 import { SettingsService } from '../../shared/services/settings.service';
 import { HomeComponent } from '../home.component';
-import { settingsIntarface } from '../../shared/services/interface.service';
+import { settingsIntarface } from '../../shared/interface/interface.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

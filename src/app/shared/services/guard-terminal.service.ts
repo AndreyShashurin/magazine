@@ -5,19 +5,17 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class GuardTerminal implements CanActivate {
-    component: Object;
-    route: ActivatedRouteSnapshot;
+export class GuardTerminalService implements CanActivate {
     constructor(
-        private router: Router, 
-        private authService: AuthService,
+        private _router: Router, 
+        private _authService: AuthService,
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean  {
-        if (this.authService.isAuthenticatedTerminal()) {
+        if (this._authService.isAuthenticatedTerminal()) {
             return true
         } else {
-           /* this.router.navigate(['/', 'terminal'], {
+           /* this._router.navigate(['/', 'terminal'], {
                 queryParams: {
                     token : false
                 }}
@@ -27,10 +25,10 @@ export class GuardTerminal implements CanActivate {
     }
 
     canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean  {
-        if (this.authService.isAuthenticatedTerminal()) {
+        if (this._authService.isAuthenticatedTerminal()) {
             return true
         } else {
-            this.router.navigate(['/', 'terminal'], {
+            this._router.navigate(['/', 'terminal'], {
                 queryParams: {
                     token : false
                 }}

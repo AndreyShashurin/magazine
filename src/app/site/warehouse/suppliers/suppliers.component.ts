@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DbService } from '../../../shared/services/db.service';
-import { suppliersIntarface } from '../../../shared/services/interface.service';
+import { suppliersIntarface } from '../../../shared/interface/interface.service';
 
 @Component({
   selector: 'app-suppliers',

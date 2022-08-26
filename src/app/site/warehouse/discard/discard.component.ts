@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { discardIntarface, DiscardTypeName } from '../../../shared/services/interface.service';
+import { discardIntarface, DiscardTypeName } from '../../../shared/interface/interface.service';
 import { DbService } from '../../../shared/services/db.service';
 import { LimitInterface } from 'src/app/shared/services/paginationInterface';
 

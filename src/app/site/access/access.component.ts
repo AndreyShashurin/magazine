@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DbService } from 'src/app/shared/services/db.service';
+import { AccessInterface } from './interface/access.interface';
 
 @Component({
   selector: 'app-access',
   templateUrl: './access.component.html',
-  styleUrls: ['./access.component.scss']
+  styleUrls: ['./access.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccessComponent implements OnInit {
-  accesses: any;
+  accesses: AccessInterface[];
   
   constructor(
-    public db: DbService
+    private _db: DbService
   ) { }
 
   ngOnInit() {
-    this.db.getAccess().subscribe(
+    this._db.getAccess().subscribe(
       (responce) => {
           this.accesses = responce;
           console.log(this.accesses)

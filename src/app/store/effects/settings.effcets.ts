@@ -4,7 +4,6 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { DbService } from '../../shared/services/db.service';
-import { settingsIntarface } from '../../shared/services/interface.service';
 import { ESettingsActions, GetSettings, GetSettingsSucces } from '../actions/settings.action';
 
 @Injectable()

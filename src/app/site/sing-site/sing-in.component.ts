@@ -15,21 +15,21 @@ export class SingInComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   remindForm: FormGroup;
   login: Subscription;
-  submitted: boolean = false;
+  submitted = false;
   error: string;
   message: string;
-  activeForm: boolean = false;
+  activeForm = false;
 
   constructor(
-    private authService:AuthService,
-    private router:Router,
-    private route: ActivatedRoute
+    private _authService: AuthService,
+    private _router: Router,
+    private _route: ActivatedRoute
   ) { }
   
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
+    this._route.queryParams.subscribe((params) => {
       if (params['token']) {
-        this.message = 'Пожалуйста, введите логин и пароль'
+        this.message = 'Пожалуйста, введите логин и пароль';
       }
     })
     this.loginForm = new FormGroup({
@@ -39,15 +39,15 @@ export class SingInComponent implements OnInit, OnDestroy {
   }
 
   singIn() {
-    this.submitted = true
-    this.login = this.authService.login(this.loginForm.value).subscribe((event) => {
+    this.submitted = true;
+    this.login = this._authService.login(this.loginForm.value).subscribe((event) => {
       if (event) {
-        this.loginForm.reset()
-        this.router.navigate(['/dashboard', 'index'])
-        this.submitted = false
+        this.loginForm.reset();
+        this._router.navigate(['/dashboard', 'index']);
+        this.submitted = false;
       } else {
-        this.error = 'Нет такого пользователя'
-        this.submitted = false
+        this.error = 'Нет такого пользователя';
+        this.submitted = false;
       }
     });
   }

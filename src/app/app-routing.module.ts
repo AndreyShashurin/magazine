@@ -82,7 +82,7 @@ const routes: Routes = [
     {
         path: "terminal",
         component: SingTerminalComponent,
-        //canActivate: [GuardTerminal],
+        //canActivate: [GuardTerminalService],
     },
     {path: 'kitchen', component: KitchenComponent},
     {path: 'terminal/index', component: TerminalComponent},

@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DbService } from '../../shared/services/db.service';
-import { menuIntarface, categoriesInterface, promoInterface, responseIntarface } from '../../shared/services/interface.service';
+import { menuIntarface, categoriesInterface, promoInterface, responseIntarface } from '../../shared/interface/interface.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ModalTerminalComponent } from '../modal-terminal/modal-terminal/modal-terminal.component';
 import { SettingsService } from 'src/app/shared/services/settings.service';
